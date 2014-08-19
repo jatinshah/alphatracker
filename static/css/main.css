@@ -1,0 +1,63 @@
+.container {
+    padding-top: 20px;
+}
+
+.story, .comment-block {
+    clear: both;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+    padding-left: 0.4em;
+}
+
+.vote {
+    float: left;
+}
+
+.details {
+    margin-left: 25px;
+}
+
+.upvote {
+    border-bottom-width: 11px;
+}
+
+.score {
+    font-size: 9.5px;
+    margin-top: 2.5px;
+    color: #aaa;
+}
+
+.domain {
+    color: #888;
+    font-style: italic;
+    font-size: 8.5pt;
+    vertical-align: middle;
+}
+
+.byline, .headline {
+    color: #888;
+    font-style: italic;
+    font-size: 8.5pt;
+}
+
+.desc {
+    padding: 5px;
+}
+
+.form-item {
+    clear: both;
+    padding-left: 15px;
+}
+
+.stock {
+    color: #aaa;
+    margin-top: 2.5px;
+}
+
+.profile-image {
+    float: right;
+}
+
+.profile-field {
+    margin-top: 2.5px;
+}

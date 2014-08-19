@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+
+{% block body_block %}
+<div class="col-lg-8 col-md-8 col-sm-9">
+    <div class="panel panel-info">
+        <div class="panel-heading">Submit to AlphaTracker</div>
+        <div class="panel-body">
+            <form role="form" class="form-horizontal">
+                <div class="form-group form-item">
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="selectArticle" checked> Article
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="inlineRadioOptions" id="selectLink"> Link
+                    </label>
+                </div>
+                <div class="form-group form-item col-lg-2 col-md-2 col-sm-3 col-xs-3">
+                    <label>Ticker</label>
+                    <input class="form-control" type="text" id="submitTicker">
+                </div>
+                <div class="form-group form-item col-md-9 col-sm-9 col-lg-9">
+                    <label>Title</label>
+                    <input class="form-control" type="text">
+                </div>
+                <div class="form-group form-item col-md-9 col-sm-9 col-lg-9" id="fieldURL">
+                    <label>URL</label>
+                    <input type="url" class="form-control">
+                </div>
+                <div class="form-group form-item col-md-9 col-sm-9 col-lg-9" id="fieldText">
+                    <label>Text</label>
+                    <textarea rows="3" class="form-control"></textarea>
+                </div>
+                <div class="form-group form-item">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+{% endblock %}
