@@ -16,7 +16,6 @@ autopep8==1.0.3
 backports.ssl-match-hostname==3.4.0.2
 bdist-mpkg==0.4.4
 beautifulsoup4==4.3.2
-bonjour-py==0.3
 boto==2.28.0
 coverage==3.7.1
 django-bootstrap3==4.10.0
