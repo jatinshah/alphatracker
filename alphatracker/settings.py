@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'content',
     'userprofile',
+    'south',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -99,3 +100,5 @@ STATICFILES_DIRS = (
 TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
+
+LOGIN_REDIRECT_URL='/c/'

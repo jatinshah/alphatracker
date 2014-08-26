@@ -2,11 +2,13 @@
 
 
 {% block body_block %}
-<div class="col-lg-8 col-md-8 col-sm-9">
+<div class="col-lg-8 col-md-8 col-sm-9 center">
     <div class="panel panel-info">
-        <div class="panel-heading">Submit to AlphaTracker</div>
+        <div class="panel-heading"><h3 class="panel-title"><strong>Submit to AlphaTracker</strong></h3></div>
         <div class="panel-body">
             <form role="form" class="form-horizontal">
+                {% csrf_token %}
+
                 <div class="form-group form-item">
                     <label class="radio-inline">
                         <input type="radio" name="inlineRadioOptions" id="selectArticle" checked> Article
@@ -18,6 +20,9 @@
                 <div class="form-group form-item col-lg-2 col-md-2 col-sm-3 col-xs-3">
                     <label>Ticker</label>
                     <input class="form-control" type="text" id="submitTicker">
+                </div>
+                <div class="form-group form-item col-md-9 col-sm-9 col-lg-9">
+                    <label>Sentiment</label>
                 </div>
                 <div class="form-group form-item col-md-9 col-sm-9 col-lg-9">
                     <label>Title</label>
