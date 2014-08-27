@@ -1,210 +1,309 @@
 {% extends 'base.html' %}
+{% load static %}
 
 
 {% block body_block %}
-<div class="col-md-12 column">
+<div class="container">
+    <div class="post-item" style="overflow: auto; border-bottom: none;">
+        <div style="float: left;">
+            <a href="#"><span class="fa fa-thumbs-o-up fa-lg"></span></a>
+            <span style="font-weight: bold; color:#777777; display: block;position: relative;text-align: center">21</span>
+        </div>
+        <div style="margin-left: 0.5em;float: left">
+            <img src="{% static 'images/bull.png' %}" style="width: 30px; height: auto"></img>
+        </div>
+        <div style="margin-left: 0.5em; font-size: 16px; font-weight: bold; float: left;">
+            YPF
+        </div>
+        <div style="float:left;margin-left: 0.5em;">
+            <a href="#">
+                Undervalued Shale Energy Stock Could Triple
+            </a>
+             <span style="font-style: italic; font-size: 10pt; color: #aeaeae">
+                        barrons.com
+                </span>
+
+                <span style="display: block;position:relative; font-size: 10pt; font-style: italic; color: #777777">
+                     by <a href="/u/">jatinshah</a> about 8 hours ago | <a href="#">11 comments</a>
+                </span>
+            <span class="badge">ACTIVE</span>
+            <span style="margin-left: 5px;"><button class="btn btn-xs">delete</button> <button class="btn btn-xs">close</button></span>
+        </div>
+    </div>
+    <div>
+        <form role="form" class="">
+            <div class="form-group">
+                <textarea class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-sm btn-primary">Post Comment</button>
+            </div>
+        </form>
+    </div>
+    <div style="margin-bottom: 0.3em; padding-bottom: 0.3em; border-bottom: 1px solid #eaecee">
+        <strong>
+            44 comments sorted by:
+        </strong>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                Recent <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">
+                    <small>Top</small>
+                </a></li>
+            </ul>
+        </div>
+
+    </div>
 
     <ul class="list-unstyled">
-        <li class="story">
-            <div class="vote">
-                <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                <div class="score"><strong>12</strong></div>
+        <li style="border-bottom: 1px solid #eaecee; overflow: auto; padding-bottom: 0.6em; margin-bottom: 0.6em">
+            <div style="float: left;">
+                <a href="#"><span class="fa fa-thumbs-o-up"></span></a>
+                <span style="font-size:8pt; font-weight: bold; color:#777777; display: block;position: relative;text-align: center">13</span>
             </div>
-            <div class="details">
-                <span class="ticker"><strong>YPF</strong></span>
-                        <span class="link">
-                            <a href="http://online.barrons.com/news/articles/SB50001424053111904009804579248332064095714">
-                                Undervalued Shale Energy Stock Could Triple
-                            </a>
-                        </span>
-                <span class="domain">barrons.com</span>
-
-                <div class="byline">
-                    by <a href="/u/jatinshah">jatinshah</a>
-                    <span class="time">about 8 hours ago</span>
-                    <span class="comments">| <a href="#">11 comments</a></span>
-                </div>
+            <div style="float: left; width: 90%; margin-left: 10px">
+                <span style="display: block;position:relative; font-size: 10pt; font-style: italic; color: #777777">
+                     by <a href="/u/">jatinshah</a> about 8 hours ago
+                </span>
+                <span style="display: block; position: relative">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod nec risus a vehicula. Nam metus
+        elit, lacinia a rhoncus vitae, vulputate id orci. Maecenas non lorem at orci facilisis rutrum. Nullam
+        eget erat ullamcorper, euismod urna sit amet, mollis magna. Vestibulum pretium ullamcorper feugiat.
+        Nulla in tellus id mauris semper rhoncus. Nunc accumsan ac lorem eget dignissim. Nam at ipsum non odio
+        ultricies auctor.
+                </span>
             </div>
+
         </li>
-    </ul>
-    <div class="row clearfix">
-        <div class="col-md-12 column">
-            <ul class="list-unstyled">
-                <li>
-                    <form role="form" class="form-horizontal col-lg-9 col-md-9 col-sm-9">
-                        <div class="form-group">
-                            <textarea class="form-control" rows="3"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-primary">Post Comment</button>
-                        </div>
-                    </form>
-                </li>
-            </ul>
-        </div>
-    </div>
+        <li style="border-bottom: 1px solid #eaecee; overflow: auto; padding-bottom: 0.6em; margin-bottom: 0.6em">
+            <div style="float: left;">
+                <a href="#"><span class="fa fa-thumbs-o-up"></span></a>
+                <span style="font-size:8pt; font-weight: bold; color:#777777; display: block;position: relative;text-align: center">13</span>
+            </div>
+            <div style="float: left; width: 90%; margin-left: 10px">
+                <span style="display: block;position:relative; font-size: 10pt; font-style: italic; color: #777777">
+                     by <a href="/u/">newchaos</a> about 8 hours ago
+                </span>
+                <span style="display: block; position: relative">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod nec risus a vehicula. Nam metus
+        elit, lacinia a rhoncus vitae, vulputate id orci. Maecenas non lorem at orci facilisis rutrum. Nullam
+        eget erat ullamcorper, euismod urna sit amet, mollis magna. Vestibulum pretium ullamcorper feugiat.
+        Nulla in tellus id mauris semper rhoncus. Nunc accumsan ac lorem eget dignissim. Nam at ipsum non odio
+        ultricies auctor.
+                </span>
+            </div>
 
-    <div class="row clearfix">
-        <div class="col-md-12 column">
-            <ul class="list-unstyled">
-                <li>
-                    <strong>
-                        <small>Sorted by:</small>
-                    </strong>
+        </li>
 
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                            Best <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">
-                                <small>Top</small>
-                            </a></li>
-                            <li><a href="#">
-                                <small>Recent
-                            </a></small></li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="comment-block col-lg-9 col-md-9 col-sm-9">
-                    <div class="vote">
-                        <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                        <div class="score"><strong>12</strong></div>
-                    </div>
-                    <div class="details">
-                        <div class="headline">
-                            <a href="/u/jatinshah">jatinshah</a>
-                            <span class="time">about 8 hours ago</span>
-                        </div>
-                        <span class="comment"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Suspendisse elementum, dolor quis volutpat molestie, orci nisl sodales velit, et bibendum
-                            nunc orci a est. Etiam mollis faucibus urna vitae sollicitudin. Cras ultricies ultrices
-                            ante, sed varius nulla sollicitudin eget. Nullam imperdiet egestas tortor sed facilisis.
-                            Nunc nec placerat augue. Vivamus eleifend felis et ante bibendum dignissim. In hac habitasse
-                            platea dictumst. Phasellus fermentum aliquet nisi, a feugiat tortor faucibus sit amet.
-                        </small></span>
-
-                        <div class="byline">
-                            <span class="time"><a href="#">reply</a></span>
-                            <span class="time"><a href="#">| delete</a></span>
-                            <span class="time"><a href="#">| permalink</a></span>
-                        </div>
-                    </div>
-                </li>
-                <li class="comment-block col-lg-9 col-md-9 col-sm-9">
-                    <div class="vote">
-                        <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                        <div class="score"><strong>12</strong></div>
-                    </div>
-                    <div class="details">
-                        <div class="headline">
-                            <a href="/u/jatinshah">jatinshah</a>
-                            <span class="time">about 8 hours ago</span>
-                        </div>
-                        <span class="comment"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Suspendisse elementum, dolor quis volutpat molestie, orci nisl sodales velit, et bibendum
-                            nunc orci a est. Etiam mollis faucibus urna vitae sollicitudin. Cras ultricies ultrices
-                            ante, sed varius nulla sollicitudin eget. Nullam imperdiet egestas tortor sed facilisis.
-                            Nunc nec placerat augue. Vivamus eleifend felis et ante bibendum dignissim. In hac habitasse
-                            platea dictumst. Phasellus fermentum aliquet nisi, a feugiat tortor faucibus sit amet.
-                        </small></span>
-
-                        <div class="byline">
-                            <span class="time"><a href="#">reply</a></span>
-                            <span class="time"><a href="#">| delete</a></span>
-                            <span class="time"><a href="#">| permalink</a></span>
-                        </div>
-                    </div>
-                </li>
-                <li class="comment-block col-lg-9 col-md-9 col-sm-9">
-                    <div class="vote">
-                        <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                        <div class="score"><strong>12</strong></div>
-                    </div>
-                    <div class="details">
-                        <div class="headline">
-                            <a href="/u/jatinshah">jatinshah</a>
-                            <span class="time">about 8 hours ago</span>
-                        </div>
-                        <span class="comment"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Suspendisse elementum, dolor quis volutpat molestie, orci nisl sodales velit, et bibendum
-                            nunc orci a est. Etiam mollis faucibus urna vitae sollicitudin. Cras ultricies ultrices
-                            ante, sed varius nulla sollicitudin eget. Nullam imperdiet egestas tortor sed facilisis.
-                            Nunc nec placerat augue. Vivamus eleifend felis et ante bibendum dignissim. In hac habitasse
-                            platea dictumst. Phasellus fermentum aliquet nisi, a feugiat tortor faucibus sit amet.
-                        </small></span>
-
-                        <div class="byline">
-                            <span class="time"><a href="#">reply</a></span>
-                            <span class="time"><a href="#">| delete</a></span>
-                            <span class="time"><a href="#">| permalink</a></span>
-                        </div>
-                    </div>
-                </li>
-                <li class="comment-block col-lg-9 col-md-9 col-sm-9">
-                    <div class="vote">
-                        <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                        <div class="score"><strong>12</strong></div>
-                    </div>
-                    <div class="details">
-                        <div class="headline">
-                            <a href="/u/jatinshah">jatinshah</a>
-                            <span class="time">about 8 hours ago</span>
-                        </div>
-                        <span class="comment"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Suspendisse elementum, dolor quis volutpat molestie, orci nisl sodales velit, et bibendum
-                            nunc orci a est. Etiam mollis faucibus urna vitae sollicitudin. Cras ultricies ultrices
-                            ante, sed varius nulla sollicitudin eget. Nullam imperdiet egestas tortor sed facilisis.
-                            Nunc nec placerat augue. Vivamus eleifend felis et ante bibendum dignissim. In hac habitasse
-                            platea dictumst. Phasellus fermentum aliquet nisi, a feugiat tortor faucibus sit amet.
-                        </small></span>
-
-                        <div class="byline">
-                            <span class="time"><a href="#">reply</a></span>
-                            <span class="time"><a href="#">| delete</a></span>
-                            <span class="time"><a href="#">| permalink</a></span>
-                        </div>
-                    </div>
-                </li>
-                <li class="comment-block col-lg-9 col-md-9 col-sm-9">
-                    <div class="vote">
-                        <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                        <div class="score"><strong>12</strong></div>
-                    </div>
-                    <div class="details">
-                        <div class="headline">
-                            <a href="/u/jatinshah">jatinshah</a>
-                            <span class="time">about 8 hours ago</span>
-                        </div>
-                        <span class="comment"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                            Suspendisse elementum, dolor quis volutpat molestie, orci nisl sodales velit, et bibendum
-                            nunc orci a est. Etiam mollis faucibus urna vitae sollicitudin. Cras ultricies ultrices
-                            ante, sed varius nulla sollicitudin eget. Nullam imperdiet egestas tortor sed facilisis.
-                            Nunc nec placerat augue. Vivamus eleifend felis et ante bibendum dignissim. In hac habitasse
-                            platea dictumst. Phasellus fermentum aliquet nisi, a feugiat tortor faucibus sit amet.
-                        </small></span>
-
-                        <div class="byline">
-                            <span class="time"><a href="#">reply</a></span>
-                            <span class="time"><a href="#">| delete</a></span>
-                            <span class="time"><a href="#">| permalink</a></span>
-                        </div>
-                    </div>
-                </li>
-
-            </ul>
-        </div>
-    </div>
-
-    <ul class="pager col-lg-9 col-md-9 col-sm-9">
-        <li class="previous"><a href="#">Previous</a></li>
-        <li class="next"><a href="#">Next</a></li>
     </ul>
 </div>
+
+<!--<div class="col-md-12 column">-->
+
+    <!--<ul class="list-unstyled">-->
+        <!--<li class="story">-->
+            <!--<div class="vote">-->
+                <!--<a class="upvote" href="#"><span class="fa fa-thumbs-o-up fa-lg"></span></a>-->
+
+                <!--<div class="score"><strong>12</strong></div>-->
+            <!--</div>-->
+            <!--<div class="details">-->
+                <!--<span class="ticker"><strong>YPF</strong></span>-->
+                        <!--<span class="link">-->
+                            <!--<a href="http://online.barrons.com/news/articles/SB50001424053111904009804579248332064095714">-->
+                                <!--Undervalued Shale Energy Stock Could Triple-->
+                            <!--</a>-->
+                        <!--</span>-->
+                <!--<span class="domain">barrons.com</span>-->
+
+                <!--<div class="byline">-->
+                    <!--by <a href="/u/jatinshah">jatinshah</a>-->
+                    <!--<span class="time">about 8 hours ago</span>-->
+                    <!--<span class="comments">| <a href="#">11 comments</a></span>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</li>-->
+    <!--</ul>-->
+    <!--<div class="row clearfix">-->
+        <!--<div class="col-md-12 column">-->
+            <!--<ul class="list-unstyled">-->
+                <!--<li>-->
+                    <!--<form role="form" class="form-horizontal col-lg-9 col-md-9 col-sm-9">-->
+                        <!--<div class="form-group">-->
+                            <!--<textarea class="form-control" rows="3"></textarea>-->
+                        <!--</div>-->
+                        <!--<div class="form-group">-->
+                            <!--<button type="submit" class="btn btn-primary">Post Comment</button>-->
+                        <!--</div>-->
+                    <!--</form>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<div class="row clearfix">-->
+        <!--<div class="col-md-12 column">-->
+            <!--<ul class="list-unstyled">-->
+                <!--<li>-->
+                    <!--<strong>-->
+                        <!--<small>Sorted by:</small>-->
+                    <!--</strong>-->
+
+                    <!--<div class="btn-group">-->
+                        <!--<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">-->
+                            <!--Best <span class="caret"></span>-->
+                        <!--</button>-->
+                        <!--<ul class="dropdown-menu" role="menu">-->
+                            <!--<li><a href="#">-->
+                                <!--<small>Top</small>-->
+                            <!--</a></li>-->
+                            <!--<li><a href="#">-->
+                                <!--<small>Recent-->
+                            <!--</a></small></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                <!--</li>-->
+                <!--<li class="comment-block col-lg-9 col-md-9 col-sm-9">-->
+                    <!--<div class="vote">-->
+                        <!--<a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>-->
+
+                        <!--<div class="score"><strong>12</strong></div>-->
+                    <!--</div>-->
+                    <!--<div class="details">-->
+                        <!--<div class="headline">-->
+                            <!--<a href="/u/jatinshah">jatinshah</a>-->
+                            <!--<span class="time">about 8 hours ago</span>-->
+                        <!--</div>-->
+                        <!--<span class="comment"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit.-->
+                            <!--Suspendisse elementum, dolor quis volutpat molestie, orci nisl sodales velit, et bibendum-->
+                            <!--nunc orci a est. Etiam mollis faucibus urna vitae sollicitudin. Cras ultricies ultrices-->
+                            <!--ante, sed varius nulla sollicitudin eget. Nullam imperdiet egestas tortor sed facilisis.-->
+                            <!--Nunc nec placerat augue. Vivamus eleifend felis et ante bibendum dignissim. In hac habitasse-->
+                            <!--platea dictumst. Phasellus fermentum aliquet nisi, a feugiat tortor faucibus sit amet.-->
+                        <!--</small></span>-->
+
+                        <!--<div class="byline">-->
+                            <!--<span class="time"><a href="#">reply</a></span>-->
+                            <!--<span class="time"><a href="#">| delete</a></span>-->
+                            <!--<span class="time"><a href="#">| permalink</a></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</li>-->
+                <!--<li class="comment-block col-lg-9 col-md-9 col-sm-9">-->
+                    <!--<div class="vote">-->
+                        <!--<a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>-->
+
+                        <!--<div class="score"><strong>12</strong></div>-->
+                    <!--</div>-->
+                    <!--<div class="details">-->
+                        <!--<div class="headline">-->
+                            <!--<a href="/u/jatinshah">jatinshah</a>-->
+                            <!--<span class="time">about 8 hours ago</span>-->
+                        <!--</div>-->
+                        <!--<span class="comment"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit.-->
+                            <!--Suspendisse elementum, dolor quis volutpat molestie, orci nisl sodales velit, et bibendum-->
+                            <!--nunc orci a est. Etiam mollis faucibus urna vitae sollicitudin. Cras ultricies ultrices-->
+                            <!--ante, sed varius nulla sollicitudin eget. Nullam imperdiet egestas tortor sed facilisis.-->
+                            <!--Nunc nec placerat augue. Vivamus eleifend felis et ante bibendum dignissim. In hac habitasse-->
+                            <!--platea dictumst. Phasellus fermentum aliquet nisi, a feugiat tortor faucibus sit amet.-->
+                        <!--</small></span>-->
+
+                        <!--<div class="byline">-->
+                            <!--<span class="time"><a href="#">reply</a></span>-->
+                            <!--<span class="time"><a href="#">| delete</a></span>-->
+                            <!--<span class="time"><a href="#">| permalink</a></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</li>-->
+                <!--<li class="comment-block col-lg-9 col-md-9 col-sm-9">-->
+                    <!--<div class="vote">-->
+                        <!--<a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>-->
+
+                        <!--<div class="score"><strong>12</strong></div>-->
+                    <!--</div>-->
+                    <!--<div class="details">-->
+                        <!--<div class="headline">-->
+                            <!--<a href="/u/jatinshah">jatinshah</a>-->
+                            <!--<span class="time">about 8 hours ago</span>-->
+                        <!--</div>-->
+                        <!--<span class="comment"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit.-->
+                            <!--Suspendisse elementum, dolor quis volutpat molestie, orci nisl sodales velit, et bibendum-->
+                            <!--nunc orci a est. Etiam mollis faucibus urna vitae sollicitudin. Cras ultricies ultrices-->
+                            <!--ante, sed varius nulla sollicitudin eget. Nullam imperdiet egestas tortor sed facilisis.-->
+                            <!--Nunc nec placerat augue. Vivamus eleifend felis et ante bibendum dignissim. In hac habitasse-->
+                            <!--platea dictumst. Phasellus fermentum aliquet nisi, a feugiat tortor faucibus sit amet.-->
+                        <!--</small></span>-->
+
+                        <!--<div class="byline">-->
+                            <!--<span class="time"><a href="#">reply</a></span>-->
+                            <!--<span class="time"><a href="#">| delete</a></span>-->
+                            <!--<span class="time"><a href="#">| permalink</a></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</li>-->
+                <!--<li class="comment-block col-lg-9 col-md-9 col-sm-9">-->
+                    <!--<div class="vote">-->
+                        <!--<a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>-->
+
+                        <!--<div class="score"><strong>12</strong></div>-->
+                    <!--</div>-->
+                    <!--<div class="details">-->
+                        <!--<div class="headline">-->
+                            <!--<a href="/u/jatinshah">jatinshah</a>-->
+                            <!--<span class="time">about 8 hours ago</span>-->
+                        <!--</div>-->
+                        <!--<span class="comment"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit.-->
+                            <!--Suspendisse elementum, dolor quis volutpat molestie, orci nisl sodales velit, et bibendum-->
+                            <!--nunc orci a est. Etiam mollis faucibus urna vitae sollicitudin. Cras ultricies ultrices-->
+                            <!--ante, sed varius nulla sollicitudin eget. Nullam imperdiet egestas tortor sed facilisis.-->
+                            <!--Nunc nec placerat augue. Vivamus eleifend felis et ante bibendum dignissim. In hac habitasse-->
+                            <!--platea dictumst. Phasellus fermentum aliquet nisi, a feugiat tortor faucibus sit amet.-->
+                        <!--</small></span>-->
+
+                        <!--<div class="byline">-->
+                            <!--<span class="time"><a href="#">reply</a></span>-->
+                            <!--<span class="time"><a href="#">| delete</a></span>-->
+                            <!--<span class="time"><a href="#">| permalink</a></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</li>-->
+                <!--<li class="comment-block col-lg-9 col-md-9 col-sm-9">-->
+                    <!--<div class="vote">-->
+                        <!--<a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>-->
+
+                        <!--<div class="score"><strong>12</strong></div>-->
+                    <!--</div>-->
+                    <!--<div class="details">-->
+                        <!--<div class="headline">-->
+                            <!--<a href="/u/jatinshah">jatinshah</a>-->
+                            <!--<span class="time">about 8 hours ago</span>-->
+                        <!--</div>-->
+                        <!--<span class="comment"><small>Lorem ipsum dolor sit amet, consectetur adipiscing elit.-->
+                            <!--Suspendisse elementum, dolor quis volutpat molestie, orci nisl sodales velit, et bibendum-->
+                            <!--nunc orci a est. Etiam mollis faucibus urna vitae sollicitudin. Cras ultricies ultrices-->
+                            <!--ante, sed varius nulla sollicitudin eget. Nullam imperdiet egestas tortor sed facilisis.-->
+                            <!--Nunc nec placerat augue. Vivamus eleifend felis et ante bibendum dignissim. In hac habitasse-->
+                            <!--platea dictumst. Phasellus fermentum aliquet nisi, a feugiat tortor faucibus sit amet.-->
+                        <!--</small></span>-->
+
+                        <!--<div class="byline">-->
+                            <!--<span class="time"><a href="#">reply</a></span>-->
+                            <!--<span class="time"><a href="#">| delete</a></span>-->
+                            <!--<span class="time"><a href="#">| permalink</a></span>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                <!--</li>-->
+
+            <!--</ul>-->
+        <!--</div>-->
+    <!--</div>-->
+
+    <!--<ul class="pager col-lg-9 col-md-9 col-sm-9">-->
+        <!--<li class="previous"><a href="#">Previous</a></li>-->
+        <!--<li class="next"><a href="#">Next</a></li>-->
+    <!--</ul>-->
+<!--</div>-->
 {% endblock %}

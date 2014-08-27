@@ -53,7 +53,6 @@ class SignupForm(forms.ModelForm):
 
     def clean_repeat_password(self):
         repeat_password = self.cleaned_data['repeat_password']
-        print self.cleaned_data
 
         if 'password' in self.cleaned_data:
             password = self.cleaned_data['password']

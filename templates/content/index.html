@@ -1,187 +1,55 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block body_block %}
-<div class="col-md-12 column">
-
+<div class="container">
+    <h3 style="position: relative;margin-top:0px">Trending</h3>
+</div>
+<div class="container">
     <ul class="list-unstyled">
-        <li class="story">
-            <div class="vote">
-                <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                <div class="score"><strong>12</strong></div>
+        <li class="post-item" style="overflow: auto">
+            <div style="float: left;">
+                <a href="#"><span class="fa fa-thumbs-o-up fa-lg"></span></a>
+                <span style="font-weight: bold; color:#777777; display: block;position: relative;text-align: center">21</span>
             </div>
-            <div class="details">
-                <span class="ticker"><strong>YPF</strong></span>
-                        <span class="link">
-                            <a href="http://online.barrons.com/news/articles/SB50001424053111904009804579248332064095714">
-                                Undervalued Shale Energy Stock Could Triple
-                            </a>
-                        </span>
-                <span class="domain">barrons.com</span>
-
-                <div class="byline">
-                    by <a href="/u/jatinshah">jatinshah</a>
-                    <span class="time">about 8 hours ago</span>
-                    <span class="comments">| <a href="#">11 comments</a></span>
-                </div>
+            <div style="margin-left: 0.5em;float: left">
+                <img src="{% static 'images/bull.png' %}" style="width: 30px; height: auto"></img>
             </div>
-        </li>
-        <li class="story">
-            <div class="vote">
-                <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                <div class="score"><strong>73</strong></div>
+            <div style="margin-left: 0.5em; font-size: 16px; font-weight: bold; float: left;">
+                YPF
             </div>
-            <div class="details">
-                <span class="ticker"><strong>CWGL</strong></span>
-                        <span class="link">
-                            <a href="http://brooklyninvestor.blogspot.in/2013/06/60-yield-cwgl-crimson-wine-group.html">
-                                60% Yield! (CWGL: Crimson Wine Group)
-                            </a>
-                        </span>
-                <span class="domain">brookylninvestor.blogspot.com</span>
+            <div style="float:left;margin-left: 0.5em;">
+                <a href="/c/link/">
+                    Undervalued Shale Energy Stock Could Triple
+                </a>
+                <span style="font-style: italic; font-size: 10pt; color: #aeaeae">
+                        barrons.com
+                </span>
+                <span style="display: block;position:relative; font-size: 10pt; font-style: italic; color: #777777">
+                     by <a href="/u/jatinshah">jatinshah</a> about 8 hours ago | <a href="#">11 comments</a>
+                </span>
 
-                <div class="byline">
-                    by <a href="/u/jatinshah">jatinshah</a>
-                    <span class="time">about 3 hours ago</span>
-                    <span class="comments">| <a href="#">5 comments</a></span>
-                </div>
             </div>
         </li>
-
-        <li class="story">
-            <div class="vote">
-                <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                <div class="score"><strong>12</strong></div>
+        <li class="post-item" style="overflow: auto">
+            <div style="float: left;">
+                <a href="#"><span class="fa fa-thumbs-o-up fa-lg"></span></a>
+                <span style="font-weight: bold; color:#777777; display: block;position: relative;text-align: center">8</span>
             </div>
-            <div class="details">
-                <span class="ticker"><strong>YPF</strong></span>
-                        <span class="link">
-                            <a href="http://online.barrons.com/news/articles/SB50001424053111904009804579248332064095714">
-                                Undervalued Shale Energy Stock Could Triple
-                            </a>
-                        </span>
-                <span class="domain">barrons.com</span>
-
-                <div class="byline">
-                    by <a href="/u/jatinshah">jatinshah</a>
-                    <span class="time">about 8 hours ago</span>
-                    <span class="comments">| <a href="#">11 comments</a></span>
-                </div>
+            <div style="margin-left: 0.5em;float: left">
+                <img src="{% static 'images/bear.png' %}" style="width: 30px; height: auto"></img>
             </div>
-        </li>
-        <li class="story">
-            <div class="vote">
-                <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                <div class="score"><strong>73</strong></div>
+            <div style="margin-left: 0.5em; font-size: 16px; font-weight: bold; float: left;">
+                KO
             </div>
-            <div class="details">
-                <span class="ticker"><strong>CWGL</strong></span>
-                        <span class="link">
-                            <a href="http://brooklyninvestor.blogspot.in/2013/06/60-yield-cwgl-crimson-wine-group.html">
-                                60% Yield! (CWGL: Crimson Wine Group)
-                            </a>
-                        </span>
-                <span class="domain">brookylninvestor.blogspot.com</span>
+            <div style="float:left;margin-left: 0.5em;">
+                <a href="/c/text">
+                    Is Coke Undermangaged?
+                </a>
+                <span style="display: block;position:relative; font-size: 10pt; font-style: italic; color: #777777">
+                     by <a href="/u/jatinshah">newchaos</a> about 8 hours ago | <a href="#">32 comments</a>
+                </span>
 
-                <div class="byline">
-                    by <a href="/u/jatinshah">jatinshah</a>
-                    <span class="time">about 3 hours ago</span>
-                    <span class="comments">| <a href="#">5 comments</a></span>
-                </div>
-            </div>
-        </li>
-
-        <li class="story">
-            <div class="vote">
-                <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                <div class="score"><strong>12</strong></div>
-            </div>
-            <div class="details">
-                <span class="ticker"><strong>YPF</strong></span>
-                        <span class="link">
-                            <a href="http://online.barrons.com/news/articles/SB50001424053111904009804579248332064095714">
-                                Undervalued Shale Energy Stock Could Triple
-                            </a>
-                        </span>
-                <span class="domain">barrons.com</span>
-
-                <div class="byline">
-                    by <a href="/u/jatinshah">jatinshah</a>
-                    <span class="time">about 8 hours ago</span>
-                    <span class="comments">| <a href="#">11 comments</a></span>
-                </div>
-            </div>
-        </li>
-        <li class="story">
-            <div class="vote">
-                <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                <div class="score"><strong>73</strong></div>
-            </div>
-            <div class="details">
-                <span class="ticker"><strong>CWGL</strong></span>
-                        <span class="link">
-                            <a href="http://brooklyninvestor.blogspot.in/2013/06/60-yield-cwgl-crimson-wine-group.html">
-                                60% Yield! (CWGL: Crimson Wine Group)
-                            </a>
-                        </span>
-                <span class="domain">brookylninvestor.blogspot.com</span>
-
-                <div class="byline">
-                    by <a href="/u/jatinshah">jatinshah</a>
-                    <span class="time">about 3 hours ago</span>
-                    <span class="comments">| <a href="#">5 comments</a></span>
-                </div>
-            </div>
-        </li>
-
-        <li class="story">
-            <div class="vote">
-                <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                <div class="score"><strong>12</strong></div>
-            </div>
-            <div class="details">
-                <span class="ticker"><strong>YPF</strong></span>
-                        <span class="link">
-                            <a href="http://online.barrons.com/news/articles/SB50001424053111904009804579248332064095714">
-                                Undervalued Shale Energy Stock Could Triple
-                            </a>
-                        </span>
-                <span class="domain">barrons.com</span>
-
-                <div class="byline">
-                    by <a href="/u/jatinshah">jatinshah</a>
-                    <span class="time">about 8 hours ago</span>
-                    <span class="comments">| <a href="#">11 comments</a></span>
-                </div>
-            </div>
-        </li>
-        <li class="story">
-            <div class="vote">
-                <a class="upvote" href="#"><span class="fa fa-thumbs-o-up"></span></a>
-
-                <div class="score"><strong>73</strong></div>
-            </div>
-            <div class="details">
-                <span class="ticker"><strong>CWGL</strong></span>
-                        <span class="link">
-                            <a href="http://brooklyninvestor.blogspot.in/2013/06/60-yield-cwgl-crimson-wine-group.html">
-                                60% Yield! (CWGL: Crimson Wine Group)
-                            </a>
-                        </span>
-                <span class="domain">brookylninvestor.blogspot.com</span>
-
-                <div class="byline">
-                    by <a href="/u/jatinshah">jatinshah</a>
-                    <span class="time">about 3 hours ago</span>
-                    <span class="comments">| <a href="#">5 comments</a></span>
-                </div>
             </div>
         </li>
 

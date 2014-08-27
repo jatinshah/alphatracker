@@ -1,44 +1,70 @@
 {% extends 'base.html' %}
-
+{% load static  %}
 
 {% block body_block %}
-<div class="col-lg-8 col-md-8 col-sm-9 center">
-    <div class="panel panel-info">
+<div class="col-lg-9 col-md-9 center">
+    <div class="panel panel-primary">
         <div class="panel-heading"><h3 class="panel-title"><strong>Submit to AlphaTracker</strong></h3></div>
         <div class="panel-body">
-            <form role="form" class="form-horizontal">
+            <form role="form">
                 {% csrf_token %}
 
-                <div class="form-group form-item">
-                    <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="selectArticle" checked> Article
+
+                <div class="radio">
+                    <label class="radio-custom radio-inline" data-initialize="radio" id="link">
+                        <input class="sr-only" name="selector" type="radio" checked="checked"
+                               data-toggle=".link-field" value="link">Link
                     </label>
-                    <label class="radio-inline">
-                        <input type="radio" name="inlineRadioOptions" id="selectLink"> Link
+                    <label class="radio-custom radio-inline" data-initialize="radio" id="article">
+                        <input class="sr-only" name="selector" type="radio"
+                               data-toggle=".article-field" value="article"> Article
                     </label>
                 </div>
-                <div class="form-group form-item col-lg-2 col-md-2 col-sm-3 col-xs-3">
-                    <label>Ticker</label>
-                    <input class="form-control" type="text" id="submitTicker">
+                <div class="form-group">
+                <label>Ticker</label>
+                <input class="form-control" type="text" id="ticker"
+                       style="width: 90px;" placeholder="Lookup">
                 </div>
-                <div class="form-group form-item col-md-9 col-sm-9 col-lg-9">
-                    <label>Sentiment</label>
+
+                <div class="form-group">
+                    <label>Rating</label>
+                    <div class="radio">
+                        <label class="radio-custom radio-inline" data-initialize="radio" id="bull">
+                            <input class="sr-only" name="rating" type="radio" checked="checked"
+                                   value="bull">
+                            <img src="{% static 'images/bull.png' %}" style="width:30px;height:auto;"></img>
+                        </label>
+                        <label class="radio-custom radio-inline" data-initialize="radio" id="bear">
+                            <input class="sr-only" name="rating" type="radio"
+                                   value="bear">
+                            <img src="{% static 'images/bear.png' %}" style="width:30px;height:auto;"></img>
+                        </label>
+
+                    </div>
                 </div>
-                <div class="form-group form-item col-md-9 col-sm-9 col-lg-9">
-                    <label>Title</label>
-                    <input class="form-control" type="text">
+
+                <div class="form-group">
+                <label>Title</label>
+                <input class="form-control" type="text" placeholder="Enter title of your link or article">
                 </div>
-                <div class="form-group form-item col-md-9 col-sm-9 col-lg-9" id="fieldURL">
-                    <label>URL</label>
-                    <input type="url" class="form-control">
+
+                <!-- Link Fields -->
+                <div class="form-group link-field style="display: none;">
+                <label>URL</label>
+                <input type="url" class="form-control" placeholder="http://www.example.com">
                 </div>
-                <div class="form-group form-item col-md-9 col-sm-9 col-lg-9" id="fieldText">
-                    <label>Text</label>
-                    <textarea rows="3" class="form-control"></textarea>
+                <div class="form-group link-field" id="link-summary">
+                <label>Summary</label>
+                <textarea rows="3" class="form-control" placeholder="Add optional summary"></textarea>
                 </div>
-                <div class="form-group form-item">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+
+                <!-- Article Fields -->
+                <div class="form-group article-field" id="link-summary">
+                <label>Text</label>
+                <textarea rows="10" class="form-control" placeholder="Write article text (optional)"></textarea>
                 </div>
+
+                <input type="submit" class="btn btn-primary" value="Submit">
             </form>
 
         </div>
