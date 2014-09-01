@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+       - {{ post.title|truncatechars:100 }}
+{% endblock %}
+{% block body_block %}
+<div class="container">
+    <div class="single-post">
+        <div class="voting">
+            <a href="#"><span class="fa fa-thumbs-o-up fa-lg"></span></a>
+            <span class="score">21</span>
+        </div>
+        <div class="trend">
+            {% if post.trend == "bull" %}
+                <img src="{% static 'images/bull.png' %}"></img>
+            {% elif post.trend == "bear" %}
+                <img src="{% static 'images/bear.png' %}"></img>
+            {% endif %}
+        </div>
+        <div class="post-details">
+                <span class="stock-symbol">
+                    {{post.stock.symbol}}
+                </span>
+            <a href="{{ post.url }}" target="_blank">
+                {{ post.title }}
+            </a>
+            {% if post.post_type == "link" %}
+                 <span class="domain">
+                    {{ post.domain }}
+                 </span>
+            {% endif %}
+
+             <span class="byline">
+                by <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
+                 <!--{{post.created_on|timesince }} ago |-->
+                 | {{post.created_on_humanize }} |
+                 <a href="#">44 comments</a>
+             </span>
+            <span class="badge performance-down">-22%</span>
+            <span class="badge">
+                {% if post.active %}
+                    ACTIVE
+                {% else %}
+                    INACTIVE
+                {% endif %}
+            </span>
+            <span style="margin-left: 5px;">
+                {% if post.is_recent %}
+                    <button class="btn btn-xs">delete</button>
+                {% else %}
+                    <button class="btn btn-xs">close</button>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+    <div style="padding-bottom: 0.3em;margin-bottom: 0.3em">
+        {{ post.text }}
+    </div>
+
+    <div>
+        <form role="form" method="POST" class="">
+            <div class="form-group">
+                <textarea class="form-control" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-sm btn-primary">Post Comment</button>
+            </div>
+        </form>
+    </div>
+    <div style="margin-bottom: 0.6em; padding-bottom: 0.6em; border-bottom: 1px solid #eaecee">
+        <strong>
+            44 comments sorted by:
+        </strong>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                Recent <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">
+                    <small>Top</small>
+                </a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <ul class="list-unstyled">
+        <li class="comment-item">
+            <div class="voting">
+                <a href="#"><span class="fa fa-thumbs-o-up"></span></a>
+                <span class="score" style="font-size:8pt;">13</span>
+            </div>
+            <div class="comment">
+                <span class="byline">
+                     by <a href="/u/">jatinshah</a> about 8 hours ago
+                </span>
+                <span style="display: block; position: relative">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod nec risus a vehicula. Nam metus
+        elit, lacinia a rhoncus vitae, vulputate id orci. Maecenas non lorem at orci facilisis rutrum. Nullam
+        eget erat ullamcorper, euismod urna sit amet, mollis magna. Vestibulum pretium ullamcorper feugiat.
+        Nulla in tellus id mauris semper rhoncus. Nunc accumsan ac lorem eget dignissim. Nam at ipsum non odio
+        ultricies auctor.
+                </span>
+            </div>
+
+        </li>
+        <li class="comment-item">
+            <div class="voting">
+                <a href="#"><span class="fa fa-thumbs-o-up"></span></a>
+                <span class="score" style="font-size:8pt;">13</span>
+            </div>
+            <div class="comment">
+                <span class="byline">
+                     by <a href="/u/">newchaos</a> about 8 hours ago
+                </span>
+                <span style="display: block; position: relative">
+                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec euismod nec risus a vehicula. Nam metus
+        elit, lacinia a rhoncus vitae, vulputate id orci. Maecenas non lorem at orci facilisis rutrum. Nullam
+        eget erat ullamcorper, euismod urna sit amet, mollis magna. Vestibulum pretium ullamcorper feugiat.
+        Nulla in tellus id mauris semper rhoncus. Nunc accumsan ac lorem eget dignissim. Nam at ipsum non odio
+        ultricies auctor.
+                </span>
+            </div>
+
+        </li>
+
+    </ul>
+</div>
+{% endblock %}

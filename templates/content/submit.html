@@ -1,68 +1,98 @@
 {% extends 'base.html' %}
 {% load static  %}
 
+{% block title %}
+ - Submit
+{% endblock %}
 {% block body_block %}
 <div class="col-lg-9 col-md-9 center">
     <div class="panel panel-primary">
         <div class="panel-heading"><h3 class="panel-title"><strong>Submit to AlphaTracker</strong></h3></div>
         <div class="panel-body">
-            <form role="form">
+            <form role="form" name="post_form" method="POST" action="/c/submit/" novalidate>
                 {% csrf_token %}
 
 
                 <div class="radio">
-                    <label class="radio-custom radio-inline" data-initialize="radio" id="link">
-                        <input class="sr-only" name="selector" type="radio" checked="checked"
-                               data-toggle=".link-field" value="link">Link
+                    {% for field in form.post_type %}
+                        <label class="radio-custom radio-inline" data-initialize="radio">
+                            <input class="sr-only" name="{{ field.name }}" type="radio"
+                                   {% if field.is_checked %}checked="checked"{% endif %}
+                                   data-toggle=".{{ field.choice_value }}-field"
+                                   value="{{ field.choice_value }}">
+                            {{ field.choice_label }}
                     </label>
-                    <label class="radio-custom radio-inline" data-initialize="radio" id="article">
-                        <input class="sr-only" name="selector" type="radio"
-                               data-toggle=".article-field" value="article"> Article
-                    </label>
-                </div>
-                <div class="form-group">
-                <label>Ticker</label>
-                <input class="form-control" type="text" id="ticker"
-                       style="width: 90px;" placeholder="Lookup">
+
+                    {% endfor %}
                 </div>
 
+                {% with field=form.symbol %}
+                <div class="form-group {%if field.errors %}has-error{% endif %}"
+                     id="stock-symbol">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% for err in field.errors %}
+                        <span class="help-block">{{ err }}</span>
+                    {% endfor %}
+                </div>
+                {% endwith %}
+
                 <div class="form-group">
-                    <label>Rating</label>
+                    {{ form.trend.label_tag }}
                     <div class="radio">
-                        <label class="radio-custom radio-inline" data-initialize="radio" id="bull">
-                            <input class="sr-only" name="rating" type="radio" checked="checked"
-                                   value="bull">
-                            <img src="{% static 'images/bull.png' %}" style="width:30px;height:auto;"></img>
+                        <label class="radio-custom radio-inline" data-initialize="radio">
+                            {{ form.trend.0.tag }}
+                            <img src="{% static 'images/bull.png' %}" class="trend-icon"></img>
                         </label>
-                        <label class="radio-custom radio-inline" data-initialize="radio" id="bear">
-                            <input class="sr-only" name="rating" type="radio"
-                                   value="bear">
-                            <img src="{% static 'images/bear.png' %}" style="width:30px;height:auto;"></img>
+                        <label class="radio-custom radio-inline" data-initialize="radio">
+                            {{ form.trend.1.tag }}
+                            <img src="{% static 'images/bear.png' %}" class="trend-icon"></img>
                         </label>
-
                     </div>
                 </div>
 
-                <div class="form-group">
-                <label>Title</label>
-                <input class="form-control" type="text" placeholder="Enter title of your link or article">
+                {% with field=form.title %}
+                <div class="form-group {%if field.errors %}has-error{% endif %}">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% for err in field.errors %}
+                        <span class="help-block">{{ err }}</span>
+                    {% endfor %}
                 </div>
+                {% endwith %}
 
                 <!-- Link Fields -->
-                <div class="form-group link-field style="display: none;">
-                <label>URL</label>
-                <input type="url" class="form-control" placeholder="http://www.example.com">
+                {% with field=form.url %}
+                <div class="form-group link-field {%if field.errors %}has-error{% endif %}">
+                    {{ form.url.label_tag }}
+                    {{ form.url }}
+                    {% for err in form.url.errors %}
+                        <span class="help-block">{{ err }}</span>
+                    {% endfor %}
                 </div>
-                <div class="form-group link-field" id="link-summary">
-                <label>Summary</label>
-                <textarea rows="3" class="form-control" placeholder="Add optional summary"></textarea>
+                {% endwith %}
+
+
+                {% with field=form.summary %}
+                <div class="form-group link-field {%if field.errors %}has-error{% endif %}">
+                    {{ form.summary.label_tag }}
+                    {{ form.summary }}
+                    {% for err in form.summary.errors %}
+                        <span class="help-block">{{ err }}</span>
+                    {% endfor %}
                 </div>
+                {% endwith %}
 
                 <!-- Article Fields -->
-                <div class="form-group article-field" id="link-summary">
-                <label>Text</label>
-                <textarea rows="10" class="form-control" placeholder="Write article text (optional)"></textarea>
+                {% with field=form.text %}
+                <div class="form-group article-field {%if field.errors %}has-error{% endif %}">
+                    {{ form.text.label_tag }}
+                    {{ form.text }}
+                    {% for err in form.text.errors %}
+                        <span class="help-block">{{ err }}</span>
+                    {% endfor %}
                 </div>
+                {% endwith %}
 
                 <input type="submit" class="btn btn-primary" value="Submit">
             </form>

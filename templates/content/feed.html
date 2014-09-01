@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_block %}
+<div class="container">
+    <h3 class="headline">Recent</h3>
+</div>
+<div class="container">
+    <ul class="list-unstyled">
+        {% for post in posts %}
+        <li class="post-item">
+            <div class="voting">
+                <a href="#"><span class="fa fa-thumbs-o-up fa-lg"></span></a>
+                <span class="score">22</span>
+            </div>
+            <div class="trend">
+                {% if post.trend == "bull" %}
+                    <img src="{% static 'images/bull.png' %}"/>
+                {% elif post.trend == "bear" %}
+                    <img src="{% static 'images/bear.png' %}"/>
+                {% endif %}
+            </div>
+            <div class="post-details">
+                <span class="stock-symbol">
+                    {{post.stock.symbol}}
+                    <span class="stock-name"> {{post.stock.name}}</span>
+                </span>
+                <a href="{{ post.get_absolute_url }}">
+                     {{ post.title }}
+                </a>
+                {% if post.post_type == "link" %}
+                <span class="domain">
+                        {{ post.domain }}
+                </span>
+                {% endif %}
+                <span class="byline">
+                     by <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
+                     | {{ post.created_on_humanize }} | <a href="#">11 comments</a>
+                </span>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    <ul class="pager">
+        {% if posts.has_previous %}
+            <li class="previous"><a href="/c/{{ posts.previous_page_number }}">Previous</a></li>
+        {% endif %}
+        {% if posts.has_next %}
+            <li class="next"><a href="/c/{{ posts.next_page_number }}">Next</a></li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}
+
