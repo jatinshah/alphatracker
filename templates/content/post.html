@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-       - {{ post.title|truncatechars:100 }}
+- {{ post.title|truncatechars:100 }}
 {% endblock %}
 {% block body_block %}
 <div class="container">
@@ -13,9 +13,9 @@
         </div>
         <div class="trend">
             {% if post.trend == "bull" %}
-                <img src="{% static 'images/bull.png' %}" title="Bull"></img>
+            <img src="{% static 'images/bull.png' %}" title="Bull"></img>
             {% elif post.trend == "bear" %}
-                <img src="{% static 'images/bear.png' %}" title="Bear"></img>
+            <img src="{% static 'images/bear.png' %}" title="Bear"></img>
             {% endif %}
         </div>
         <div class="post-details">
@@ -25,16 +25,16 @@
             </span>
 
             {% if post.post_type == "link" %}
-                <a href="{{ post.url }}" target="_blank">
-                    {{ post.title }}
-                </a>
+            <a href="{{ post.url }}" target="_blank">
+                {{ post.title }}
+            </a>
                 <span class="domain">
                     {{ post.domain }}
                 </span>
             {% elif post.post_type == "article" %}
-                <a href="{{ post.get_absolute_url }}">
-                    {{ post.title }}
-                </a>
+            <a href="{{ post.get_absolute_url }}">
+                {{ post.title }}
+            </a>
             {% endif %}
 
              <span class="byline">

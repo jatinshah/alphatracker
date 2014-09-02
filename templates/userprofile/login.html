@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 
 {% block title %}
- - Login
+- Login
 {% endblock %}
 {% block body_block %}
 <div class="col-lg-4 col-md-5 col-sm-6 center top50">
     {% if form.errors %}
-        <div class="alert alert-danger alert-dismissable" role="alert">
-            <button type="button" class="close" data-dismiss="alert">
-                <span aria-hidden="true">&times;</span>
-                <span class="sr-only">Close</span>
-            </button>
-            <span>Incorrect username or password</span>
-        </div>
+    <div class="alert alert-danger alert-dismissable" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <span aria-hidden="true">&times;</span>
+            <span class="sr-only">Close</span>
+        </button>
+        <span>Incorrect username or password</span>
+    </div>
     {% endif %}
 
     <div class="panel panel-primary">
@@ -34,9 +34,10 @@
                            placeholder="Password">
                 </div>
                 <div>
-                    <input type="hidden" name="next" value="{{next}}" />
+                    <input type="hidden" name="next" value="{{next}}"/>
                 </div>
-                <button type="submit" class="btn btn-sm btn-primary">Login</button> or <a href="/u/signup/">Sign Up</a>
+                <button type="submit" class="btn btn-sm btn-primary">Login</button>
+                or <a href="/u/signup/">Sign Up</a>
             </form>
         </div>
 

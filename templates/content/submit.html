@@ -2,7 +2,7 @@
 {% load static  %}
 
 {% block title %}
- - Submit
+- Submit
 {% endblock %}
 {% block body_block %}
 <div class="col-lg-9 col-md-9 center">
@@ -15,12 +15,12 @@
 
                 <div class="radio">
                     {% for field in form.post_type %}
-                        <label class="radio-custom radio-inline" data-initialize="radio">
-                            <input class="sr-only" name="{{ field.name }}" type="radio"
-                                   {% if field.is_checked %}checked="checked"{% endif %}
-                                   data-toggle=".{{ field.choice_value }}-field"
-                                   value="{{ field.choice_value }}">
-                            {{ field.choice_label }}
+                    <label class="radio-custom radio-inline" data-initialize="radio">
+                        <input class="sr-only" name="{{ field.name }}" type="radio"
+                        {% if field.is_checked %}checked="checked"{% endif %}
+                        data-toggle=".{{ field.choice_value }}-field"
+                        value="{{ field.choice_value }}">
+                        {{ field.choice_label }}
                     </label>
 
                     {% endfor %}
@@ -32,7 +32,7 @@
                     {{ field.label_tag }}
                     {{ field }}
                     {% for err in field.errors %}
-                        <span class="help-block">{{ err }}</span>
+                    <span class="help-block">{{ err }}</span>
                     {% endfor %}
                 </div>
                 {% endwith %}
@@ -56,7 +56,7 @@
                     {{ field.label_tag }}
                     {{ field }}
                     {% for err in field.errors %}
-                        <span class="help-block">{{ err }}</span>
+                    <span class="help-block">{{ err }}</span>
                     {% endfor %}
                 </div>
                 {% endwith %}
@@ -67,7 +67,7 @@
                     {{ form.url.label_tag }}
                     {{ form.url }}
                     {% for err in form.url.errors %}
-                        <span class="help-block">{{ err }}</span>
+                    <span class="help-block">{{ err }}</span>
                     {% endfor %}
                 </div>
                 {% endwith %}
@@ -78,7 +78,7 @@
                     {{ form.summary.label_tag }}
                     {{ form.summary }}
                     {% for err in form.summary.errors %}
-                        <span class="help-block">{{ err }}</span>
+                    <span class="help-block">{{ err }}</span>
                     {% endfor %}
                 </div>
                 {% endwith %}
@@ -89,7 +89,7 @@
                     {{ form.text.label_tag }}
                     {{ form.text }}
                     {% for err in form.text.errors %}
-                        <span class="help-block">{{ err }}</span>
+                    <span class="help-block">{{ err }}</span>
                     {% endfor %}
                 </div>
                 {% endwith %}

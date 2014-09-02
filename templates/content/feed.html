@@ -15,9 +15,9 @@
             </div>
             <div class="trend">
                 {% if post.trend == "bull" %}
-                    <img src="{% static 'images/bull.png' %}" title="Bull"/>
+                <img src="{% static 'images/bull.png' %}" title="Bull"/>
                 {% elif post.trend == "bear" %}
-                    <img src="{% static 'images/bear.png' %}" title="Bear"/>
+                <img src="{% static 'images/bear.png' %}" title="Bear"/>
                 {% endif %}
             </div>
             <div class="post-details">
@@ -26,7 +26,7 @@
                     <span class="stock-name"> {{post.stock.name}}</span>
                 </span>
                 <a href="{{ post.get_absolute_url }}">
-                     {{ post.title }}
+                    {{ post.title }}
                 </a>
                 {% if post.post_type == "link" %}
                 <span class="domain">
@@ -43,10 +43,10 @@
     </ul>
     <ul class="pager">
         {% if posts.has_previous %}
-            <li class="previous"><a href="/c/{{ posts.previous_page_number }}">Previous</a></li>
+        <li class="previous"><a href="/c/{{ posts.previous_page_number }}">Previous</a></li>
         {% endif %}
         {% if posts.has_next %}
-            <li class="next"><a href="/c/{{ posts.next_page_number }}">Next</a></li>
+        <li class="next"><a href="/c/{{ posts.next_page_number }}">Next</a></li>
         {% endif %}
     </ul>
 </div>
