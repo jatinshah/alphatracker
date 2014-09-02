@@ -15,9 +15,9 @@
             </div>
             <div class="trend">
                 {% if post.trend == "bull" %}
-                    <img src="{% static 'images/bull.png' %}"/>
+                    <img src="{% static 'images/bull.png' %}" title="Bull"/>
                 {% elif post.trend == "bear" %}
-                    <img src="{% static 'images/bear.png' %}"/>
+                    <img src="{% static 'images/bear.png' %}" title="Bear"/>
                 {% endif %}
             </div>
             <div class="post-details">

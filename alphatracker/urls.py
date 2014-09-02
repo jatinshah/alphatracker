@@ -10,6 +10,7 @@ urlpatterns = patterns('',
 
     url(r'^c/', include('content.urls')),
     url(r'^u/', include('userprofile.urls')),
+    url(r'^r/', include('ranking.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
 

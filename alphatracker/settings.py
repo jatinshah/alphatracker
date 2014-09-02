@@ -10,6 +10,8 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+from django.conf import global_settings
+
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -24,7 +26,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://floating-everglades-9112.herokuapp.com'] # added
 
 
 # Application definition
@@ -36,8 +38,10 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'content',
     'userprofile',
+    'ranking',
     'south',
 )
 
@@ -57,13 +61,6 @@ WSGI_APPLICATION = 'alphatracker.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -74,6 +71,8 @@ DATABASES = {
         'PORT': '5432',
     }
 }
+import dj_database_url  #added
+DATABASES['default'] = dj_database_url.config()  #added
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -102,3 +101,10 @@ TEMPLATE_DIRS = (
 )
 
 LOGIN_REDIRECT_URL='/c/'
+LOGIN_URL = '/u/login/'
+
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS \
+                              + ('django.core.context_processors.request',)
+
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

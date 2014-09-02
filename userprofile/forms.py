@@ -1,31 +1,10 @@
 from django import forms
 from userprofile.models import User
+from django.utils.translation import ugettext_lazy as _
 
 
 class SignupForm(forms.ModelForm):
     MIN_LENGTH = 8  # Minimum password length
-
-    username = forms.CharField(label='Username',
-                               required=True,
-                               widget=forms.TextInput(
-                                   attrs={'class': 'form-control',
-                                          'placeholder': 'Enter username',
-                                          'autofocus': 'true'}),
-                               error_messages={'required': 'Please choose a username'})
-
-    email = forms.CharField(label='Email',
-                            required=True,
-                            widget=forms.TextInput(
-                                attrs={'class': 'form-control',
-                                       'placeholder': 'Enter email'}),
-                            error_messages={'required': 'Please enter your email'})
-
-    password = forms.CharField(label='Password',
-                               required=True,
-                               widget=forms.PasswordInput(
-                                   attrs={'class': 'form-control',
-                                          'placeholder': 'Enter password'}),
-                               error_messages={'required': 'Please enter a password'})
 
     repeat_password = forms.CharField(label='Repeat Password',
                                       required=True,
@@ -37,6 +16,29 @@ class SignupForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
+        widgets = {
+            'username': forms.TextInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Enter username',
+                       'autofocus': 'true'}),
+            'email': forms.TextInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Enter email'}),
+            'password': forms.PasswordInput(
+                attrs={'class': 'form-control',
+                       'placeholder': 'Enter password'})
+        }
+        error_messages = {
+            'username': {
+                'required': _('Please choose a username.'),
+            },
+            'email': {
+                'required': _('Please enter your email.'),
+            },
+            'password': {
+                'required': _('Please enter a password.'),
+            }
+        }
 
     def clean_username(self):
         username = self.cleaned_data["username"]
@@ -50,6 +52,8 @@ class SignupForm(forms.ModelForm):
             'Username already taken',
             code='unique',
         )
+
+        return username
 
     def clean_repeat_password(self):
         repeat_password = self.cleaned_data['repeat_password']

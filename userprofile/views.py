@@ -18,41 +18,6 @@ def profile(request):
 
 
 @anonymous_required
-def user_login(request):
-    context = RequestContext(request)
-
-    context_dict = {}
-    if request.method == 'POST':
-
-        username = request.POST['username']
-        password = request.POST['password']
-
-        user = authenticate(username=username, password=password)
-
-        context_dict['username'] = username
-
-        if user:
-            if user.is_active:
-                login(request, user)
-                return HttpResponseRedirect('/c/')
-            else:
-                print 'LOGIN: {0} account disabled'.format(username)
-                context_dict['error'] = 'Account is disabled.'
-        else:
-            print 'LOGIN: Invalid login details: {0}, {1}'.format(username, password)
-            context_dict['error'] = 'Incorrect username or password.'
-
-    return render_to_response('userprofile/login.html', context_dict, context)
-
-
-@login_required(login_url='/u/login/')
-def user_logout(request):
-    logout(request)
-
-    return HttpResponseRedirect('/c/')
-
-
-@anonymous_required
 def signup(request):
     context = RequestContext(request)
 

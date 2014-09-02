@@ -13,27 +13,32 @@
         </div>
         <div class="trend">
             {% if post.trend == "bull" %}
-                <img src="{% static 'images/bull.png' %}"></img>
+                <img src="{% static 'images/bull.png' %}" title="Bull"></img>
             {% elif post.trend == "bear" %}
-                <img src="{% static 'images/bear.png' %}"></img>
+                <img src="{% static 'images/bear.png' %}" title="Bear"></img>
             {% endif %}
         </div>
         <div class="post-details">
-                <span class="stock-symbol">
-                    {{post.stock.symbol}}
-                </span>
-            <a href="{{ post.url }}" target="_blank">
-                {{ post.title }}
-            </a>
+            <span class="stock-symbol">
+                {{post.stock.symbol}}
+                <span class="stock-name"> {{post.stock.name}}</span>
+            </span>
+
             {% if post.post_type == "link" %}
-                 <span class="domain">
+                <a href="{{ post.url }}" target="_blank">
+                    {{ post.title }}
+                </a>
+                <span class="domain">
                     {{ post.domain }}
-                 </span>
+                </span>
+            {% elif post.post_type == "article" %}
+                <a href="{{ post.get_absolute_url }}">
+                    {{ post.title }}
+                </a>
             {% endif %}
 
              <span class="byline">
                 by <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
-                 <!--{{post.created_on|timesince }} ago |-->
                  | {{post.created_on_humanize }} |
                  <a href="#">44 comments</a>
              </span>
@@ -45,6 +50,7 @@
                     INACTIVE
                 {% endif %}
             </span>
+            {% if user.username == post.user.username %}
             <span style="margin-left: 5px;">
                 {% if post.is_recent %}
                     <button class="btn btn-xs">delete</button>
@@ -52,6 +58,7 @@
                     <button class="btn btn-xs">close</button>
                 {% endif %}
             </span>
+            {% endif %}
         </div>
     </div>
     <div style="padding-bottom: 0.3em;margin-bottom: 0.3em">
