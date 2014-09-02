@@ -26,7 +26,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['http://floating-everglades-9112.herokuapp.com'] # added
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -71,8 +71,6 @@ DATABASES = {
         'PORT': '5432',
     }
 }
-import dj_database_url  #added
-DATABASES['default'] = dj_database_url.config()  #added
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
