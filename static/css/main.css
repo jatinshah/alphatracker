@@ -67,6 +67,7 @@
 .trend {
     margin-left: 0.5em;
     float: left;
+    padding-top: 20px;
 }
 
 .trend > img, .trend-icon {
