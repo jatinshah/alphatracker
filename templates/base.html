@@ -46,16 +46,17 @@
     </div>
     <div class="collapse navbar-collapse" id="alphatracker-nav">
         <ul class="nav navbar-nav">
-            <!--<li><a href="/c/"><span class="fa fa-fire"></span> Trending</a></li>-->
-            <!--<li><a href="/c/"><span class="fa fa-history"></span> Recent</a></li>-->
+            <li class="{% if request.path == '#' %} active {% endif %}">
+                <a href="/c/"><span class="fa fa-fire"></span> Trending</a>
+            </li>
             <li class="{% if request.path == '/c/' %} active {% endif %}">
-                <a href="/c/"><span class="fa fa-home"></span> Home</a>
+                <a href="/c/"><span class="fa fa-history"></span> Recent</a>
             </li>
             <li class="{% if request.path == '#' %} active {% endif %}">
                 <a href="/c/"><span class="fa fa-rss"></span> My Feed</a>
             </li>
             <li class="{% if request.path == '#' %} active {% endif %}">
-                <a href="#"><span class="fa fa-trophy"></span> Rankings</a>
+                <a href="#"><span class="fa fa-trophy"></span> Top Ideas</a>
             </li>
             <li class="{% if request.path == '/c/submit/' %} active {% endif %}">
                 <a href="/c/submit/"><span class="fa fa-plus"></span> Submit</a>
