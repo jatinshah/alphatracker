@@ -2,54 +2,61 @@
 {% load static %}
 
 {% block body_block %}
+
+{% block feed_title %}
 <div class="container">
     <h3 class="headline">Recent</h3>
 </div>
+{% endblock %}
+
 <div class="container">
     <ul class="list-unstyled">
-        {% for post in posts %}
-        <li class="post-item">
-            <div class="voting">
-                <a href="#"><span class="fa fa-chevron-up fa-lg"></span></a>
-                <span class="score">22</span>
-                <a href="#"><span class="fa fa-chevron-down fa-lg"></span></a>
-            </div>
-            <div class="trend">
-                {% if post.trend == "bull" %}
-                <img src="{% static 'images/bull.png' %}" title="Bull"/>
-                {% elif post.trend == "bear" %}
-                <img src="{% static 'images/bear.png' %}" title="Bear"/>
-                {% endif %}
-            </div>
-            <div class="post-details">
+    {% for post in posts %}
+    <li class="post-item">
+        <div class="vote-block">
+            <a href="#"><span class="fa fa-chevron-up fa-lg"></span></a>
+            <span class="score">22</span>
+            <a href="#"><span class="fa fa-chevron-down fa-lg"></span></a>
+        </div>
+        <div class="trend">
+            {% if post.trend == "bull" %}
+            <img src="{% static 'images/bull.png' %}" title="Bull"/>
+            {% elif post.trend == "bear" %}
+            <img src="{% static 'images/bear.png' %}" title="Bear"/>
+            {% endif %}
+        </div>
+        <div class="post-details">
                 <span class="stock-symbol">
                     {{post.stock.symbol}}
                     <span class="stock-name"> {{post.stock.name}}</span>
                 </span>
-                <a href="{{ post.get_absolute_url }}">
-                    {{ post.title }}
-                </a>
-                {% if post.post_type == "link" %}
+            <a href="{{ post.get_absolute_url }}">
+                {{ post.title }}
+            </a>
+            {% if post.post_type == "link" %}
                 <span class="domain">
                         {{ post.domain }}
                 </span>
-                {% endif %}
+            {% endif %}
                 <span class="byline">
-                     by <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
-                     | {{ post.created_on_humanize }} | <a href="#">11 comments</a>
+                    by <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
+                    | {{ post.created_on_humanize }}
+                    {% if post.comments_count %}
+                    | <a href="{{ post.get_absolute_url }}"> {{ post.comments_count }} comments</a>
+                    {% endif %}
                 </span>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
-    <ul class="pager">
-        {% if posts.has_previous %}
-        <li class="previous"><a href="/c/{{ posts.previous_page_number }}">Previous</a></li>
-        {% endif %}
-        {% if posts.has_next %}
-        <li class="next"><a href="/c/{{ posts.next_page_number }}">Next</a></li>
-        {% endif %}
-    </ul>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
+<ul class="pager">
+    {% if posts.has_previous %}
+    <li class="previous"><a href="{{path}}{{ posts.previous_page_number }}/">Previous</a></li>
+    {% endif %}
+    {% if posts.has_next %}
+    <li class="next"><a href="{{path}}{{ posts.next_page_number }}/">Next</a></li>
+    {% endif %}
+</ul>
+
 </div>
 {% endblock %}
-
