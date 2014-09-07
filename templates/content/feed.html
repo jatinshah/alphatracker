@@ -42,7 +42,9 @@
                     by <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
                     | {{ post.created_on_humanize }}
                     {% if post.comments_count %}
-                    | <a href="{{ post.get_absolute_url }}"> {{ post.comments_count }} comments</a>
+                    | <a href="{{ post.get_absolute_url }}">
+                        {{ post.comments_count }} comment{{post.comments_count|pluralize}}
+                      </a>
                     {% endif %}
                 </span>
         </div>

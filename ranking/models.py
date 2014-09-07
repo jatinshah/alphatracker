@@ -8,7 +8,7 @@ class Stock(models.Model):
     name = models.CharField(max_length=50)
 
 
-# class HistoricalPrices(models.Model):
+# class EODHistoricalPrices(models.Model):
 #     pass
 #
 #

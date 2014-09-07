@@ -40,7 +40,8 @@
     color: #777;
 }
 
-.stock-symbol:hover .stock-name {
+.stock-symbol:hover .stock-name
+{
     display: inline;
 }
 
@@ -75,7 +76,7 @@
     height: auto;
 }
 
-.voting {
+.vote-block {
     float: left;
 }
 
@@ -99,6 +100,12 @@
     border: 1px solid;
 }
 
+.post-details:hover .performance-down
+{
+    display:inline;
+}
+
+
 .comment-item {
     border-bottom: 1px solid #eaecee;
     overflow: auto;
@@ -116,3 +123,21 @@
     width: 90px;
 }
 
+.profile {
+    position:relative;
+    margin-bottom:0px;
+    padding-top:15px;
+    padding-bottom:15px;
+    background: rgba(0,0,0,0);
+}
+
+.edit-profile {
+    position:absolute;
+    right:0;
+    margin-right:25%;
+    display: none;
+}
+
+.profile:hover .edit-profile {
+    display:inline
+}

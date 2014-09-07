@@ -62,18 +62,18 @@ WSGI_APPLICATION = 'alphatracker.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'alphatracker',
-#         'USER': 'django_login',
-#         'PASSWORD': 'dj@ng0',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config()
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'alphatracker',
+        'USER': 'django_login',
+        'PASSWORD': 'dj@ng0',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+# DATABASES = {}
+# DATABASES['default'] = dj_database_url.config()
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -102,7 +102,7 @@ TEMPLATE_DIRS = (
 )
 
 LOGIN_REDIRECT_URL='/c/'
-LOGIN_URL = '/u/login/'
+LOGIN_URL = '/login/'
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS \
                               + ('django.core.context_processors.request',)

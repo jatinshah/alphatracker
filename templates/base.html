@@ -46,11 +46,11 @@
     </div>
     <div class="collapse navbar-collapse" id="alphatracker-nav">
         <ul class="nav navbar-nav">
-            <li class="{% if request.path == '#' %} active {% endif %}">
+            <li class="{% if request.path == '/c/' %} active {% endif %}">
                 <a href="/c/"><span class="fa fa-fire"></span> Trending</a>
             </li>
-            <li class="{% if request.path == '/c/' %} active {% endif %}">
-                <a href="/c/"><span class="fa fa-history"></span> Recent</a>
+            <li class="{% if request.path == '/c/recent/' %} active {% endif %}">
+                <a href="/c/recent/"><span class="fa fa-history"></span> Recent</a>
             </li>
             <li class="{% if request.path == '#' %} active {% endif %}">
                 <a href="/c/"><span class="fa fa-rss"></span> My Feed</a>
@@ -68,16 +68,21 @@
                 <hr class="divider">
             </li>
             {% if user.is_authenticated %}
-            <li class="class={% if request.path == '/u/' %} active {% endif %}">
-                <a href="/u/"><span class="fa fa-user"></span> {{ user.username }}</a>
+            <li class="class={% if request.path == '/u/{{user.username}}/' %} active {% endif %}">
+                <a href="/u/{{user.username}}/"><span class="fa fa-user"></span> Me
+                </a>
             </li>
-            <li><a href="/u/logout/"><span class="fa fa-sign-out"</span> Logout</a></li>
+            <li>
+                <a href="/logout/">
+                    <span class="fa fa-sign-out"</span> Logout
+                </a>
+            </li>
             {% else %}
-            <li class="{% if request.path == '/u/signup/' %} active {% endif %}">
-                <a href="/u/signup/"><span class="fa fa-user"></span> Sign up</a>
+            <li class="{% if request.path == '/signup/' %} active {% endif %}">
+                <a href="/signup/"><span class="fa fa-user"></span> Sign up</a>
             </li>
-            <li class="{% if request.path == '/u/login/' %} active {% endif %}">
-                <a href="/u/login/"><span class="fa fa-sign-in"</span> Login</a>
+            <li class="{% if request.path == '/login/' %} active {% endif %}">
+                <a href="/login/"><span class="fa fa-sign-in"</span> Login</a>
             </li>
             {% endif %}
         </ul>
