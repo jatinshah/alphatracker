@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body_block %}
-<header class="jumbotron profile center">
+<header class="jumbotron profile center col-md-7 col-lg-7 col-sm-7">
     {% if user.is_authenticated and username == request.user.username %}
     <div class="edit-profile">
             <a class="btn btn-link btn-sm" href="/u/edit">Edit</a>
@@ -12,11 +12,12 @@
         <img src="{{ photo_url }}" class="img-responsive img-thumbnail"
              style="border:3px solid white"/>
     </div>
-    <h2 style="text-align: center; font-weight:700; font-size:50px;margin:0px;">Jatin Shah <small>{{ username }}</small></h2>
+    <h2 style="text-align: center; font-weight:700; font-size:50px;margin:0px;">{{user_profile.full_name}} <small>{{ username }}</small></h2>
 
-    <h4 style="text-align: center;">
-        Relax. I know what I am doing.
-    </h4>
+        <h4 style="text-align: center;">
+            {{user_profile.bio}}
+        </h4>
+
 
     <div style="font-size: 16px;outline: 0; word-break: break-word; text-align: center">
         <h4 style="position: relative; display: inline-block;margin:10px">

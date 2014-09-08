@@ -12,7 +12,7 @@ class Migration(SchemaMigration):
         db.create_table(u'userprofile_userprofile', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
-            ('website', self.gf('django.db.models.fields.URLField')(max_length=200, blank=True)),
+            ('full_name', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
             ('bio', self.gf('django.db.models.fields.CharField')(max_length=160, blank=True)),
         ))
         db.send_create_signal(u'userprofile', ['UserProfile'])
@@ -63,9 +63,9 @@ class Migration(SchemaMigration):
         u'userprofile.userprofile': {
             'Meta': {'object_name': 'UserProfile'},
             'bio': ('django.db.models.fields.CharField', [], {'max_length': '160', 'blank': 'True'}),
+            'full_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'}),
-            'website': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'})
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'})
         }
     }
 

@@ -1,3 +1,20 @@
+$(document).ready(function() {
+    $("#counter").append($("#bio").val().length + "/160");
+    $("#bio").keyup(function(){
+        if($(this).val().length > 160){
+            $(this).val($(this).val().substr(0,160));
+        }
+        var text_length = $(this).val().length;
+        $("#counter").html(text_length + "/160");
+        if(text_length > 150) {
+            $("#counter").css("color", "red");
+        }
+        else {
+            $("#counter").css("color", "black");
+        }
+    });
+});
+
 var stocks = new Bloodhound({
     datumTokenizer: function (data) {
         var stock_name = Bloodhound.tokenizers.whitespace(data.name);
