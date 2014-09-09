@@ -1,20 +1,67 @@
 from django.template import RequestContext
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
+from django.db.models import Sum
 
 import itertools
 import arrow
+import json
 from urlparse import urlsplit
 from datetime import timedelta
 
 from content.forms import PostForm, CommentForm
-from content.models import Post, Comment
+from content.models import Post, Comment, PostVote
 from ranking.models import Stock
+from userprofile.utils import ajax_login_required
+
+# Up/Down vote on a post
+# TODO: Update fields only on success in JS
+@ajax_login_required
+def vote_ajax(request):
+    context = RequestContext(request)
+    response = {'authenticated': True}
+
+    if request.is_ajax() and request.method == 'POST':
+        slug = request.POST['slug']
+        vote = request.POST['vote']
+
+        try:
+            vote = sorted((-1, int(vote), 1))[1]
+        except ValueError:
+            response['error']='Invalid vote'
+            response['success'] = False
+            return HttpResponse(
+                json.dumps(response),
+                content_type='application/json'
+            )
+
+        post = get_object_or_404(Post, slug=slug)
+
+        try:
+            post_vote = PostVote.objects.get(post=post, user=request.user)
+            if post_vote.vote * vote < 0 or post_vote.vote == 0:
+                post_vote.vote = vote
+            elif post_vote.vote * vote > 0:
+                post_vote.vote = 0
+            post_vote.save(update_fields=['vote'])
+        except PostVote.DoesNotExist:
+            post_vote = PostVote(post=post, user=request.user, vote=vote)
+            post_vote.save()
+
+        response['success'] = True
+        return HttpResponse(
+            json.dumps(response),
+            content_type='application/json')
+    else:
+        response['error'] = 'Invalid request'
+        return HttpResponse(
+            json.dumps(response),
+            content_type='application/json')
 
 
 # Create your views here.
@@ -38,6 +85,13 @@ def get_feed(request, page=1, order='recent'):
 
     for post in posts:
         post.created_on_humanize = arrow.get(post.created_on).humanize()
+        if request.user.is_authenticated():
+            try:
+                post.vote = PostVote.objects.get(post=post, user=request.user).vote
+            except PostVote.DoesNotExist:
+                post.vote = 0
+
+        post.score = PostVote.objects.filter(post=post).aggregate(Sum('vote'))['vote__sum']
         if post.post_type == 'link':
             post.domain = domain_name(post.url)
         post.comments_count = Comment.objects.filter(post=post).count()
@@ -63,9 +117,19 @@ def post(request, slug, error_messages=None):
 
     post = get_object_or_404(Post, slug=slug)
     post.created_on_humanize = arrow.get(post.created_on).humanize()
+
+    if request.user.is_authenticated():
+        try:
+            post.vote = PostVote.objects.get(post=post, user=request.user).vote
+        except PostVote.DoesNotExist:
+            post.vote = 0
+
+    post.score = PostVote.objects.filter(post=post).aggregate(Sum('vote'))['vote__sum']
+
     if post.post_type == 'link':
         post.domain = domain_name(post.url)
     post.is_recent = (timezone.now() - post.created_on) < timedelta(days=1)
+
 
     user = request.user
 

@@ -9,4 +9,5 @@ urlpatterns = patterns('',
         url(r'^$', views.get_feed, {'order': 'trending'}, name='trending'),
         url(r'^submit/$', views.submit, name='submit'),
         url(r'^add_comment/$', views.add_comment, name='add_comment'),
+        url(r'^vote/$', views.vote_ajax, name='vote')
 )

@@ -36,12 +36,21 @@ class Post(models.Model):
         return reverse('content.views.post', args=[self.slug,])
 
 
-# class Votes(models.Model):
-#     pass
-#
-#
-class Comment(models.Model):
+class PostVote(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
 
+    vote = models.SmallIntegerField(default=0)
+
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return '(' + str(self.vote) + ')' + '[' + self.user.username + ']' + '{' + unicode(self.post) +'}'
+
+
+# class CommentVotes(models.Model):
+#     pass
+class Comment(models.Model):
     post = models.ForeignKey(Post, null=True, on_delete=models.PROTECT)
     user = models.ForeignKey(User)
 
