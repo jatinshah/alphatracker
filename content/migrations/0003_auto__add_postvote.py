@@ -14,6 +14,7 @@ class Migration(SchemaMigration):
             ('post', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['content.Post'], on_delete=models.PROTECT)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], on_delete=models.PROTECT)),
             ('vote', self.gf('django.db.models.fields.SmallIntegerField')(default=0)),
+            ('created_on', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('updated_on', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
         ))
         db.send_create_signal(u'content', ['PostVote'])
@@ -83,6 +84,7 @@ class Migration(SchemaMigration):
         },
         u'content.postvote': {
             'Meta': {'object_name': 'PostVote'},
+            'created_on': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'post': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['content.Post']", 'on_delete': 'models.PROTECT'}),
             'updated_on': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),

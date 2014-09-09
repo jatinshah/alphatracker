@@ -42,6 +42,7 @@ class PostVote(models.Model):
 
     vote = models.SmallIntegerField(default=0)
 
+    created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
