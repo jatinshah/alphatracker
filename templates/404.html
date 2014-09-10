@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+- Page Not Found
+{% endblock %}
+
+{% block body_block %}
+<div class="container" style="text-align:center">
+    <h1 style="font-size:144px; font-weight:700">404</h1>
+    <h3 style="font-weight:200">Error! The page you requested was not found!</h3>
+    <div>
+    <a class="btn btn-primary"
+            style="position: relative; display: inline-block;margin:40px"
+            onClick="javascript:history.go(-1);">
+        Go Back
+    </a>
+    <a class="btn btn-primary"
+       style="position: relative; display: inline-block;margin:40px"
+       href="/c/">
+        Go Home
+    </a>
+
+    </div>
+</div>
+{% endblock %}

@@ -25,10 +25,10 @@ SECRET_KEY = '4dl-hnd+jv%&phc36coztinvzhg7ucw5_6t8#e=lrx0ufc^0+i'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = DEBUG
 
+# ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '127.0.0.1:8000', 'localhost:8000', '*']
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_extensions',
     'rest_framework',
     'content',
     'userprofile',
