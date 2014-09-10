@@ -102,7 +102,8 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
-LOGIN_REDIRECT_URL='/c/'
+BASE_URL = '/c/'
+LOGIN_REDIRECT_URL = '/c/trending/'  # TODO: Change this home page
 LOGIN_URL = '/login/'
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS \

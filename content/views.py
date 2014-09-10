@@ -18,6 +18,7 @@ from content.forms import PostForm, CommentForm
 from content.models import Post, Comment, PostVote
 from ranking.models import Stock
 from userprofile.utils import ajax_login_required
+from alphatracker.settings import BASE_URL
 
 # Up/Down vote on a post
 # TODO: Update fields only on success in JS
@@ -98,14 +99,12 @@ def get_feed(request, page=1, order='recent'):
 
     context_dict = {
         'posts': posts,
+        'path': BASE_URL + order + '/'
     }
 
     if order == 'recent':
-        path = reverse('content.views.get_feed') + order + '/'
-        context_dict['path'] = path
         return render_to_response('content/recent.html', context_dict, context)
     elif order == 'trending':
-        context_dict['path'] = reverse('content.views.get_feed')
         return render_to_response('content/trending.html', context_dict, context)
 
 
