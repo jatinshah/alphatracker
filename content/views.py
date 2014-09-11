@@ -77,12 +77,9 @@ def get_feed(request, page=1, order='recent'):
     elif order == 'trending':
         all_posts = Post.objects.order_by('-created_on')   # TODO: modify ordering
     elif order == 'myfeed':
-        print 'Hello'
         following = Following.objects.filter(user=request.user, active=True)
         following_users = [f.following for f in following]
-        print following_users
         all_posts = Post.objects.filter(user__in=following_users).order_by('-created_on')
-        print all_posts
 
     paginator = Paginator(all_posts, 10)
 
