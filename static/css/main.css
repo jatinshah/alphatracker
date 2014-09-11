@@ -59,6 +59,18 @@
     color: #777777;
 }
 
+.post-action {
+    display:none;
+}
+
+.comment-item:hover .post-action {
+    display:inline;
+}
+
+.post-details:hover .post-action {
+    display:inline;
+}
+
 .post-details {
     float: left;
     margin-left: 0.5em;

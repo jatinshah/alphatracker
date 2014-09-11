@@ -56,24 +56,22 @@
         <span style="margin-left:20px;">
             <i class="fa fa-clock-o"></i> {{ post.created_on_humanize }}
         </span>
-    </span>
-    <span class="badge performance-down">-22%</span>
-    <span class="badge">
-        {% if post.active %}
-        ACTIVE
-        {% else %}
-        INACTIVE
+        {% if user.username == post.user.username and post.is_recent %}
+        <span class="post-action" style="margin-left:20px;">
+            <i class="fa fa-trash-o"></i> delete
+        </span>
         {% endif %}
+        <span class="post-action" style="margin-left: 20px;">
+            <i class="fa fa-flag-o"></i> flag
+        </span>
     </span>
-    {% if user.username == post.user.username %}
-    <span style="margin-left: 5px;">
-        {% if post.is_recent %}
-        <button class="btn btn-xs">delete</button>
-        {% else %}
-        <button class="btn btn-xs" data-toggle="modal" data-target="#closeModal">close</button>
-        {% endif %}
-    </span>
-    {% endif %}
+    <!--<span class="badge">-->
+        <!--{% if post.active %}-->
+        <!--ACTIVE-->
+        <!--{% else %}-->
+        <!--INACTIVE-->
+        <!--{% endif %}-->
+    <!--</span>-->
 </div>
 </div>
 <div style="padding-bottom: 0.3em;margin-bottom: 0.3em">
@@ -135,6 +133,12 @@
                 </span>
                 <span style="margin-left:20px;">
                     <i class="fa fa-clock-o"></i> {{ comment.created_on_humanize }}
+                </span>
+                <span class="post-action" style="margin-left:20px;">
+                    <i class="fa fa-trash-o"></i> delete
+                </span>
+                <span class="post-action" style="margin-left: 20px;">
+                    <i class="fa fa-flag-o"></i> flag
                 </span>
             </span>
             <span style="display: block; position: relative">

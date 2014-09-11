@@ -21,7 +21,6 @@ from userprofile.utils import ajax_login_required
 from alphatracker.settings import BASE_URL
 
 # Up/Down vote on a post
-# TODO: Update fields only on success in JS
 @ajax_login_required
 def vote_ajax(request):
     context = RequestContext(request)
