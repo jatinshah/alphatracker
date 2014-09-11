@@ -1,15 +1,15 @@
 /*jslint browser: true*/
-/*global $, jQuery, alert*/
+/*global $, jQuery, alert, console */
 function getCookie(name) {
     "use strict";
-    var cookieValue, cookies;
+    var cookieValue, cookies, i, cookie;
     cookieValue = null;
-    if (document.cookie && document.cookie != '') {
+    if (document.cookie && document.cookie !== '') {
         cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
+        for (i = 0; i < cookies.length; i++) {
+            cookie = jQuery.trim(cookies[i]);
             // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                 break;
             }
@@ -20,6 +20,7 @@ function getCookie(name) {
 var csrftoken = getCookie('csrftoken');
 
 function csrfSafeMethod(method) {
+    "use strict";
     // these HTTP methods do not require CSRF protection
     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
 }
@@ -27,19 +28,21 @@ function csrfSafeMethod(method) {
 function sameOrigin(url) {
     // test that a given url is a same-origin URL
     // url could be relative or scheme relative or absolute
-    var host = document.location.host; // host + port
-    var protocol = document.location.protocol;
-    var sr_origin = '//' + host;
-    var origin = protocol + sr_origin;
+    "use strict";
+    var host = document.location.host, // host + port
+        protocol = document.location.protocol,
+        sr_origin = '//' + host,
+        origin = protocol + sr_origin;
     // Allow absolute or scheme relative URLs to same origin
-    return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
-        (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+    return (url === origin || url.slice(0, origin.length + 1) === origin + '/') ||
+        (url === sr_origin || url.slice(0, sr_origin.length + 1) === sr_origin + '/') ||
         // or any other URL that isn't scheme relative or absolute i.e relative.
         !(/^(\/\/|http:|https:).*/.test(url));
 }
 
 $.ajaxSetup({
-    beforeSend: function(xhr, settings) {
+    beforeSend: function (xhr, settings) {
+        "use strict";
         if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
             // Send the token to same-origin, relative URLs only.
             // Send the token only if the method warrants CSRF protection
@@ -90,35 +93,90 @@ $(document).ready(function() {
     }
 
     $("[class*='p-vote-']").click(function(evt) {
-        var _this, _other, _score, score_count, slug, vote;
+        var this_elem, other_elem, score_elem, score_count, slug, vote;
         evt.preventDefault();
-        _this = $(this);
-        _score = $(this).closest('.voting-block').find('.score');
-        score_count = Number(_score.text());
+        this_elem = $(this);
+        score_elem = $(this).closest('.voting-block').find('.score');
+        score_count = Number(score_elem.text());
         slug = $(this).closest('.post-item').find('.post-slug').text().trim();
 
         if ($(evt.target).hasClass('p-vote-up')) {
-            _other = $(this).closest('.voting-block').find('.p-vote-down');
-            score_count = updateScore($(this), _other, score_count, 1);
+            other_elem = $(this).closest('.voting-block').find('.p-vote-down');
+            score_count = updateScore($(this), other_elem, score_count, 1);
             vote = '1';
         } else {
-            _other = $(this).closest('.voting-block').find('.p-vote-up');
-            score_count = updateScore($(this), _other, score_count, -1);
+            other_elem = $(this).closest('.voting-block').find('.p-vote-up');
+            score_count = updateScore($(this), other_elem, score_count, -1);
             vote = '-1';
         }
         $.post('/c/vote/', {vote: vote, slug: slug},
-               function(data){ if(data['success']) {
-                                    _score.html(score_count.toString());
-                                    toggleVote(_this, _other);
-                                }
+               function(data) { if (data.success) {
+            score_elem.html(score_count.toString());
+            toggleVote(this_elem, other_elem);
+        }
+                              }
+              );
+    });
+
+    // Follow/Unfollow implementation
+    function toggleFollow(button_elem) {
+        var button_text = button_elem.text().trim();
+        if(button_text === 'Following') {
+            button_elem.html('Unfollow');
+            button_elem.toggleClass('btn-primary');
+            button_elem.toggleClass('btn-danger');
+        } else if (button_text === 'Unfollow') {
+            button_elem.html('Following');
+            button_elem.toggleClass('btn-danger');
+            button_elem.toggleClass('btn-primary');
+        }
+    }
+
+    var recent_button_click = false;
+    $('body').on('mouseenter', '.following', function(){
+        if(!recent_button_click) {
+            var button_elem = $(this);
+            toggleFollow(button_elem);
+        }
+    });
+    $('body').on('mouseleave', '.following', function(){
+        if(recent_button_click) {
+            recent_button_click = false;
+            return;
+        }
+        var button_elem = $(this);
+        toggleFollow(button_elem);
+    });
+
+    $('#follow-button').click(function() {
+        recent_button_click = true;
+        var following_username = $(this).attr('username');
+        var button_elem = $(this);
+        button_elem.unbind('mouseenter mouseleave');
+        $.post('/u/follow/', {following_username: following_username},
+               function(data) {
+            console.log(data);
+            if(data.success) {
+                if(data.following) {
+                    button_elem.html('Following');
+                    button_elem.removeClass();
+                    button_elem.addClass('btn btn-primary following');
+                }else {
+                    button_elem.html('Follow');
+                    button_elem.removeClass();
+                    button_elem.addClass('btn btn-default');
                 }
-              )
+                // Change button text & button type
+                // POST returns current state
+            }
+        })
+
     });
 });
 
 // Stock Symbol typeahead in Submit form
 var stocks = new Bloodhound({
-    datumTokenizer: function (data) {
+    datumTokenizer: function(data) {
         "use strict";
         var stock_name, stock_symbol;
         stock_name = Bloodhound.tokenizers.whitespace(data.name);

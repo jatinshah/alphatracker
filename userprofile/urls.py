@@ -5,5 +5,6 @@ from alphatracker.settings import LOGIN_REDIRECT_URL
 
 urlpatterns = patterns('',
                        url(r'^edit/$', userprofile_views.edit_profile, name='edit'),
-                       url(r'^(?P<username>[-\w\.+@]+)/$', userprofile_views.profile, name='profile'),
+                       url(r'^follow/$', userprofile_views.follow, name='follow'),
+                       url(r'^(?P<username>[-\w\.+@]+)/$', userprofile_views.profile, name='profile'), #Must be last
 )

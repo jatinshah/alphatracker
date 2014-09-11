@@ -1,19 +1,51 @@
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.urlresolvers import reverse
+from django.db.models import Count
 
-from userprofile.models import User, UserProfile
+from userprofile.models import User, UserProfile, Following
 from userprofile.forms import SignupForm, ProfileForm
-from userprofile.utils import anonymous_required
+from userprofile.utils import anonymous_required, ajax_login_required
 from alphatracker.settings import LOGIN_REDIRECT_URL
 from urllib import urlencode
 from hashlib import md5
+import json
 
 
-# Create your views here.
+@ajax_login_required
+def follow(request):
+    response = {'authenticated': True}
+
+    if request.is_ajax() and request.method == 'POST':
+        following_username = request.POST['following_username']
+        following_user = get_object_or_404(User, username=following_username)
+
+        try:
+            following = Following.objects.get(user=request.user, following=following_user)
+            following.active = not following.active
+            following.save(update_fields=['active'])
+            response['following'] = following.active
+        except Following.DoesNotExist:
+            following = Following(user=request.user, following=following_user)
+            following.save()
+            response['following'] = following.active
+        response['success'] = True
+        return HttpResponse(
+            json.dumps(response),
+            content_type='application/json'
+        )
+    else:
+        response['error'] = 'Invalid request'
+        response['success'] = False
+        return HttpResponse(
+            json.dumps(response),
+            content_type='application/json'
+        )
+
+
 def gravatar_url(email, size=100):
     default = 'retro'
 
@@ -29,10 +61,27 @@ def profile(request, username):
     user = get_object_or_404(User, username=username)
     user_profile = UserProfile.objects.get(user=user)
 
+    try:
+        if request.user.is_authenticated():
+            following = Following.objects.get(user=request.user, following=user)
+            following_status = following.active
+        else:
+            following_status = False
+    except Following.DoesNotExist:
+        following_status = False
+
+    following_count = Following.objects.filter(
+        user=user, active=True).aggregate(Count('active'))['active__count']
+    follower_count = Following.objects.filter(
+        following=user, active=True).aggregate(Count('active'))['active__count']
+
     context_dict = {
         'username': username,
         'user_profile': user_profile,
-        'photo_url': gravatar_url(user.email)
+        'photo_url': gravatar_url(user.email),
+        'following': following_status,
+        'following_count': following_count,
+        'follower_count': follower_count
     }
 
     return render_to_response('userprofile/profile.html', context_dict, context)

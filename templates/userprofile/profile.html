@@ -21,17 +21,27 @@
 
     <div style="font-size: 16px;outline: 0; word-break: break-word; text-align: center">
         <h4 style="position: relative; display: inline-block;margin:10px">
-            Followers <span class="badge">45</span>
+            Followers <span class="badge">{{follower_count}}</span>
         </h4>
         <h4 style="position: relative; display: inline-block;">
-            Following <span class="badge">83</span>
+            Following <span class="badge">{{following_count}}</span>
         </h4>
     </div>
     <h4 style="text-align: center;">Reputation <span class="badge">92</span></h4>
 
+    {% if username != request.user.username %}
     <div style="text-align: center;padding-top: 15px;">
-        <button type="button" class="btn btn-primary">Follow</button>
+        {% if following %}
+        <button type="button" class="btn btn-primary following" username={{username}} id='follow-button'>
+            Following
+        </button>
+        {% else %}
+        <button type="button" class="btn btn-default" username={{username}} id='follow-button'>
+            Follow
+        </button>
+        {% endif %}
     </div>
+    {% endif %}
 </header>
 <div class="container">
     <hr>
