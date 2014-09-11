@@ -18,12 +18,12 @@ from content.forms import PostForm, CommentForm
 from content.models import Post, Comment, PostVote
 from ranking.models import Stock
 from userprofile.utils import ajax_login_required
+from userprofile.models import Following
 from alphatracker.settings import BASE_URL
 
 # Up/Down vote on a post
 @ajax_login_required
 def vote_ajax(request):
-    context = RequestContext(request)
     response = {'authenticated': True}
 
     if request.is_ajax() and request.method == 'POST':
@@ -63,8 +63,12 @@ def vote_ajax(request):
             json.dumps(response),
             content_type='application/json')
 
+@login_required
+def get_myfeed(request, page=1):
+    return get_feed(request, page=page, order='myfeed')
 
-# Create your views here.
+
+#TODO: Handle empty feed scenario for My Feed (Following = 0 or no posts)
 def get_feed(request, page=1, order='recent'):
     context = RequestContext(request)
 
@@ -72,6 +76,13 @@ def get_feed(request, page=1, order='recent'):
         all_posts = Post.objects.order_by('-created_on')
     elif order == 'trending':
         all_posts = Post.objects.order_by('-created_on')   # TODO: modify ordering
+    elif order == 'myfeed':
+        print 'Hello'
+        following = Following.objects.filter(user=request.user, active=True)
+        following_users = [f.following for f in following]
+        print following_users
+        all_posts = Post.objects.filter(user__in=following_users).order_by('-created_on')
+        print all_posts
 
     paginator = Paginator(all_posts, 10)
 
@@ -105,6 +116,8 @@ def get_feed(request, page=1, order='recent'):
         return render_to_response('content/recent.html', context_dict, context)
     elif order == 'trending':
         return render_to_response('content/trending.html', context_dict, context)
+    elif order == 'myfeed':
+        return render_to_response('content/myfeed.html', context_dict, context)
 
 
 def post(request, slug, error_messages=None):
