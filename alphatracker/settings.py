@@ -44,7 +44,6 @@ INSTALLED_APPS = (
     'content',
     'userprofile',
     'ranking',
-    'south',
 )
 
 MIDDLEWARE_CLASSES = (
