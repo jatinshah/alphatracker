@@ -36,6 +36,23 @@ class Post(models.Model):
         return reverse('content.views.post', args=[self.slug,])
 
 
+class Comment(models.Model):
+    post = models.ForeignKey(Post, null=True, on_delete=models.PROTECT)
+    user = models.ForeignKey(User)
+    slug = models.SlugField(max_length=200)
+
+    text = models.TextField()
+
+    created_on = models.DateTimeField(auto_now_add=True)
+    updated_on = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return '[' + self.post.title[:20] + '...](' + self.user.username + ') ' + self.text[:50]
+
+    class Meta:
+        unique_together = ('post', 'slug')
+
+
 class PostVote(models.Model):
     post = models.ForeignKey(Post, on_delete=models.PROTECT)
     user = models.ForeignKey(User, on_delete=models.PROTECT)
@@ -49,16 +66,14 @@ class PostVote(models.Model):
         return '(' + str(self.vote) + ')' + '[' + self.user.username + ']' + '{' + unicode(self.post) +'}'
 
 
-# class CommentVotes(models.Model):
-#     pass
-class Comment(models.Model):
-    post = models.ForeignKey(Post, null=True, on_delete=models.PROTECT)
-    user = models.ForeignKey(User)
+class CommentVote(models.Model):
+    comment = models.ForeignKey(Comment, on_delete=models.PROTECT)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
 
-    text = models.TextField()
+    vote = models.SmallIntegerField(default=0)
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return '[' + self.post.title[:20] + '...](' + self.user.username + ') ' + self.text
+        return '(' + str(self.vote) + ')' + '[' + self.user.username + ']' + '{' + unicode(self.comment) +'}'

@@ -7,9 +7,10 @@ urlpatterns = patterns('',
         url(r'^recent/$', views.get_feed, name='recent'),
         url(r'^trending/(?P<page>\d+)/$', views.get_feed, {'order': 'trending'}, name='trending_page'),
         url(r'^trending/$', views.get_feed, {'order': 'trending'}, name='trending'),
-        url(r'^myfeed/(?P<page>\d+)/$', views.get_feed, {'order': 'myfeed'}, name='myfeed_page'),
-        url(r'^myfeed/$', views.get_feed, {'order': 'myfeed'}, name='myfeed'),
+        url(r'^myfeed/(?P<page>\d+)/$', views.get_myfeed, name='myfeed_page'),
+        url(r'^myfeed/$', views.get_myfeed, name='myfeed'),
         url(r'^submit/$', views.submit, name='submit'),
         url(r'^add_comment/$', views.add_comment, name='add_comment'),
-        url(r'^vote/$', views.vote_ajax, name='vote')
+        url(r'^vote/$', views.vote_post, name='vote'),
+        url(r'^vote_comment/$', views.vote_comment, name='vote_comment')
 )

@@ -25,28 +25,28 @@
         <div class="trend">
             {% if post.trend == "bull" %}
             <img src="{% static 'images/bull.png' %}" title="Bull"></img>
-        {% elif post.trend == "bear" %}
-        <img src="{% static 'images/bear.png' %}" title="Bear"></img>
-    {% endif %}
-</div>
-<div class="post-details">
+            {% elif post.trend == "bear" %}
+            <img src="{% static 'images/bear.png' %}" title="Bear"></img>
+            {% endif %}
+        </div>
+        <div class="post-details">
     <span class="stock-symbol">
         {{post.stock.symbol}}
         <span class="stock-name"> {{post.stock.name}}</span>
     </span>
 
-    {% if post.post_type == "link" %}
-    <a href="{{ post.url }}" target="_blank">
-        {{ post.title }}
-    </a>
+            {% if post.post_type == "link" %}
+            <a href="{{ post.url }}" target="_blank">
+                {{ post.title }}
+            </a>
     <span class="domain">
         {{ post.domain }}
     </span>
-    {% elif post.post_type == "article" %}
-    <a href="{{ post.get_absolute_url }}">
-        {{ post.title }}
-    </a>
-    {% endif %}
+            {% elif post.post_type == "article" %}
+            <a href="{{ post.get_absolute_url }}">
+                {{ post.title }}
+            </a>
+            {% endif %}
 
     <span class="byline">
         <span>
@@ -65,67 +65,76 @@
             <i class="fa fa-flag-o"></i> flag
         </span>
     </span>
-    <!--<span class="badge">-->
-        <!--{% if post.active %}-->
-        <!--ACTIVE-->
-        <!--{% else %}-->
-        <!--INACTIVE-->
-        <!--{% endif %}-->
-    <!--</span>-->
-</div>
-</div>
-<div style="padding-bottom: 0.3em;margin-bottom: 0.3em">
-    {{ post.text }}
-</div>
-
-<div>
-    {% if user.is_authenticated %}
-    <form role="form" method="POST" name="comment_form" action="/c/add_comment/" novalidate>
-        {% csrf_token %}
-        <div class="form-group">
-            {{ comment_form.text }}
+            <!--<span class="badge">-->
+            <!--{% if post.active %}-->
+            <!--ACTIVE-->
+            <!--{% else %}-->
+            <!--INACTIVE-->
+            <!--{% endif %}-->
+            <!--</span>-->
         </div>
-        {% for err in comment_form.text.errors %}
-        <span class="help-block">{{ err }}</span>
-        {% endfor %}
-
-        <div class="form-group">
-            {{ comment_form.slug }}
-        </div>
-
-        <div class="form-group">
-            <input type="submit" class="btn btn-primary btn-sm" value="Post Comment">
-        </div>
-    </form>
-    {% endif %}
-</div>
-<div style="margin-bottom: 0.6em; padding-bottom: 0.6em; border-bottom: 1px solid #eaecee">
-    <strong>
-        {{ comments.count }} comment{{comments.count|pluralize}} sorted by:
-    </strong>
-
-    <div class="btn-group">
-        <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-            Recent <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-            <li><a href="#">
-                <small>Top</small>
-                </a></li>
-        </ul>
+    </div>
+    <div style="padding-bottom: 0.3em;margin-bottom: 0.3em">
+        {{ post.text }}
     </div>
 
-</div>
+    <div>
+        {% if user.is_authenticated %}
+        <form role="form" method="POST" name="comment_form" action="/c/add_comment/" novalidate>
+            {% csrf_token %}
+            <div class="form-group">
+                {{ comment_form.text }}
+            </div>
+            {% for err in comment_form.text.errors %}
+            <span class="help-block">{{ err }}</span>
+            {% endfor %}
 
-<ul class="list-unstyled">
-    {% for comment in comments %}
-    <li class="comment-item">
-        <div class="voting-block">
-            <a href="#"><span class="fa fa-chevron-up c-vote-up text-muted"></span></a>
-            <span class="score" style="font-size:10pt">21</span>
-            <a href="#"><span class="fa fa-chevron-down c-vote-down text-muted"></span></a>
+            <div class="form-group">
+                {{ comment_form.slug }}
+            </div>
+
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary btn-sm" value="Post Comment">
+            </div>
+        </form>
+        {% endif %}
+    </div>
+    <div style="margin-bottom: 0.6em; padding-bottom: 0.6em; border-bottom: 1px solid #eaecee">
+        <strong>
+            {{ comments.count }} comment{{comments.count|pluralize}} sorted by:
+        </strong>
+
+        <div class="btn-group">
+            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+                Recent <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu">
+                <li><a href="#">
+                    <small>Top</small>
+                </a></li>
+            </ul>
         </div>
-        <div class="comment">
+
+    </div>
+
+    <ul class="list-unstyled">
+        {% for comment in comments %}
+        <li class="comment-item">
+            <div style="display:none" class="comment-slug">
+                {{post.slug}}/{{ comment.slug }}
+            </div>
+            <div class="voting-block">
+                <a href="#"><span class="fa fa-chevron-up c-vote-up {% comment_class 'up' comment.vote %}"></span></a>
+                <span class="score" style="font-size:10pt">
+                {% if comment.score %}
+                    {{ comment.score }}
+                {% else %}
+                    0
+                {% endif %}
+                </span>
+                <a href="#"><span class="fa fa-chevron-down c-vote-down {% comment_class 'down' comment.vote %}"></span></a>
+            </div>
+            <div class="comment">
             <span class="byline">
                 <span>
                     <i class="fa fa-user"></i>
@@ -144,11 +153,11 @@
             <span style="display: block; position: relative">
                 {{ comment.text }}
             </span>
-        </div>
-    </li>
+            </div>
+        </li>
 
-    {% endfor %}
-</ul>
+        {% endfor %}
+    </ul>
 </div>
 {% endblock %}
 

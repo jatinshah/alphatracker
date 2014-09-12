@@ -52,13 +52,13 @@ $.ajaxSetup({
     }
 });
 
-$(document).ready(function() {
+$(document).ready(function () {
     "use strict";
     // Counter for editing Bio in user profile
     if ($('#counter').length) {
         $("#counter").append($("#bio").val().length + "/160");
     }
-    $("#bio").keyup(function() {
+    $("#bio").keyup(function () {
         if ($(this).val().length > 160) {
             $(this).val($(this).val().substr(0, 160));
         }
@@ -81,6 +81,7 @@ $(document).ready(function() {
             other_elem.toggleClass('text-muted');
         }
     }
+
     function updateScore(this_elem, other_elem, score, vote) {
         if (this_elem.hasClass('text-primary')) {
             score = score - vote;
@@ -92,7 +93,8 @@ $(document).ready(function() {
         return score;
     }
 
-    $("[class*='p-vote-']").click(function(evt) {
+    // Voting on posts
+    $("[class*='p-vote-']").click(function (evt) {
         var this_elem, other_elem, score_elem, score_count, slug, vote;
         evt.preventDefault();
         this_elem = $(this);
@@ -110,18 +112,57 @@ $(document).ready(function() {
             vote = '-1';
         }
         $.post('/c/vote/', {vote: vote, slug: slug},
-               function(data) { if (data.success) {
-            score_elem.html(score_count.toString());
-            toggleVote(this_elem, other_elem);
-        }
-                              }
-              );
+            function (data) {
+                if (data.success) {
+                    score_elem.html(score_count.toString());
+                    toggleVote(this_elem, other_elem);
+                }
+            }
+        );
     });
+
+    // Voting on comments
+    $("[class*='c-vote-']").click(function (evt) {
+        var this_elem, other_elem, score_elem, score_count,
+            slug, vote, slug_split, post_slug, comment_slug;
+        evt.preventDefault();
+        this_elem = $(this);
+        score_elem = $(this).closest('.voting-block').find('.score');
+        score_count = Number(score_elem.text());
+        slug = $(this).closest('.comment-item').find('.comment-slug').text();
+        slug_split = slug.trim().split('/');
+        post_slug = slug_split[0];
+        comment_slug = slug_split[1];
+
+        if ($(evt.target).hasClass('c-vote-up')) {
+            other_elem = $(this).closest('.voting-block').find('.c-vote-down');
+            score_count = updateScore($(this), other_elem, score_count, 1);
+            vote = '1';
+        } else {
+            other_elem = $(this).closest('.voting-block').find('.c-vote-up');
+            score_count = updateScore($(this), other_elem, score_count, -1);
+            vote = '-1';
+        }
+        $.post('/c/vote_comment/',
+            {
+                vote: vote,
+                post_slug: post_slug,
+                comment_slug: comment_slug
+            },
+            function (data) {
+                if (data.success) {
+                    score_elem.html(score_count.toString());
+                    toggleVote(this_elem, other_elem);
+                }
+            }
+        );
+    });
+
 
     // Follow/Unfollow implementation
     function toggleFollow(button_elem) {
         var button_text = button_elem.text().trim();
-        if(button_text === 'Following') {
+        if (button_text === 'Following') {
             button_elem.html('Unfollow');
             button_elem.toggleClass('btn-primary');
             button_elem.toggleClass('btn-danger');
@@ -133,14 +174,14 @@ $(document).ready(function() {
     }
 
     var recent_button_click = false;
-    $('body').on('mouseenter', '.following', function(){
-        if(!recent_button_click) {
+    $('body').on('mouseenter', '.following', function () {
+        if (!recent_button_click) {
             var button_elem = $(this);
             toggleFollow(button_elem);
         }
     });
-    $('body').on('mouseleave', '.following', function(){
-        if(recent_button_click) {
+    $('body').on('mouseleave', '.following', function () {
+        if (recent_button_click) {
             recent_button_click = false;
             return;
         }
@@ -148,35 +189,34 @@ $(document).ready(function() {
         toggleFollow(button_elem);
     });
 
-    $('#follow-button').click(function() {
+    $('#follow-button').click(function () {
         recent_button_click = true;
         var following_username = $(this).attr('username');
         var button_elem = $(this);
         button_elem.unbind('mouseenter mouseleave');
         $.post('/u/follow/', {following_username: following_username},
-               function(data) {
-            console.log(data);
-            if(data.success) {
-                if(data.following) {
-                    button_elem.html('Following');
-                    button_elem.removeClass();
-                    button_elem.addClass('btn btn-primary following');
-                }else {
-                    button_elem.html('Follow');
-                    button_elem.removeClass();
-                    button_elem.addClass('btn btn-default');
+            function (data) {
+                if (data.success) {
+                    if (data.following) {
+                        button_elem.html('Following');
+                        button_elem.removeClass();
+                        button_elem.addClass('btn btn-primary following');
+                    } else {
+                        button_elem.html('Follow');
+                        button_elem.removeClass();
+                        button_elem.addClass('btn btn-default');
+                    }
+                    // Change button text & button type
+                    // POST returns current state
                 }
-                // Change button text & button type
-                // POST returns current state
-            }
-        })
+            })
 
     });
 });
 
 // Stock Symbol typeahead in Submit form
 var stocks = new Bloodhound({
-    datumTokenizer: function(data) {
+    datumTokenizer: function (data) {
         "use strict";
         var stock_name, stock_symbol;
         stock_name = Bloodhound.tokenizers.whitespace(data.name);

@@ -102,7 +102,7 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
-BASE_URL = '/c/'
+CONTENT_URL = '/c/'
 LOGIN_REDIRECT_URL = '/c/trending/'  # TODO: Change this home page
 LOGIN_URL = '/login/'
 

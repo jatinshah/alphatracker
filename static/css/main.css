@@ -8,13 +8,6 @@
     margin-top: 50px
 }
 
-/*.single-post {*/
-/*    position: relative;*/
-/*    padding-bottom: 0.6em;*/
-/*    margin-bottom: 0.6em;*/
-/*    overflow: auto;*/
-/*}*/
-
 .post-item {
     position: relative;
     padding-bottom: 0.6em;
@@ -150,5 +143,5 @@
 }
 
 .profile:hover .edit-profile {
-    display:inline
+    display:inline;
 }

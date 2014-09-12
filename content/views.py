@@ -15,15 +15,62 @@ from urlparse import urlsplit
 from datetime import timedelta
 
 from content.forms import PostForm, CommentForm
-from content.models import Post, Comment, PostVote
+from content.models import Post, Comment, PostVote, CommentVote
 from ranking.models import Stock
 from userprofile.utils import ajax_login_required
 from userprofile.models import Following
-from alphatracker.settings import BASE_URL
+from alphatracker.settings import CONTENT_URL
+
+
+# Up/Down vote on comment
+@ajax_login_required
+def vote_comment(request):
+    response = {'authenticated': True}
+
+    if request.is_ajax() and request.method == 'POST':
+        post_slug = request.POST['post_slug']
+        comment_slug = request.POST['comment_slug']
+        vote = request.POST['vote']
+
+        try:
+            vote = sorted((-1, int(vote), 1))[1]
+        except ValueError:
+            response['error'] = 'Invalid vote'
+            response['success'] = False
+            return HttpResponse(
+                json.dumps(response),
+                content_type='application/json'
+            )
+
+        post = get_object_or_404(Post, slug=post_slug)
+        comment = get_object_or_404(Comment,post=post, slug=comment_slug)
+
+        try:
+            comment_vote = CommentVote.objects.get(comment=comment, user=request.user)
+            if comment_vote.vote * vote < 0 or comment_vote.vote == 0:
+                comment_vote.vote = vote
+            elif comment_vote.vote * vote > 0:
+                comment_vote.vote = 0
+            comment_vote.save(update_fields=['vote'])
+        except CommentVote.DoesNotExist:
+            comment_vote = CommentVote(comment=comment,
+                                       user=request.user,
+                                       vote=vote)
+            comment_vote.save()
+
+        response['success'] = True
+        return HttpResponse(
+            json.dumps(response),
+            content_type='application/json')
+    else:
+        response['error'] = 'Invalid request'
+        return HttpResponse(
+            json.dumps(response),
+            content_type='application/json')
 
 # Up/Down vote on a post
 @ajax_login_required
-def vote_ajax(request):
+def vote_post(request):
     response = {'authenticated': True}
 
     if request.is_ajax() and request.method == 'POST':
@@ -68,7 +115,6 @@ def get_myfeed(request, page=1):
     return get_feed(request, page=page, order='myfeed')
 
 
-#TODO: Handle empty feed scenario for My Feed (Following = 0 or no posts)
 def get_feed(request, page=1, order='recent'):
     context = RequestContext(request)
 
@@ -95,7 +141,8 @@ def get_feed(request, page=1, order='recent'):
         post.created_on_humanize = arrow.get(post.created_on).humanize()
         if request.user.is_authenticated():
             try:
-                post.vote = PostVote.objects.get(post=post, user=request.user).vote
+                post.vote = PostVote.objects.get(post=post,
+                                                 user=request.user).vote
             except PostVote.DoesNotExist:
                 post.vote = 0
 
@@ -106,7 +153,7 @@ def get_feed(request, page=1, order='recent'):
 
     context_dict = {
         'posts': posts,
-        'path': BASE_URL + order + '/'
+        'path': CONTENT_URL + order + '/'
     }
 
     if order == 'recent':
@@ -144,6 +191,14 @@ def post(request, slug, error_messages=None):
     all_comments = Comment.objects.filter(post=post).order_by('-created_on')
     for comment in all_comments:
         comment.created_on_humanize = arrow.get(comment.created_on).humanize()
+        if request.user.is_authenticated():
+            try:
+                comment.vote = CommentVote.objects.get(comment=comment,
+                                                       user=request.user).vote
+            except CommentVote.DoesNotExist:
+                comment.vote = 0
+
+        comment.score = CommentVote.objects.filter(comment=comment).aggregate(Sum('vote'))['vote__sum']
 
     context_dict = {
         'post': post,
@@ -163,23 +218,33 @@ def add_comment(request):
         comment_form = CommentForm(request.POST)
 
         if comment_form.is_valid():
-            slug = comment_form.cleaned_data['slug']
-            post = get_object_or_404(Post, slug=slug)
+            post_slug = comment_form.cleaned_data['slug']
+            post = get_object_or_404(Post, slug=post_slug)
             text = comment_form.cleaned_data['text']
+
+            # Create comment slug
+            max_length = Comment._meta.get_field('slug').max_length
+            comment_slug = orig_slug = slugify(text)[:max_length].strip('-')
+            for x in itertools.count(1):
+                if not Comment.objects.filter(post=post, slug=comment_slug).exists():
+                    break
+                comment_slug = '%s-%d' % (orig_slug[:max_length - len(str(x)) - 1], x)
+
             comment = Comment.objects.create(
                 post=post,
                 user=request.user,
+                slug=comment_slug,
                 text=text
             )
             comment.save()
         else:
             print comment_form.errors['text'][0]
-            slug = comment_form.cleaned_data['slug']
+            post_slug = comment_form.cleaned_data['slug']
 
         return HttpResponseRedirect(
             reverse('content.views.post',
                     args=(),
-                    kwargs={'slug': slug}))
+                    kwargs={'slug': post_slug}))
     else:
         return redirect('/c/')
 
@@ -205,7 +270,6 @@ def submit(request):
             # Create slug
             max_length = Post._meta.get_field('slug').max_length
             slug = orig_slug = slugify(title)[:max_length].strip('-')
-
             for x in itertools.count(1):
                 if not Post.objects.filter(slug=slug).exists():
                     break
