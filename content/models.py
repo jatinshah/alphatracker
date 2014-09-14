@@ -33,7 +33,7 @@ class Post(models.Model):
         return '[' + self.post_type + '] (' + self.stock.symbol + ') ' + self.title
 
     def get_absolute_url(self):
-        return reverse('content.views.post', args=[self.slug,])
+        return reverse('content.views.post', args=[self.slug, ])
 
 
 class Comment(models.Model):
@@ -63,7 +63,7 @@ class PostVote(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return '(' + str(self.vote) + ')' + '[' + self.user.username + ']' + '{' + unicode(self.post) +'}'
+        return '(' + str(self.vote) + ')' + '[' + self.user.username + ']' + '{' + unicode(self.post) + '}'
 
 
 class CommentVote(models.Model):
@@ -76,4 +76,4 @@ class CommentVote(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     def __unicode__(self):
-        return '(' + str(self.vote) + ')' + '[' + self.user.username + ']' + '{' + unicode(self.comment) +'}'
+        return '(' + str(self.vote) + ')' + '[' + self.user.username + ']' + '{' + unicode(self.comment) + '}'

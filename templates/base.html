@@ -44,24 +44,21 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/c/trending/" style="font-family: 'Francois One', sans-serif;">AlphaTracker</a>
+        <a class="navbar-brand" href="{% url 'trending' %}" style="font-family: 'Francois One', sans-serif;">AlphaTracker</a>
     </div>
     <div class="collapse navbar-collapse" id="alphatracker-nav">
         <ul class="nav navbar-nav">
             <li class="{% active request '/c/trending/' %}">
-                <a href="/c/trending/"><span class="fa fa-fire"></span> Trending</a>
+                <a href="{% url 'trending' %}"><span class="fa fa-fire"></span> Trending</a>
             </li>
             <li class="{% active request '/c/recent/' %}">
-                <a href="/c/recent/"><span class="fa fa-history"></span> Recent</a>
+                <a href="{% url 'recent' %}"><span class="fa fa-history"></span> Recent</a>
             </li>
             <li class="{% active request '/c/myfeed/' %}">
-                <a href="/c/myfeed"><span class="fa fa-rss"></span> My Feed</a>
-            </li>
-            <li class="{% active request '#' %}">
-                <a href="#"><span class="fa fa-trophy"></span> Top Ideas</a>
+                <a href="{% url 'myfeed' %}"><span class="fa fa-rss"></span> My Feed</a>
             </li>
             <li class="{% active request '/c/submit/' %}">
-                <a href="/c/submit/"><span class="fa fa-plus"></span> Submit</a>
+                <a href="{% url 'submit' %}"><span class="fa fa-plus"></span> Submit</a>
             </li>
 
         </ul>
@@ -76,22 +73,22 @@
                 </a>
             </li>
             <li>
-                <a href="/logout/">
+                <a href="{% url 'account_logout' %}">
                     <span class="fa fa-sign-out"</span> Logout
                 </a>
             </li>
             {% else %}
             <li class="{% active request '/signup/' %}">
-                <a href="/signup/"><span class="fa fa-user"></span> Sign up</a>
+                <a href="{% url 'account_signup' %}"><span class="fa fa-user"></span> Sign Up</a>
             </li>
             <li class="{% active request '/login/' %}">
-                <a href="/login/"><span class="fa fa-sign-in"</span> Login</a>
+                <a href="{% url 'account_login' %}"><span class="fa fa-sign-in"</span> Login</a>
             </li>
             {% endif %}
         </ul>
     </div>
 </nav>
-{% block body_block %}
+{% block content %}
 {% endblock %}
 <div class="footer" style="margin-bottom:30px;margin-top:30px;">
       <div class="container">

@@ -5,7 +5,7 @@
 {% block title %}
 - {{ post.title|truncatechars:100 }}
 {% endblock %}
-{% block body_block %}
+{% block content %}
 <div class="container">
     <div class="post-item" style="border-bottom:none">
         <div style="display:none" class="post-slug">
@@ -24,9 +24,9 @@
         </div>
         <div class="trend">
             {% if post.trend == "bull" %}
-            <img src="{% static 'images/bull.png' %}" title="Bull"></img>
+            <img src="{% static 'images/bull.png' %}" title="Bull"/>
             {% elif post.trend == "bear" %}
-            <img src="{% static 'images/bear.png' %}" title="Bear"></img>
+            <img src="{% static 'images/bear.png' %}" title="Bear"/>
             {% endif %}
         </div>
         <div class="post-details">
@@ -138,7 +138,7 @@
             <span class="byline">
                 <span>
                     <i class="fa fa-user"></i>
-                    <a href="/u/{{ post.user.username }}">{{ comment.user.username }}</a>
+                    <a href="/u/{{ comment.user.username }}">{{ comment.user.username }}</a>
                 </span>
                 <span style="margin-left:20px;">
                     <i class="fa fa-clock-o"></i> {{ comment.created_on_humanize }}
