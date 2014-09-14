@@ -5,7 +5,10 @@
 }
 
 .top50 {
-    margin-top: 50px
+    margin-top: 50px;
+}
+.bottom50 {
+    margin-bottom: 50px;
 }
 
 .post-item {

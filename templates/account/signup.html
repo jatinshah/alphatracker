@@ -1,0 +1,49 @@
+{% extends "account/base.html" %}
+
+{% load url from future %}
+{% load form_tags %}
+
+{% block title %} - Sign Up{% endblock %}
+
+{% block content %}
+    <div class="col-lg-4 col-md-5 col-sm-5 center top50 bottom50">
+        <h1>Sign Up</h1>
+
+        <form class="signup" id="signup_form" method="POST" action="{% url 'account_signup' %}" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger alert-dismissable" role="alert">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                {% for err in form.non_field_errors %}
+                    {{ err }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% for field in form.visible_fields %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    {{ field.label_tag }}
+                    {{ field|addclass:"form-control" }}
+                    {% for err in field.errors %}
+                        <span class="help-block">{{ err }}</span>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+            {% endif %}
+            <div class="form-group">
+                <small>By clicking "Sign Up", you agree to our <a href="#">terms of service</a>
+                    and <a href="#">privacy policy</a>.
+                </small>
+            </div>
+            <input type="submit" value="Sign Up" class="btn btn-primary">
+        </form>
+    </div>
+{% endblock %}
+
+

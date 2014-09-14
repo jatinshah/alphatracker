@@ -1,5 +1,4 @@
 from django.http import HttpResponseRedirect, HttpResponse
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
@@ -7,9 +6,9 @@ from django.core.urlresolvers import reverse
 from django.db.models import Count
 
 from userprofile.models import User, UserProfile, Following
-from userprofile.forms import SignupForm, ProfileForm
-from userprofile.utils import anonymous_required, ajax_login_required
-from alphatracker.settings import LOGIN_REDIRECT_URL
+from userprofile.forms import ProfileForm
+from userprofile.utils import ajax_login_required
+
 from urllib import urlencode
 from hashlib import md5
 import json
@@ -59,7 +58,10 @@ def profile(request, username):
     context = RequestContext(request)
 
     user = get_object_or_404(User, username=username)
-    user_profile = UserProfile.objects.get(user=user)
+    try:
+        user_profile = UserProfile.objects.get(user=user)
+    except UserProfile.DoesNotExist:
+        user_profile = None
 
     try:
         if request.user.is_authenticated():
@@ -91,15 +93,20 @@ def profile(request, username):
 def edit_profile(request):
     context = RequestContext(request)
 
-    user_profile = UserProfile.objects.get(user=request.user)
+    try:
+        user_profile = UserProfile.objects.get(user=request.user)
+    except UserProfile.DoesNotExist:
+        user_profile = UserProfile(user=request.user)
 
     if request.method == 'POST':
         edit_form = ProfileForm(request.POST)
         if edit_form.is_valid():
             data = edit_form.cleaned_data
-            UserProfile.objects.filter(user=request.user).update(
-                full_name=data['full_name'],
-                bio=data['bio'])
+
+            user_profile.full_name = data['full_name']
+            user_profile.bio = data['bio']
+            user_profile.save()
+
             return HttpResponseRedirect(
                 reverse('userprofile.views.profile',
                         args=(),
@@ -117,37 +124,3 @@ def edit_profile(request):
     }
 
     return render_to_response('userprofile/edit.html', context_dict, context)
-
-@anonymous_required
-def signup(request):
-    context = RequestContext(request)
-
-    if request.method == 'POST':
-        signup_form = SignupForm(request.POST)
-        if signup_form.is_valid():
-            user = signup_form.save(commit=False)
-            user.set_password(user.password)
-            user.save()
-            username = request.POST['username']
-            password = request.POST['password']
-            user = authenticate(username=username,
-                                password=password)
-            user_profile = UserProfile.objects.create(user=user)
-            user_profile.save()
-
-            if user:
-                login(request, user)
-                return HttpResponseRedirect(LOGIN_REDIRECT_URL)
-            else:
-                print 'LOGIN: Invalid login details: {0}, {1}'.format(
-                    username,
-                    password)
-        else:
-            print signup_form.errors
-    else:
-        signup_form = SignupForm()
-
-    context_dict = {'signup_form': signup_form}
-
-    return render_to_response('userprofile/signup.html', context_dict, context)
-

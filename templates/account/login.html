@@ -1,0 +1,63 @@
+{% extends "account/base.html" %}
+
+{% load account %}
+{% load url from future %}
+{% load form_tags %}
+
+{% block title %} - Login{% endblock %}
+
+{% block content %}
+
+    <div class="col-lg-4 col-md-5 col-sm-5 center top50 bottom50">
+
+        <h1>Login</h1>
+
+        <form class="login" method="POST" action="{% url 'account_login' %}" novalidate>
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger alert-dismissable" role="alert">
+                    <button type="button" class="close" data-dismiss="alert">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    {% for err in form.non_field_errors %}
+                        {{ err }}
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+            {% with field=form.login %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    {{ field.label_tag }}
+                    {{ field|addclass:"form-control" }}
+                    {% for err in field.errors %}
+                        <span class="help-block">{{ err }}</span>
+                    {% endfor %}
+
+                </div>
+            {% endwith %}
+
+            {% with field=form.password %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
+                    {{ field.label_tag }}
+                    {{ field|addclass:"form-control" }}
+                    {% for err in field.errors %}
+                        <span class="help-block">{{ err }}</span>
+                    {% endfor %}
+                </div>
+            {% endwith %}
+
+            {% if redirect_field_value %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+            {% endif %}
+
+            <button class="primaryAction btn btn-primary" type="submit">Login</button>
+            <a class="secondaryAction pull-right" href="{% url 'account_reset_password' %}">
+                <small>Forgot Password?</small>
+            </a>
+
+
+        </form>
+    </div>
+{% endblock %}

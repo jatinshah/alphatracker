@@ -31,15 +31,26 @@ TEMPLATE_DEBUG = DEBUG
 ALLOWED_HOSTS = []
 
 # Application definition
+AUTHENTICATION_BACKENDS = global_settings.AUTHENTICATION_BACKENDS + (
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'django.core.context_processors.request',
+    'allauth.account.context_processors.account',
+)
 
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'allauth',
+    'allauth.account',
     'rest_framework',
     'content',
     'userprofile',
@@ -79,6 +90,8 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
+SITE_ID = 3
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -86,7 +99,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
@@ -103,10 +115,16 @@ TEMPLATE_DIRS = (
 
 CONTENT_URL = '/c/'
 LOGIN_REDIRECT_URL = '/c/trending/'  # TODO: Change this home page
-LOGIN_URL = '/login/'
-
-TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS \
-                              + ('django.core.context_processors.request',)
-
+LOGIN_URL = '/accounts/login/'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Django AllAuth Settings
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_USERNAME_BLACKLIST = ['edit', 'follow']
+ACCOUNT_PASSWORD_MIN_LENGTH = 8
+ACCOUNT_SESSION_REMEMBER = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
