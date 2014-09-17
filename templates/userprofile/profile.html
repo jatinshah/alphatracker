@@ -1,108 +1,108 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load content_tags %}
 
 {% block content %}
-<header class="jumbotron profile center col-md-7 col-lg-7 col-sm-7">
-    {% if user.is_authenticated and username == request.user.username %}
-    <div class="edit-profile">
-            <a class="btn btn-link btn-sm" href="/u/edit">Edit</a>
-    </div>
-    {% endif %}
-    <div style="margin-bottom:20px; text-align:center">
-        <img src="{{ photo_url }}" class="img-responsive img-thumbnail"
-             style="border:3px solid white"/>
-    </div>
-    <h2 style="text-align: center; font-weight:700; font-size:50px;margin:0px;">{{user_profile.full_name}} <small>{{ username }}</small></h2>
+    <header class="jumbotron profile center col-md-7 col-lg-7 col-sm-7">
+        {% if user.is_authenticated and username == request.user.username %}
+            <div class="edit-profile">
+                <a class="btn btn-link btn-sm" href="/u/edit">Edit</a>
+            </div>
+        {% endif %}
+        <div style="margin-bottom:20px; text-align:center">
+            <img src="{{ photo_url }}" class="img-responsive img-thumbnail"
+                 style="border:3px solid white"/>
+        </div>
+        <h2 style="text-align: center; font-weight:700; font-size:50px;margin:0px;">{{ user_profile.full_name }}
+            <small>{{ username }}</small>
+        </h2>
 
         <h4 style="text-align: center;">
-            {{user_profile.bio}}
+            {{ user_profile.bio }}
         </h4>
 
 
-    <div style="font-size: 16px;outline: 0; word-break: break-word; text-align: center">
-        <h4 style="position: relative; display: inline-block;margin:10px">
-            Followers <span class="badge">{{follower_count}}</span>
-        </h4>
-        <h4 style="position: relative; display: inline-block;">
-            Following <span class="badge">{{following_count}}</span>
-        </h4>
-    </div>
-    <h4 style="text-align: center;">Reputation <span class="badge">92</span></h4>
+        <div style="font-size: 16px;outline: 0; word-break: break-word; text-align: center">
+            <h4 style="position: relative; display: inline-block;margin:10px">
+                Followers <span class="badge">{{ follower_count }}</span>
+            </h4>
+            <h4 style="position: relative; display: inline-block;">
+                Following <span class="badge">{{ following_count }}</span>
+            </h4>
+        </div>
 
-    {% if username != request.user.username %}
-    <div style="text-align: center;padding-top: 15px;">
-        {% if following %}
-        <button type="button" class="btn btn-primary following" username={{username}} id='follow-button'>
-            Following
-        </button>
-        {% else %}
-        <button type="button" class="btn btn-default" username={{username}} id='follow-button'>
-            Follow
-        </button>
+        {% if username != request.user.username %}
+            <div style="text-align: center;padding-top: 15px;">
+                {% if following %}
+                    <button type="button" class="btn btn-primary following" username={{ username }} id='follow-button'>
+                        Following
+                    </button>
+                {% else %}
+                    <button type="button" class="btn btn-default" username={{ username }} id='follow-button'>
+                        Follow
+                    </button>
+                {% endif %}
+            </div>
         {% endif %}
+    </header>
+
+        <div class="container">
+        <ul class="list-unstyled">
+            {% for post in posts %}
+                <li class="post-item">
+                    <div class="post-slug">
+                        {{ post.slug }}
+                    </div>
+                    <div class="voting-block">
+                            <i class="fa fa-caret-up fa-3x p-vote-up {% vote_class 'up' post.vote %}">
+                            </i>
+                            <span class="score">
+                            {% if post.score %}
+                                {{ post.score }}
+                            {% else %}
+                                0
+                            {% endif %}
+                            </span>
+                    </div>
+                    <div class="trend">
+                        {% if post.trend == "bull" %}
+                            <img src="{% static 'images/bull-light.png' %}" title="Bull"/>
+                        {% elif post.trend == "bear" %}
+                            <img src="{% static 'images/bear-light.png' %}" title="Bear"/>
+                        {% endif %}
+                    </div>
+                    <div class="post-details">
+                        <span class="stock-symbol">
+                            {{ post.stock.symbol }}
+                            <span class="stock-name"> {{ post.stock.name }}</span>
+                        </span>
+                        <a href="{{ post.get_absolute_url }}">
+                            {{ post.title }}
+                        </a>
+                        {% if post.post_type == "link" %}
+                            <span class="domain">
+                                {{ post.domain }}
+                            </span>
+                        {% endif %}
+                        <span class="byline">
+                            <span class="byline-item">
+                                <i class="fa fa-user"></i>
+                                <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
+                            </span>
+                            <span class="byline-item">
+                                <i class="fa fa-clock-o"></i> {{ post.created_on_humanize }}
+                            </span>
+                            <span class="byline-item">
+                            {% if post.comments_count %}
+                                <a href="{{ post.get_absolute_url }}">
+                                    <i class="fa fa-comment"></i> {{ post.comments_count }}
+                                </a>
+                            {% endif %}
+                            </span>
+                        </span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
     </div>
-    {% endif %}
-</header>
-<div class="container">
-    <hr>
-    <ul class="list-unstyled">
-        <li class="post-item">
-            <div class="voting-block">
-                <a href="#"><span class="fa fa-chevron-up fa-lg"></span></a>
-                <span class="score">21</span>
-                <a href="#"><span class="fa fa-chevron-down fa-lg"></span></a>
-            </div>
-            <div class="trend">
-                <img src="{% static 'images/bull.png' %}" ></img>
-            </div>
-            <div class="post-details">
-                <span class="stock-symbol">
-                    YPF
-                    <span class="stock-name">Ypf Sociedad Anonima</span>
-                </span>
-
-                <a href="#">
-                    Undervalued Shale Energy Stock Could Triple
-                </a>
-                <span class="domain">
-                        barrons.com
-                </span>
-                <span class="byline">
-                     by <a href="/u/jatinshah">jatinshah</a> about 8 hours ago | <a href="#">11 comments</a>
-                </span>
-
-            </div>
-        </li>
-        <li class="post-item">
-            <div class="voting-block">
-                <a href="#"><span class="fa fa-chevron-up fa-lg"></span></a>
-                <span style="font-weight: bold; color:#777777; display: block;position: relative;text-align: center">8</span>
-                <a href="#"><span class="fa fa-chevron-down fa-lg"></span></a>
-            </div>
-            <div class="trend">
-                <img src="{% static 'images/bear.png' %}"></img>
-            </div>
-            <div class="post-details">
-                <span class="stock-symbol">
-                    KO
-                    <span class="stock-name">Coca Cola</span>
-                </span>
-                <a href="#">
-                    Is Coke Undermangaged?
-                </a>
-                <span class="byline">
-                     by <a href="/u/jatinshah">newchaos</a> about 8 hours ago | <a href="#">32 comments</a>
-                </span>
-
-            </div>
-        </li>
-
-    </ul>
-    <ul class="pager">
-        <li class="previous"><a href="#">Previous</a></li>
-        <li class="next"><a href="#">Next</a></li>
-    </ul>
-
-
-</div>
 {% endblock %}

@@ -3,15 +3,18 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.shortcuts import render_to_response, get_object_or_404
 from django.core.urlresolvers import reverse
-from django.db.models import Count
+from django.db.models import Count, Sum
 
 from userprofile.models import User, UserProfile, Following
+from content.models import Post, PostVote, Comment
+from content.views import domain_name
 from userprofile.forms import ProfileForm
 from userprofile.utils import ajax_login_required
 
 from urllib import urlencode
 from hashlib import md5
 import json
+import arrow
 
 
 @ajax_login_required
@@ -77,13 +80,31 @@ def profile(request, username):
     follower_count = Following.objects.filter(
         following=user, active=True).aggregate(Count('active'))['active__count']
 
+    posts = Post.objects.filter(user=user).order_by('-created_on')
+
+    for post in posts:
+        post.created_on_humanize = arrow.get(post.created_on).humanize()
+        if request.user.is_authenticated():
+            try:
+                post.vote = PostVote.objects.get(post=post,
+                                                 user=request.user).vote
+            except PostVote.DoesNotExist:
+                post.vote = 0
+
+        post.score = PostVote.objects.filter(post=post).aggregate(Sum('vote'))['vote__sum']
+        if post.post_type == 'link':
+            post.domain = domain_name(post.url)
+
+        post.comments_count = Comment.objects.filter(post=post).count()
+
     context_dict = {
         'username': username,
         'user_profile': user_profile,
         'photo_url': gravatar_url(user.email),
         'following': following_status,
         'following_count': following_count,
-        'follower_count': follower_count
+        'follower_count': follower_count,
+        'posts': posts
     }
 
     return render_to_response('userprofile/profile.html', context_dict, context)
