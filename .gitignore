@@ -3,6 +3,7 @@
 /include
 /lib
 /share
+bower_components
 *.iml
 *.xml
 .Python

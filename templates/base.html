@@ -20,11 +20,14 @@
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap-flatly.css' %}">
-    <link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/fuelux.css' %}" rel="stylesheet">
+
+    <link href="{% static 'bower_components/font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'bower_components/fuelux/dist/css/fuelux.css' %}" rel="stylesheet">
+
     <link href="{% static 'css/typeahead.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-    <script src="{% static 'js/vendor/modernizr-2.6.2.min.js' %}"></script>
+    <link href="{% static 'css/main.css' %}" rel="stylesheet">
+
+
 </head>
 <body class="fuelux">
 <!--[if lte IE 7]>
@@ -99,15 +102,18 @@
               </div>
 </div>
 
-<script src="{% static 'js/jquery/jquery-1.11.1.min.js' %}"></script>
-<script src="{% static 'js/vendor/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/vendor/fuelux.js' %}"></script>
-<script src="{% static 'js/vendor/typeahead.bundle.js' %}"></script>
-<script src="{% static 'js/vendor/handlebars-v1.3.0.js' %}"></script>
+<script src="{% static 'bower_components/jquery-1.11.0/dist/jquery.js' %}"></script>
+<script src="{% static 'bower_components/modernizr/modernizr.js' %}"></script>
+<script src="{% static 'bower_components/bootstrap/dist/js/bootstrap.js' %}"></script>
+<script src="{% static 'bower_components/fuelux/dist/js/fuelux.js' %}"></script>
+<script src="{% static 'bower_components/typeahead.js/dist/typeahead.bundle.js' %}"></script>
+<script src="{% static 'bower_components/handlebars/handlebars.js' %}"></script>
+<script src="{% static 'bower_components/markdown/lib/markdown.js' %}"></script>
+
 <script src="{% static 'js/plugins.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
 <!--[if lt IE 9]>
-<script src="http://cdnjs.cloudflare.com/ajax/libs/es5-shim/2.0.8/es5-shim.min.js"></script>
+<script src="{% static 'bower_components/es5-shim/es5-shim.js' %}"></script>
 <![endif]-->
 
 <script>
