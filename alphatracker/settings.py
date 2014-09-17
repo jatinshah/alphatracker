@@ -114,7 +114,7 @@ TEMPLATE_DIRS = (
 )
 
 CONTENT_URL = '/c/'
-LOGIN_REDIRECT_URL = '/c/trending/'  # TODO: Change this home page
+LOGIN_REDIRECT_URL = '/c/recent/'  # TODO: Change this home page
 LOGIN_URL = '/accounts/login/'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

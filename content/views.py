@@ -185,7 +185,6 @@ def post(request, slug, error_messages=None):
         post.domain = domain_name(post.url)
     post.is_recent = (timezone.now() - post.created_on) < timedelta(days=1)
 
-
     user = request.user
 
     all_comments = Comment.objects.filter(post=post).order_by('-created_on')

@@ -4,83 +4,80 @@
 
 {% block content %}
 
-{% block feed_title %}
-<div class="container">
-    <h3 class="headline">Recent</h3>
-</div>
-{% endblock %}
+    {% block feed_title %}
+        <div class="container">
+            <h3 class="headline">Recent</h3>
+        </div>
+    {% endblock %}
 
-<div class="container">
-    <ul class="list-unstyled">
-    {% for post in posts %}
-    <li class="post-item">
-        <div style="display:none" class="post-slug">
-            {{ post.slug }}
-        </div>
-        <div class="voting-block">
-            <a href="#"><span class="fa fa-chevron-up fa-lg p-vote-up {% vote_class 'up' post.vote %}"></span></a>
-            <span class="score">
-                {% if post.score %}
-                    {{post.score}}
-                {% else %}
-                    0
-                {% endif %}
-            </span>
-            <a href="#"><span class="fa fa-chevron-down fa-lg p-vote-down {% vote_class 'down' post.vote %}"></span></a>
-        </div>
-        <div class="trend">
-            {% if post.trend == "bull" %}
-            <img src="{% static 'images/bull.png' %}" title="Bull"/>
-            {% elif post.trend == "bear" %}
-            <img src="{% static 'images/bear.png' %}" title="Bear"/>
-            {% endif %}
-        </div>
-        <div class="post-details">
-                <span class="stock-symbol">
-                    {{post.stock.symbol}}
-                    <span class="stock-name"> {{post.stock.name}}</span>
-                </span>
-            <a href="{{ post.get_absolute_url }}">
-                {{ post.title }}
-            </a>
-            {% if post.post_type == "link" %}
-                <span class="domain">
-                        {{ post.domain }}
-                </span>
-            {% endif %}
-                <span class="byline">
-                    <span>
-                        <i class="fa fa-user"></i>
-                        <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
-                    </span>
-                    <span style="margin-left:20px;">
-                        <i class="fa fa-clock-o"></i> {{ post.created_on_humanize }}
-                    </span>
-                    <span style="margin-left:20px;">
-                        {% if post.comments_count %}
-                        <i class="fa fa-comment"></i>
+    <div class="container">
+        <ul class="list-unstyled">
+            {% for post in posts %}
+                <li class="post-item">
+                    <div class="post-slug">
+                        {{ post.slug }}
+                    </div>
+                    <div class="voting-block">
+                            <i class="fa fa-caret-up fa-3x p-vote-up {% vote_class 'up' post.vote %}">
+                            </i>
+                            <span class="score">
+                            {% if post.score %}
+                                {{ post.score }}
+                            {% else %}
+                                0
+                            {% endif %}
+                            </span>
+                    </div>
+                    <div class="trend">
+                        {% if post.trend == "bull" %}
+                            <img src="{% static 'images/bull-light.png' %}" title="Bull"/>
+                        {% elif post.trend == "bear" %}
+                            <img src="{% static 'images/bear-light.png' %}" title="Bear"/>
+                        {% endif %}
+                    </div>
+                    <div class="post-details">
+                        <span class="stock-symbol">
+                            {{ post.stock.symbol }}
+                            <span class="stock-name"> {{ post.stock.name }}</span>
+                        </span>
                         <a href="{{ post.get_absolute_url }}">
-                            {{ post.comments_count }} comment{{post.comments_count|pluralize}}
+                            {{ post.title }}
                         </a>
-                    {% endif %}
+                        {% if post.post_type == "link" %}
+                            <span class="domain">
+                                {{ post.domain }}
+                            </span>
+                        {% endif %}
+                        <span class="byline">
+                            <span class="byline-item">
+                                <i class="fa fa-user"></i>
+                                <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
+                            </span>
+                            <span class="byline-item">
+                                <i class="fa fa-clock-o"></i> {{ post.created_on_humanize }}
+                            </span>
+                            <span class="byline-item">
+                            {% if post.comments_count %}
+                                <a href="{{ post.get_absolute_url }}">
+                                    <i class="fa fa-comment"></i> {{ post.comments_count }}
+                                </a>
+                            {% endif %}
+                            </span>
+                        </span>
+                    </div>
+                </li>
+            {% empty %}
+                <p>Your feed is empty. Go back to <a href="{% url 'trending' %}">home page</a>.</p>
+            {% endfor %}
+        </ul>
+        <ul class="pager">
+            {% if posts.has_previous %}
+                <li class="previous"><a href="{{ path }}{{ posts.previous_page_number }}/">Previous</a></li>
+            {% endif %}
+            {% if posts.has_next %}
+                <li class="next"><a href="{{ path }}{{ posts.next_page_number }}/">Next</a></li>
+            {% endif %}
+        </ul>
 
-                    </span>
-
-                </span>
-        </div>
-    </li>
-    {% empty %}
-        <p>Your feed is empty. Go back to <a href="{% url 'trending' %}">home page</a>.</p>
-    {% endfor %}
-</ul>
-<ul class="pager">
-    {% if posts.has_previous %}
-    <li class="previous"><a href="{{path}}{{ posts.previous_page_number }}/">Previous</a></li>
-    {% endif %}
-    {% if posts.has_next %}
-    <li class="next"><a href="{{path}}{{ posts.next_page_number }}/">Next</a></li>
-    {% endif %}
-</ul>
-
-</div>
+    </div>
 {% endblock %}

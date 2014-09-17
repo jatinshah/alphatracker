@@ -1,5 +1,5 @@
 /*jslint browser: true*/
-/*global $, jQuery, alert, console */
+/*global $, jQuery, alert, console, Bloodhound, Handlebars*/
 function getCookie(name) {
     "use strict";
     var cookieValue, cookies, i, cookie;
@@ -55,39 +55,34 @@ $.ajaxSetup({
 $(document).ready(function () {
     "use strict";
     // Counter for editing Bio in user profile
+    var bio = $('#bio');
     if ($('#counter').length) {
-        $("#counter").append($("#bio").val().length + "/160");
+        $("#counter").append(bio.val().length + "/160");
     }
-    $("#bio").keyup(function () {
+    bio.keyup(function () {
         if ($(this).val().length > 160) {
             $(this).val($(this).val().substr(0, 160));
         }
-        var text_length = $(this).val().length;
-        $("#counter").html(text_length + "/160");
+        var text_length = $(this).val().length,
+            counter = $('#counter');
+        counter.html(text_length + "/160");
         if (text_length > 150) {
-            $("#counter").css("color", "red");
+            counter.css("color", "red");
         } else {
-            $("#counter").css("color", "black");
+            counter.css("color", "black");
         }
     });
 
     // Voting up & down
-    function toggleVote(this_elem, other_elem) {
+    function toggleVote(this_elem) {
         this_elem.toggleClass('text-muted');
         this_elem.toggleClass('text-primary');
-
-        if (other_elem.hasClass('text-primary')) {
-            other_elem.toggleClass('text-primary');
-            other_elem.toggleClass('text-muted');
-        }
     }
 
-    function updateScore(this_elem, other_elem, score, vote) {
+    function updateScore(this_elem, score, vote) {
         if (this_elem.hasClass('text-primary')) {
             score = score - vote;
-        } else if (other_elem.hasClass('text-primary')) {
-            score = score + 2 * vote;
-        } else if (other_elem.hasClass('text-muted')) {
+        } else {
             score = score + vote;
         }
         return score;
@@ -95,7 +90,7 @@ $(document).ready(function () {
 
     // Voting on posts
     $("[class*='p-vote-']").click(function (evt) {
-        var this_elem, other_elem, score_elem, score_count, slug, vote;
+        var this_elem, score_elem, score_count, slug, vote;
         evt.preventDefault();
         this_elem = $(this);
         score_elem = $(this).closest('.voting-block').find('.score');
@@ -103,27 +98,22 @@ $(document).ready(function () {
         slug = $(this).closest('.post-item').find('.post-slug').text().trim();
 
         if ($(evt.target).hasClass('p-vote-up')) {
-            other_elem = $(this).closest('.voting-block').find('.p-vote-down');
-            score_count = updateScore($(this), other_elem, score_count, 1);
+            score_count = updateScore($(this), score_count, 1);
             vote = '1';
-        } else {
-            other_elem = $(this).closest('.voting-block').find('.p-vote-up');
-            score_count = updateScore($(this), other_elem, score_count, -1);
-            vote = '-1';
         }
         $.post('/c/vote/', {vote: vote, slug: slug},
             function (data) {
                 if (data.success) {
                     score_elem.html(score_count.toString());
-                    toggleVote(this_elem, other_elem);
+                    toggleVote(this_elem);
                 }
             }
-        );
+            );
     });
 
     // Voting on comments
     $("[class*='c-vote-']").click(function (evt) {
-        var this_elem, other_elem, score_elem, score_count,
+        var this_elem, score_elem, score_count,
             slug, vote, slug_split, post_slug, comment_slug;
         evt.preventDefault();
         this_elem = $(this);
@@ -135,13 +125,8 @@ $(document).ready(function () {
         comment_slug = slug_split[1];
 
         if ($(evt.target).hasClass('c-vote-up')) {
-            other_elem = $(this).closest('.voting-block').find('.c-vote-down');
-            score_count = updateScore($(this), other_elem, score_count, 1);
+            score_count = updateScore($(this), score_count, 1);
             vote = '1';
-        } else {
-            other_elem = $(this).closest('.voting-block').find('.c-vote-up');
-            score_count = updateScore($(this), other_elem, score_count, -1);
-            vote = '-1';
         }
         $.post('/c/vote_comment/',
             {
@@ -152,10 +137,10 @@ $(document).ready(function () {
             function (data) {
                 if (data.success) {
                     score_elem.html(score_count.toString());
-                    toggleVote(this_elem, other_elem);
+                    toggleVote(this_elem);
                 }
             }
-        );
+            );
     });
 
 
@@ -191,8 +176,8 @@ $(document).ready(function () {
 
     $('#follow-button').click(function () {
         recent_button_click = true;
-        var following_username = $(this).attr('username');
-        var button_elem = $(this);
+        var following_username = $(this).attr('username'),
+            button_elem = $(this);
         button_elem.unbind('mouseenter mouseleave');
         $.post('/u/follow/', {following_username: following_username},
             function (data) {
@@ -209,7 +194,7 @@ $(document).ready(function () {
                     // Change button text & button type
                     // POST returns current state
                 }
-            })
+            });
 
     });
 });

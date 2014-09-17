@@ -1,103 +1,90 @@
 {% extends 'base.html' %}
-{% load static  %}
+{% load static %}
 
 {% block title %}
-- Submit
+    - Submit
 {% endblock %}
 {% block content %}
-<div class="col-lg-9 col-md-9 center">
-    <div class="panel panel-primary">
-        <div class="panel-heading"><h3 class="panel-title"><strong>Submit to AlphaTracker</strong></h3></div>
-        <div class="panel-body">
-            <form role="form" name="post_form" method="POST" action="/c/submit/" novalidate>
-                {% csrf_token %}
+    <div class="col-lg-9 col-md-9 center">
+        <h1>Submit to AlphaTracker</h1>
+
+        <form role="form" name="post_form" method="POST" action="/c/submit/" novalidate>
+            {% csrf_token %}
 
 
-                <div class="radio">
-                    {% for field in form.post_type %}
+            <div class="radio">
+                {% for field in form.post_type %}
                     <label class="radio-custom radio-inline" data-initialize="radio">
                         <input class="sr-only" name="{{ field.name }}" type="radio"
-                        {% if field.is_checked %}checked="checked"{% endif %}
-                        data-toggle=".{{ field.choice_value }}-field"
-                        value="{{ field.choice_value }}">
+                               {% if field.is_checked %}checked="checked"{% endif %}
+                               data-toggle=".{{ field.choice_value }}-field"
+                               value="{{ field.choice_value }}">
                         {{ field.choice_label }}
                     </label>
 
-                    {% endfor %}
-                </div>
+                {% endfor %}
+            </div>
 
-                {% with field=form.symbol %}
-                <div class="form-group {%if field.errors %}has-error{% endif %}"
+            {% with field=form.symbol %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}"
                      id="stock-symbol">
                     {{ field.label_tag }}
                     {{ field }}
                     {% for err in field.errors %}
-                    <span class="help-block">{{ err }}</span>
+                        <span class="help-block">{{ err }}</span>
                     {% endfor %}
                 </div>
-                {% endwith %}
+            {% endwith %}
 
-                <div class="form-group">
-                    {{ form.trend.label_tag }}
-                    <div class="radio">
-                        <label class="radio-custom radio-inline" data-initialize="radio">
-                            {{ form.trend.0.tag }}
-                            <img src="{% static 'images/bull.png' %}" class="trend-icon"></img>
-                        </label>
-                        <label class="radio-custom radio-inline" data-initialize="radio">
-                            {{ form.trend.1.tag }}
-                            <img src="{% static 'images/bear.png' %}" class="trend-icon"></img>
-                        </label>
-                    </div>
+            <div class="form-group">
+                {{ form.trend.label_tag }}
+                <div class="radio">
+                    <label class="radio-custom radio-inline" data-initialize="radio">
+                        {{ form.trend.0.tag }}
+                        <img src="{% static 'images/bull.png' %}" class="trend-icon"/>
+                    </label>
+                    <label class="radio-custom radio-inline" data-initialize="radio">
+                        {{ form.trend.1.tag }}
+                        <img src="{% static 'images/bear.png' %}" class="trend-icon"/>
+                    </label>
                 </div>
+            </div>
 
-                {% with field=form.title %}
-                <div class="form-group {%if field.errors %}has-error{% endif %}">
+            {% with field=form.title %}
+                <div class="form-group {% if field.errors %}has-error{% endif %}">
                     {{ field.label_tag }}
                     {{ field }}
                     {% for err in field.errors %}
-                    <span class="help-block">{{ err }}</span>
+                        <span class="help-block">{{ err }}</span>
                     {% endfor %}
                 </div>
-                {% endwith %}
+            {% endwith %}
 
-                <!-- Link Fields -->
-                {% with field=form.url %}
-                <div class="form-group link-field {%if field.errors %}has-error{% endif %}">
+            <!-- Link Fields -->
+            {% with field=form.url %}
+                <div class="form-group link-field {% if field.errors %}has-error{% endif %}">
                     {{ field.label_tag }}
                     {{ field }}
                     {% for err in field.errors %}
-                    <span class="help-block">{{ err }}</span>
+                        <span class="help-block">{{ err }}</span>
                     {% endfor %}
                 </div>
-                {% endwith %}
+            {% endwith %}
 
+            <!-- Article Fields -->
 
-                {% with field=form.summary %}
-                <div class="form-group link-field {%if field.errors %}has-error{% endif %}">
+            {% with field=form.text %}
+                <div class="form-group article-field {% if field.errors %}has-error{% endif %}">
                     {{ field.label_tag }}
                     {{ field }}
                     {% for err in field.errors %}
-                    <span class="help-block">{{ err }}</span>
+                        <span class="help-block">{{ err }}</span>
                     {% endfor %}
                 </div>
-                {% endwith %}
+            {% endwith %}
 
-                <!-- Article Fields -->
-                {% with field=form.text %}
-                <div class="form-group article-field {%if field.errors %}has-error{% endif %}">
-                    {{ field.label_tag }}
-                    {{ field }}
-                    {% for err in field.errors %}
-                    <span class="help-block">{{ err }}</span>
-                    {% endfor %}
-                </div>
-                {% endwith %}
 
-                <input type="submit" class="btn btn-primary" value="Submit">
-            </form>
-
-        </div>
+            <input type="submit" class="btn btn-primary" value="Submit">
+        </form>
     </div>
-</div>
 {% endblock %}

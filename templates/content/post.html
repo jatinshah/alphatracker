@@ -8,11 +8,12 @@
 {% block content %}
 <div class="container">
     <div class="post-item" style="border-bottom:none">
-        <div style="display:none" class="post-slug">
+        <div class="post-slug">
             {{ post.slug }}
         </div>
         <div class="voting-block">
-            <a href="#"><span class="fa fa-chevron-up fa-lg p-vote-up {% vote_class 'up' post.vote %}"></span></a>
+            <i class="fa fa-caret-up fa-3x p-vote-up {% vote_class 'up' post.vote %}">
+            </i>
             <span class="score">
                 {% if post.score %}
                     {{ post.score }}
@@ -20,60 +21,53 @@
                     0
                 {% endif %}
             </span>
-            <a href="#"><span class="fa fa-chevron-down fa-lg p-vote-down {% vote_class 'down' post.vote %}"></span></a>
         </div>
         <div class="trend">
             {% if post.trend == "bull" %}
-            <img src="{% static 'images/bull.png' %}" title="Bull"/>
+            <img src="{% static 'images/bull-light.png' %}" title="Bull"/>
             {% elif post.trend == "bear" %}
-            <img src="{% static 'images/bear.png' %}" title="Bear"/>
+            <img src="{% static 'images/bear-light.png' %}" title="Bear"/>
             {% endif %}
         </div>
         <div class="post-details">
-    <span class="stock-symbol">
-        {{post.stock.symbol}}
-        <span class="stock-name"> {{post.stock.name}}</span>
-    </span>
+            <span class="stock-symbol">
+                {{post.stock.symbol}}
+                <span class="stock-name"> {{post.stock.name}}</span>
+            </span>
 
             {% if post.post_type == "link" %}
-            <a href="{{ post.url }}" target="_blank">
-                {{ post.title }}
-            </a>
-    <span class="domain">
-        {{ post.domain }}
-    </span>
+                <a href="{{ post.url }}" target="_blank">
+                    {{ post.title }}
+                </a>
+                <span class="domain">
+                    {{ post.domain }}
+                </span>
             {% elif post.post_type == "article" %}
-            <a href="{{ post.get_absolute_url }}">
-                {{ post.title }}
-            </a>
+                <a href="{{ post.get_absolute_url }}">
+                    {{ post.title }}
+                </a>
             {% endif %}
 
-    <span class="byline">
-        <span>
-            <i class="fa fa-user"></i>
-            <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
-        </span>
-        <span style="margin-left:20px;">
-            <i class="fa fa-clock-o"></i> {{ post.created_on_humanize }}
-        </span>
-        {% if user.username == post.user.username and post.is_recent %}
-        <span class="post-action" style="margin-left:20px;">
-            <i class="fa fa-trash-o"></i> delete
-        </span>
-        {% endif %}
-        <span class="post-action" style="margin-left: 20px;">
-            <i class="fa fa-flag-o"></i> flag
-        </span>
-    </span>
-            <!--<span class="badge">-->
-            <!--{% if post.active %}-->
-            <!--ACTIVE-->
-            <!--{% else %}-->
-            <!--INACTIVE-->
-            <!--{% endif %}-->
-            <!--</span>-->
+            <span class="byline">
+                <span class="byline-item">
+                    <i class="fa fa-user"></i>
+                    <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
+                </span>
+                <span class="byline-item">
+                    <i class="fa fa-clock-o"></i> {{ post.created_on_humanize }}
+                </span>
+                {% if user.username == post.user.username and post.is_recent %}
+                <span class="post-action byline-item">
+                    <i class="fa fa-trash-o"></i> delete
+                </span>
+                {% endif %}
+                <span class="post-action byline-item">
+                    <i class="fa fa-flag-o"></i> flag
+                </span>
+            </span>
         </div>
     </div>
+
     <div style="padding-bottom: 0.3em;margin-bottom: 0.3em">
         {{ post.text }}
     </div>
@@ -120,33 +114,32 @@
     <ul class="list-unstyled">
         {% for comment in comments %}
         <li class="comment-item">
-            <div style="display:none" class="comment-slug">
+            <div class="comment-slug">
                 {{post.slug}}/{{ comment.slug }}
             </div>
             <div class="voting-block">
-                <a href="#"><span class="fa fa-chevron-up c-vote-up {% comment_class 'up' comment.vote %}"></span></a>
-                <span class="score" style="font-size:10pt">
+                <i class="fa fa-caret-up fa-2x c-vote-up {% comment_class 'up' comment.vote %}"></i>
+                <span class="score" style="top:-5px">
                 {% if comment.score %}
                     {{ comment.score }}
                 {% else %}
                     0
                 {% endif %}
                 </span>
-                <a href="#"><span class="fa fa-chevron-down c-vote-down {% comment_class 'down' comment.vote %}"></span></a>
             </div>
             <div class="comment">
             <span class="byline">
-                <span>
+                <span class="byline-item">
                     <i class="fa fa-user"></i>
                     <a href="/u/{{ comment.user.username }}">{{ comment.user.username }}</a>
                 </span>
-                <span style="margin-left:20px;">
+                <span class="byline-item">
                     <i class="fa fa-clock-o"></i> {{ comment.created_on_humanize }}
                 </span>
-                <span class="post-action" style="margin-left:20px;">
+                <span class="post-action byline-item">
                     <i class="fa fa-trash-o"></i> delete
                 </span>
-                <span class="post-action" style="margin-left: 20px;">
+                <span class="post-action byline-item">
                     <i class="fa fa-flag-o"></i> flag
                 </span>
             </span>
@@ -155,7 +148,6 @@
             </span>
             </div>
         </li>
-
         {% endfor %}
     </ul>
 </div>

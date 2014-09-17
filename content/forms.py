@@ -77,11 +77,11 @@ class PostForm(forms.Form):
         required=True,
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Enter title of your link or article',
+                'placeholder': 'Enter title',
                 'class': 'form-control'
             }),
         error_messages={
-            'required': 'Please enter a title of your link or article',
+            'required': 'Please enter title for your link or article',
             'max_length': 'Title must be less than 200 characters'
         }
     )
@@ -89,7 +89,7 @@ class PostForm(forms.Form):
     url = forms.URLField(
         required=False,
         max_length=1000,
-        label='URL',
+        label='Link',
         widget=forms.URLInput(
             attrs={
                 'placeholder': 'http://www.example.com',
@@ -100,22 +100,22 @@ class PostForm(forms.Form):
         }
     )
     summary = forms.CharField(
-        label='Summary',
+        label='Analysis',
         required=False,
         widget=forms.Textarea(
             attrs={
-                'placeholder': 'Add optional summary',
+                'placeholder': 'Add your analysis (optional)',
                 'class': 'form-control',
                 'rows': '3'
             })
     )
 
     text = forms.CharField(
-        label='Text',
+        label='Details',
         required=False,
         widget=forms.Textarea(
             attrs={
-                'placeholder': 'Write article text (optional)',
+                'placeholder': 'Add details (optional)',
                 'class': 'form-control',
                 'rows': '10'
             })
@@ -148,5 +148,3 @@ class PostForm(forms.Form):
             )
 
         return url
-
-        # TODO: Mark previous posts with same ticker inactive with alert

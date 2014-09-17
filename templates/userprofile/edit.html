@@ -13,6 +13,7 @@
                 <strong>Edit Profile</strong>
             </h3>
         </div>
+
         <div class="panel-body">
             <form role="form" name="edit_form" method="POST" action="/u/edit/" novalidate>
                 {% csrf_token %}
@@ -36,13 +37,10 @@
                           style="font-size:10pt; color:#777">
                     </span>
                 </div>
-
                 <input type="submit" class="btn btn-primary center" value="Save">
-
             </form>
-
         </div>
-    </div>
 
+    </div>
 </div>
 {% endblock %}

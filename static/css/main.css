@@ -7,10 +7,50 @@
 .top50 {
     margin-top: 50px;
 }
+
 .bottom50 {
     margin-bottom: 50px;
 }
 
+/* Navbar & Footer */
+.navbar {
+    margin-bottom: 0px;
+}
+
+.navbar-brand {
+    font-weight: 800;
+    font-size: 150%;
+    color: #434888 !important;
+}
+
+hr{
+    width: 100%;
+    height: 5px;
+    margin-top: 0px;
+}
+
+.headline{
+    position: relative;
+    margin-top: 0px;
+    font-variant: small-caps;
+    font-weight: 700;
+    color: #434888;
+}
+
+.footer {
+    margin-bottom:30px;
+    margin-top:30px;
+}
+
+.footer-item {
+    margin-right: 20px;
+}
+
+/* Feed related CSS */
+.post-slug,
+.comment-slug {
+    display: none;
+}
 .post-item {
     position: relative;
     padding-bottom: 0.6em;
@@ -19,21 +59,18 @@
     border-bottom: 1px solid #eaecee;
 }
 
-.headline{
-    position: relative;
-    margin-top: 0px;
-}
-
 .stock-symbol {
     display: block;
     position: relative;
     font-size: 16px;
     font-weight: bold;
+    color: #18BC9C;  /* @brand-succcess */
 }
+
 .stock-name {
     display: none;
     font-style: italic;
-    color: #777;
+    color: #18BC9C;  /* @brand-success */
 }
 
 .stock-symbol:hover .stock-name
@@ -41,18 +78,27 @@
     display: inline;
 }
 
+.trend {
+    margin-left: 0.5em;
+    float: left;
+    padding-top: 20px;
+}
+
+.trend > img, .trend-icon {
+    width: 30px;
+    height: auto;
+}
+
+.post-details {
+    float: left;
+    margin-left: 0.5em;
+    width: 80%;
+}
+
 .domain {
     font-style: italic;
     font-size: 10pt;
-    color: #aeaeae;
-}
-
-.byline {
-    display: block;
-    position: relative;
-    font-size: 10pt;
-    font-style: italic;
-    color: #777777;
+    color: #afafaf;
 }
 
 .post-action {
@@ -67,55 +113,29 @@
     display:inline;
 }
 
-.post-details {
-    float: left;
-    margin-left: 0.5em;
-    width: 80%;
-}
-
-.trend {
-    margin-left: 0.5em;
-    float: left;
-    padding-top: 20px;
-}
-
-.trend > img, .trend-icon {
-    width: 30px;
-    height: auto;
-}
-
-.voting-block {
-    float: left;
-}
-
-.score {
-    font-weight: bold;
-    color: #777777;
+.byline {
     display: block;
     position: relative;
-    text-align: center;
+    font-size: 10pt;
+    font-style: italic;
+    color: #b4bcc2;
 }
 
-.performance-up {
-    color: blue;
-    background: white;
-    border: 1px solid;
+.byline a {
+    color: #afafaf;
+}
+.byline a:hover {
+    text-decoration: none;
+    color: #7f7f7f;
 }
 
-.performance-down {
-    color: red;
-    background: white;
-    border: 1px solid;
+.byline-item:not(:first-child) {
+    margin-left: 20px;
 }
-
-.post-details:hover .performance-down
-{
-    display:inline;
-}
-
-
+/* Comment related */
 .comment-item {
     border-bottom: 1px solid #eaecee;
+    font-size: 90%;
     overflow: auto;
     padding-bottom: 0.6em;
     margin-bottom: 0.6em;
@@ -127,10 +147,7 @@
     margin-left: 10px;
 }
 
-.stock-symbol-box {
-    width: 90px;
-}
-
+/* Profile related */
 .profile {
     position:relative;
     margin-bottom:0px;
@@ -147,4 +164,28 @@
 
 .profile:hover .edit-profile {
     display:inline;
+}
+
+/* Voting related */
+.voting-block {
+    float: left;
+    text-align: center;
+}
+
+.score {
+    top: -10px;
+    font-weight: bold;
+    color: #777777;
+    display: block;
+    position: relative;
+    text-align: center;
+}
+
+.p-vote-up, .p-vote-down,
+.c-vote-up, .c-vote-down{
+    cursor: pointer;
+}
+
+.stock-symbol-box {
+    width: 90px;
 }
