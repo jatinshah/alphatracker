@@ -54,13 +54,18 @@ $.ajaxSetup({
 
 $(document).ready(function () {
     "use strict";
+
+    // Disable on click
+    $('form').on('submit', function () {
+        $('.click-disable').prop('disabled', true);
+    });
     // Disable Post button on empty comment
-    $('.post-button').attr('disabled', true);
+    $('#comment-button').prop('disabled', true);
     $('#comment-editor').keyup(function (evt) {
-        if($(this).find('textarea').val().length !== 0){
-            $('.post-button').attr('disabled', false);
+        if ($(this).find('textarea').val().length !== 0){
+            $('#comment-button').prop('disabled', false);
         } else {
-            $('.post-button').attr('disabled', true);
+            $('#comment-button').prop('disabled', true);
         }
     });
     // Rendering markdown on submit page

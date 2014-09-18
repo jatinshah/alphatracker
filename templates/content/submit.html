@@ -9,7 +9,8 @@
     <div class="col-lg-9 col-md-9 center">
         <h1>Submit to AlphaTracker</h1>
 
-        <form role="form" name="post_form" method="POST" action="/c/submit/" novalidate>
+{#        <form role="form" name="post_form" method="POST" action="/c/submit/" novalidate>#}
+        <form role="form" name="post_form" method="POST" novalidate>
             {% csrf_token %}
 
 
@@ -93,7 +94,7 @@
             {% endwith %}
 
 
-            <input type="submit" class="btn btn-primary" value="Submit">
+            <input type="submit" class="btn btn-primary click-disable" value="Submit">
         </form>
     </div>
 {% endblock %}
