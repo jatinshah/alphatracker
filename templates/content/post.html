@@ -68,13 +68,16 @@
         </div>
     </div>
 
-    <div style="padding-bottom: 0.3em;margin-bottom: 0.3em">
+    {%  if post.text %}
+    <div class="post-text" id="post-text">
         {{ post.text }}
     </div>
+    {%  endif %}
 
     <div>
         {% if user.is_authenticated %}
-        <form role="form" method="POST" name="comment_form" action="/c/add_comment/" novalidate>
+        <form role="form" method="POST" name="comment_form" action="/c/add_comment/"
+              style="margin: 2em" novalidate>
             {% csrf_token %}
             <div class="form-group">
                 {{ comment_form.text }}
@@ -95,20 +98,7 @@
     </div>
     <div style="margin-bottom: 0.6em; padding-bottom: 0.6em; border-bottom: 1px solid #eaecee">
         <strong>
-            {{ comments.count }} comment{{comments.count|pluralize}} sorted by:
-        </strong>
-
-        <div class="btn-group">
-            <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
-                Recent <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" role="menu">
-                <li><a href="#">
-                    <small>Top</small>
-                </a></li>
-            </ul>
-        </div>
-
+            {{ comments.count }} comment{{comments.count|pluralize}}
     </div>
 
     <ul class="list-unstyled">
@@ -143,7 +133,7 @@
                     <i class="fa fa-flag-o"></i> flag
                 </span>
             </span>
-            <span style="display: block; position: relative">
+            <span class="comment-text">
                 {{ comment.text }}
             </span>
             </div>

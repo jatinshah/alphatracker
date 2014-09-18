@@ -34,14 +34,10 @@ class PostForm(forms.Form):
 
     post_type = forms.ChoiceField(
         label=False,
-        initial='link',
+        initial='article',
         choices=Post.POST_TYPES,
         required=True,
-        widget=forms.RadioSelect(
-            attrs={
-                'class': 'sr-only'
-            }
-        )
+        widget=forms.RadioSelect()
     )
 
     symbol = forms.CharField(
@@ -77,8 +73,7 @@ class PostForm(forms.Form):
         required=True,
         widget=forms.TextInput(
             attrs={
-                'placeholder': 'Enter title',
-                'class': 'form-control'
+                'placeholder': 'Title',
             }),
         error_messages={
             'required': 'Please enter title for your link or article',
@@ -93,12 +88,13 @@ class PostForm(forms.Form):
         widget=forms.URLInput(
             attrs={
                 'placeholder': 'http://www.example.com',
-                'class': 'form-control'
             }),
         error_messages={
             'max_length': 'URL must be less than 1000 characters'
         }
     )
+
+    # TODO: Remvoe this form element
     summary = forms.CharField(
         label='Analysis',
         required=False,
@@ -116,7 +112,6 @@ class PostForm(forms.Form):
         widget=forms.Textarea(
             attrs={
                 'placeholder': 'Add details (optional)',
-                'class': 'form-control',
                 'rows': '10'
             })
     )

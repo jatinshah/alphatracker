@@ -54,6 +54,22 @@ $.ajaxSetup({
 
 $(document).ready(function () {
     "use strict";
+    // Rendering markdown on submit page
+    $('#post-editor').keyup(function (evt) {
+        evt.preventDefault();
+        var post_text = $(this).find('textarea').val().trim();
+        $('#post-preview').html(markdown.toHTML(post_text));
+    });
+
+    // Rendering markdown post & comment text
+    var post_text = $('#post-text').text().trim();
+    $('#post-text').html(markdown.toHTML(post_text));
+
+    $('.comment-text').each(function() {
+        var comment_text = $(this).text().trim();
+        $(this).html(markdown.toHTML(comment_text));
+    });
+
     // Counter for editing Bio in user profile
     var bio = $('#bio');
     if ($('#counter').length) {
@@ -233,3 +249,4 @@ $('#stock-symbol .typeahead').typeahead(
         }
     }
 );
+

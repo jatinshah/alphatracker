@@ -132,6 +132,30 @@ hr{
 .byline-item:not(:first-child) {
     margin-left: 20px;
 }
+
+/* Post related */
+.post-text {
+    margin: 0.5em 2em 2em 2em;
+    padding:1em;
+    border:1px dotted #afafaf;
+    border-radius: 5px;
+}
+.post-text > :first-child {
+    margin-top: 0px;
+}
+
+.post-editor {
+    margin-top: 10px;
+}
+
+.post-preview {
+    padding: 1em;
+}
+
+.post-preview > :first-child {
+    margin-top: 0px;
+}
+
 /* Comment related */
 .comment-item {
     border-bottom: 1px solid #eaecee;
@@ -145,6 +169,15 @@ hr{
     float: left;
     width: 90%;
     margin-left: 10px;
+}
+
+.comment-text {
+    margin-top: 5px;
+    display: block;
+    position: relative;
+}
+.comment-text > :first-child {
+    margin-top: 0px;
 }
 
 /* Profile related */

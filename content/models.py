@@ -6,7 +6,7 @@ from ranking.models import Stock
 
 # Create your models here.
 class Post(models.Model):
-    POST_TYPES = (('link', 'Link'), ('article', 'Article'))
+    POST_TYPES = (('article', 'Article'), ('link', 'Link'))
     TREND_TYPES = (('bull', 'bull'), ('bear', 'bear'))
 
     user = models.ForeignKey(User)
