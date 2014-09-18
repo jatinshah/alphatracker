@@ -8,18 +8,13 @@ class CommentForm(forms.Form):
     slug = forms.SlugField(
         max_length=200,
         required=True,
-        widget=forms.HiddenInput(
-            attrs={
-                'class': 'form-control'
-            }
-        )
+        widget=forms.HiddenInput()
     )
 
     text = forms.CharField(
         required=True,
         widget=forms.Textarea(
             attrs={
-                'class': 'form-control',
                 'rows': '3'
             }
         ),

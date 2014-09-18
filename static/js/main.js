@@ -54,6 +54,15 @@ $.ajaxSetup({
 
 $(document).ready(function () {
     "use strict";
+    // Disable Post button on empty comment
+    $('.post-button').attr('disabled', true);
+    $('#comment-editor').keyup(function (evt) {
+        if($(this).find('textarea').val().length !== 0){
+            $('.post-button').attr('disabled', false);
+        } else {
+            $('.post-button').attr('disabled', true);
+        }
+    });
     // Rendering markdown on submit page
     $('#post-editor').keyup(function (evt) {
         evt.preventDefault();
