@@ -13,6 +13,7 @@ class CommentForm(forms.Form):
 
     text = forms.CharField(
         required=True,
+        max_length=5000,
         widget=forms.Textarea(
             attrs={
                 'rows': '3'
@@ -89,7 +90,7 @@ class PostForm(forms.Form):
         }
     )
 
-    # TODO: Remvoe this form element
+    # TODO: Remove this form element
     summary = forms.CharField(
         label='Analysis',
         required=False,
@@ -104,6 +105,7 @@ class PostForm(forms.Form):
     text = forms.CharField(
         label='Details',
         required=False,
+        max_length=25000,
         widget=forms.Textarea(
             attrs={
                 'placeholder': 'Add details (optional)',

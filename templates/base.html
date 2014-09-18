@@ -63,7 +63,7 @@
             </li>
             {% if user.is_authenticated %}
             <li class="{% active request '/u/'|add:user.username|add:'/' %}">
-                <a href="/u/{{user.username}}/"><span class="fa fa-user"></span> Me
+                <a href="/u/{{user.username}}/"><span class="fa fa-user"></span> {{ request.user.username }}
                 </a>
             </li>
             <li>
