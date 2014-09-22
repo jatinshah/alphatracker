@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+
 from functools import wraps
 from json import dumps
 

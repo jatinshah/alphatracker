@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'djrill',
     'allauth',
     'allauth.account',
     'rest_framework',
@@ -114,17 +115,26 @@ TEMPLATE_DIRS = (
 )
 
 CONTENT_URL = '/c/'
-LOGIN_REDIRECT_URL = '/c/recent/'  # TODO: Change this home page
+LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Email Settings
+# MANDRILL_API_KEY = '_6CAnHl3xL06uGxo05NXWg'  #Test Key
+MANDRILL_API_KEY = '0YrV9hwcdA7JLY8SKdzySQ'  #Production Key
+EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
+DEFAULT_FROM_EMAIL = 'Jatin Shah <jatin@alphatracker.co>'
+EMAIL_SUBJECT_PREFIX = ''
 
 # django-allauth Settings
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_LOGOUT_REDIRECT_URL = LOGIN_REDIRECT_URL
 ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 ACCOUNT_USERNAME_BLACKLIST = ['edit', 'follow']
 ACCOUNT_PASSWORD_MIN_LENGTH = 8
 ACCOUNT_SESSION_REMEMBER = True
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
+

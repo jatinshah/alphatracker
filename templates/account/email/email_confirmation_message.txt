@@ -1,0 +1,14 @@
+{% load account %}
+{% user_display user as user_display %}
+{% load i18n %}
+
+{% autoescape off %}
+
+{% blocktrans with current_site.name as site_name %}
+Welcome to AlphaTracker!
+
+Thanks for signing up for AlphaTracker! Please verify your email by clicking on {{ activate_url }}.
+
+ - Jatin Shah @ AlphaTracker
+{% endblocktrans %}
+{% endautoescape %}

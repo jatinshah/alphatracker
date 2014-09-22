@@ -57,14 +57,14 @@
                 <span class="byline-item">
                     <i class="fa fa-clock-o"></i> {{ post.created_on_humanize }}
                 </span>
-                {% if user.username == post.user.username and post.is_recent %}
-                <span class="post-action byline-item">
-                    <i class="fa fa-trash-o"></i> delete
-                </span>
-                {% endif %}
-                <span class="post-action byline-item">
-                    <i class="fa fa-flag-o"></i> flag
-                </span>
+{#                {% if user.username == post.user.username and post.is_recent %}#}
+{#                <span class="post-action byline-item">#}
+{#                    <i class="fa fa-trash-o"></i> delete#}
+{#                </span>#}
+{#                {% endif %}#}
+{#                <span class="post-action byline-item">#}
+{#                    <i class="fa fa-flag-o"></i> flag#}
+{#                </span>#}
             </span>
         </div>
     </div>
@@ -128,12 +128,14 @@
                 <span class="byline-item">
                     <i class="fa fa-clock-o"></i> {{ comment.created_on_humanize }}
                 </span>
-                <span class="post-action byline-item">
-                    <i class="fa fa-trash-o"></i> delete
-                </span>
-                <span class="post-action byline-item">
-                    <i class="fa fa-flag-o"></i> flag
-                </span>
+{#                {% if comment.user.username == user.username %}#}
+{#                <span class="post-action byline-item">#}
+{#                    <i class="fa fa-trash-o"></i> delete#}
+{#                </span>#}
+{#                {% endif %}#}
+{#                <span class="post-action byline-item">#}
+{#                    <i class="fa fa-flag-o"></i> flag#}
+{#                </span>#}
             </span>
             <span class="comment-text">
                 {{ comment.text }}

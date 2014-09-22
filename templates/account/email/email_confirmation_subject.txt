@@ -1,0 +1,4 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}Welcome to AlphaTracker! Please confirm your account{% endblocktrans %}
+{% endautoescape %}
