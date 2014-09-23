@@ -111,8 +111,8 @@ def vote_post(request):
             content_type='application/json')
 
 @login_required
-def get_myfeed(request, page=1):
-    return get_feed(request, page=page, order='myfeed')
+def get_following(request, page=1):
+    return get_feed(request, page=page, order='follow')
 
 
 def get_feed(request, page=1, order='recent'):
@@ -122,7 +122,7 @@ def get_feed(request, page=1, order='recent'):
         all_posts = Post.objects.order_by('-created_on')
     elif order == 'trending':
         all_posts = Post.objects.order_by('-created_on')   # TODO: modify ordering
-    elif order == 'myfeed':
+    elif order == 'follow':
         following = Following.objects.filter(user=request.user, active=True)
         following_users = [f.following for f in following]
         all_posts = Post.objects.filter(user__in=following_users).order_by('-created_on')
@@ -160,8 +160,8 @@ def get_feed(request, page=1, order='recent'):
         return render_to_response('content/recent.html', context_dict, context)
     elif order == 'trending':
         return render_to_response('content/trending.html', context_dict, context)
-    elif order == 'myfeed':
-        return render_to_response('content/myfeed.html', context_dict, context)
+    elif order == 'follow':
+        return render_to_response('content/follow.html', context_dict, context)
 
 
 def post(request, slug, error_messages=None):

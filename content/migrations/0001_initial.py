@@ -45,7 +45,7 @@ class Migration(migrations.Migration):
             name='Post',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('post_type', models.CharField(default=b'link', max_length=10, choices=[(b'link', b'Link'), (b'article', b'Article')])),
+                ('post_type', models.CharField(default=b'link', max_length=10, choices=[(b'article', b'Article'), (b'link', b'Link')])),
                 ('trend', models.CharField(default=b'bull', max_length=5, choices=[(b'bull', b'bull'), (b'bear', b'bear')])),
                 ('title', models.CharField(max_length=200)),
                 ('url', models.URLField(blank=True)),

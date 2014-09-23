@@ -7,10 +7,5 @@ class Stock(models.Model):
     symbol = models.CharField(max_length=10, unique=True)
     name = models.CharField(max_length=50)
 
-
-# class EODHistoricalPrices(models.Model):
-#     pass
-#
-#
-# class Performance(models.Model):
-#     pass
+    def __unicode__(self):
+        return self.exchange + ":" + self.symbol
