@@ -1,8 +1,11 @@
 *.pyc
+/.idea
 /bin
 /include
 /lib
 /share
+/logs
+/staticfiles
 bower_components
 *.iml
 *.xml
