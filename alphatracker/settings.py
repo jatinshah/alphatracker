@@ -83,7 +83,7 @@ if DEBUG:
 else:
     with open('/etc/django/postgres_secret') as f:
         lines = f.read().splitlines()
-        database_password = lines[0].strip()
+        database_login = lines[0].strip()
         database_password = lines[1].strip()
 
 DATABASES = {
