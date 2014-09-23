@@ -156,3 +156,9 @@ ACCOUNT_PASSWORD_MIN_LENGTH = 8
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
 
+# Logging
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': True,
+}
+
