@@ -102,7 +102,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID = 3
+SITE_ID = 1
 
 TIME_ZONE = 'UTC'
 
@@ -131,8 +131,6 @@ LOGIN_URL = '/accounts/login/'
 
 #Security
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
 
 # Admins
 ADMINS = (('Jatin Shah', 'jatindshah@gmail.com'), )
