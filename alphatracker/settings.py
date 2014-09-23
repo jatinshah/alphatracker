@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from django.conf import global_settings
-import dj_database_url
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -19,16 +18,20 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4dl-hnd+jv%&phc36coztinvzhg7ucw5_6t8#e=lrx0ufc^0+i'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 TEMPLATE_DEBUG = DEBUG
 
-# ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '127.0.0.1:8000', 'localhost:8000', '*']
-ALLOWED_HOSTS = []
+# SECURITY WARNING: keep the secret key used in production secret!
+if DEBUG:
+    SECRET_KEY = '4dl-hnd+jv%&phc36coztinvzhg7ucw5_6t8#e=lrx0ufc^0+i'
+else:
+    with open('/etc/django/secret_key') as f:
+        SECRET_KEY = f.read().strip()
+
+if not DEBUG:
+    ALLOWED_HOSTS = ['.alphatracker.co', ]
 
 # Application definition
 AUTHENTICATION_BACKENDS = global_settings.AUTHENTICATION_BACKENDS + (
@@ -74,18 +77,26 @@ WSGI_APPLICATION = 'alphatracker.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
+if DEBUG:
+    database_login = 'django_login'
+    database_password = 'dj@ang0'
+else:
+    with open('/etc/django/postgres_secret') as f:
+        lines = f.read().splitlines()
+        django_login = lines[0].strip()
+        django_password = lines[1].strip()
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'alphatracker',
-        'USER': 'django_login',
-        'PASSWORD': 'dj@ng0',
+        'USER': database_login,
+        'PASSWORD': database_password,
         'HOST': 'localhost',
         'PORT': '5432',
     }
 }
-# DATABASES = {}
-# DATABASES['default'] = dj_database_url.config()
+
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
@@ -118,7 +129,14 @@ CONTENT_URL = '/c/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
 
+#Security
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+
+# Admins
+ADMINS = (('Jatin Shah', 'jatindshah@gmail.com'), )
+MANAGERS = ADMINS
 
 # Email Settings
 # MANDRILL_API_KEY = '_6CAnHl3xL06uGxo05NXWg'  #Test Key
