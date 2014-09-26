@@ -18,6 +18,9 @@ def load_stocks(exchange, file_name):
 
 
 def run(*args):
+    if len(args) != 2:
+        print "Usage: manage.py runscript load_stocks --script-args <exchange> <file>"
+        return
     exchange = args[0]
     file_name = args[1]
     load_stocks(exchange, file_name)

@@ -14,3 +14,10 @@ urlpatterns = patterns(
     url(r'^c/', include('content.urls')),
     url(r'^r/', include('ranking.urls'))
 )
+
+urlpatterns += patterns(
+    'django.contrib.flatpages.views',
+    url(r'^about/$', 'flatpage', {'url': '/about/'}, name='about'),
+    url(r'^terms/$', 'flatpage', {'url': '/terms/'}, name='terms'),
+    url(r'^policy/$', 'flatpage', {'url': '/policy/'}, name='policy'),
+)
