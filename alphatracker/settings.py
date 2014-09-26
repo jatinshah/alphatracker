@@ -56,6 +56,7 @@ INSTALLED_APPS = (
     'djrill',
     'allauth',
     'allauth.account',
+    'captcha',
     'rest_framework',
     'content',
     'userprofile',
@@ -158,6 +159,7 @@ ACCOUNT_USERNAME_BLACKLIST = ['edit',
 ACCOUNT_PASSWORD_MIN_LENGTH = 8
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
+ACCOUNT_SIGNUP_FORM_CLASS = 'userprofile.forms.SignUpForm'
 
 # Logging
 LOGGING = {
@@ -165,3 +167,10 @@ LOGGING = {
     'disable_existing_loggers': True,
 }
 
+# django-recaptcha
+if DEBUG:
+    RECAPTCHA_PUBLIC_KEY = '6Lcp-foSAAAAAEjDkUCE73FB3r-cdERqKnCEqOEQ'
+    RECAPTCHA_PRIVATE_KEY = '6Lcp-foSAAAAAJoXXdEbLrcbZ49HNwdocmplZuMb'
+else:
+    RECAPTCHA_PUBLIC_KEY = '6Ldj9voSAAAAALDfZx4aVMc_XMw9ACskn-T8D5Vf'
+    RECAPTCHA_PRIVATE_KEY = '6Ldj9voSAAAAAKf0q7jyYbxbfDoPasoC_dmyipm-'

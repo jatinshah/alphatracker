@@ -1,6 +1,10 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
+from captcha.fields import ReCaptchaField
+
+from collections import OrderedDict
+
 
 class ProfileForm(forms.Form):
     full_name = forms.CharField(
@@ -33,3 +37,16 @@ class ProfileForm(forms.Form):
             'max_length': _('Bio must be less than 160 characters')
         }
     )
+
+
+class SignUpForm(forms.Form):
+
+    captcha = ReCaptchaField(attrs={'theme': 'white'})
+
+    def __init__(self, *args, **kwargs):
+        fields_key_order = ['username', 'email', 'password1', 'password2', 'captcha']
+        super(SignUpForm, self).__init__(*args, **kwargs)
+        self.fields = OrderedDict((k, self.fields[k]) for k in fields_key_order)
+
+    def signup(self, request, user):
+        pass
