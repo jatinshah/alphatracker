@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+{% load account %}
+{% user_display user as user_display %}
+{% load i18n %}
+
+{% autoescape off %}
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+{% blocktrans with current_site.name as site_name %}
+<p>Welcome to AlphaTracker!</p>
+
+<p>Thanks for signing up for AlphaTracker! Please verify your email by clicking on {{ activate_url }}.</p>
+
+<p>- Jatin Shah @ AlphaTracker</p>
+{% endblocktrans %}
+{% endautoescape %}
+</body>
+</html>
