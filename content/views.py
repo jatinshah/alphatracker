@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.db.models import Sum
+from django.contrib import messages
 
 import itertools
 import arrow
@@ -17,7 +18,7 @@ from datetime import timedelta
 from content.forms import PostForm, CommentForm
 from content.models import Post, Comment, PostVote, CommentVote
 from ranking.models import Stock
-from userprofile.utils import ajax_login_required
+from userprofile.utils import ajax_login_required, get_user_permissions
 from userprofile.models import Following
 from alphatracker.settings import CONTENT_URL
 
@@ -174,10 +175,13 @@ def post(request, slug, error_messages=None):
     post.created_on_humanize = arrow.get(post.created_on).humanize()
 
     if request.user.is_authenticated():
+        can_comment = get_user_permissions(request, post)['can_comment']
         try:
             post.vote = PostVote.objects.get(post=post, user=request.user).vote
         except PostVote.DoesNotExist:
             post.vote = 0
+    else:
+        can_comment = None
 
     post.score = PostVote.objects.filter(post=post).aggregate(Sum('vote'))['vote__sum']
 
@@ -202,6 +206,7 @@ def post(request, slug, error_messages=None):
     context_dict = {
         'post': post,
         'user': user,
+        'can_comment': can_comment,
         'comments': all_comments,
         'comment_form': comment_form
     }
@@ -221,6 +226,8 @@ def add_comment(request):
             post = get_object_or_404(Post, slug=post_slug)
             text = comment_form.cleaned_data['text']
 
+            # Get commenting permission for the specific post
+            permissions = get_user_permissions(request, post)
             # Create comment slug
             max_length = Comment._meta.get_field('slug').max_length
             comment_slug = orig_slug = slugify(text)[:max_length].strip('-')
@@ -229,13 +236,14 @@ def add_comment(request):
                     break
                 comment_slug = '%s-%d' % (orig_slug[:max_length - len(str(x)) - 1], x)
 
-            comment = Comment.objects.create(
-                post=post,
-                user=request.user,
-                slug=comment_slug,
-                text=text
-            )
-            comment.save()
+            if permissions['can_comment']:
+                comment = Comment.objects.create(
+                    post=post,
+                    user=request.user,
+                    slug=comment_slug,
+                    text=text
+                )
+                comment.save()
         else:
             print comment_form.errors['text'][0]
             post_slug = comment_form.cleaned_data['slug']
@@ -255,7 +263,9 @@ def submit(request):
     if request.method == 'POST':
         post_form = PostForm(request.POST)
 
-        if post_form.is_valid():
+        permissions = get_user_permissions(request)
+
+        if post_form.is_valid() and permissions['can_post']:
             user = request.user
             data = post_form.cleaned_data
 
@@ -301,6 +311,17 @@ def submit(request):
             post.save()
             return redirect(post)
         else:
+            # Add message to be displayed
+            if not permissions['email_confirmed']:
+                messages.error(
+                    request,
+                    'Please confirm your email before making a submission'
+                )
+            elif not permissions['can_post']:
+                messages.error(
+                    request,
+                    'You have reached your daily or monthly limit on submissions'
+                )
             print post_form.errors
     else:
         post_form = PostForm()

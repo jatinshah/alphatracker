@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 from django.conf import global_settings
+from django.contrib.messages import constants as messages
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
@@ -174,3 +175,8 @@ if DEBUG:
 else:
     RECAPTCHA_PUBLIC_KEY = '6Ldj9voSAAAAALDfZx4aVMc_XMw9ACskn-T8D5Vf'
     RECAPTCHA_PRIVATE_KEY = '6Ldj9voSAAAAAKf0q7jyYbxbfDoPasoC_dmyipm-'
+
+# Django messages - Bootstrap integration
+MESSAGE_TAGS = {
+    messages.ERROR: 'alert alert-danger alert-dismissible'
+}

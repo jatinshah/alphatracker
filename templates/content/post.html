@@ -4,17 +4,17 @@
 {% load form_tags %}
 
 {% block title %}
-- {{ post.title|truncatechars:100 }}
+    - {{ post.title|truncatechars:100 }}
 {% endblock %}
 {% block content %}
-<div class="container">
-    <div class="post-item" style="border-bottom:none">
-        <div class="post-slug">
-            {{ post.slug }}
-        </div>
-        <div class="voting-block">
-            <i class="fa fa-caret-up fa-3x p-vote-up {% vote_class 'up' post.vote %}">
-            </i>
+    <div class="container">
+        <div class="post-item" style="border-bottom:none">
+            <div class="post-slug">
+                {{ post.slug }}
+            </div>
+            <div class="voting-block">
+                <i class="fa fa-caret-up fa-3x p-vote-up {% vote_class 'up' post.vote %}">
+                </i>
             <span class="score">
                 {% if post.score %}
                     {{ post.score }}
@@ -22,34 +22,34 @@
                     0
                 {% endif %}
             </span>
-        </div>
-        <div class="trend">
-            {% if post.trend == "bull" %}
-            <img src="{% static 'images/bull-light.png' %}" title="Bull"/>
-            {% elif post.trend == "bear" %}
-            <img src="{% static 'images/bear-light.png' %}" title="Bear"/>
-            {% endif %}
-        </div>
-        <div class="post-details">
+            </div>
+            <div class="trend">
+                {% if post.trend == "bull" %}
+                    <img src="{% static 'images/bull-light.png' %}" title="Bull"/>
+                {% elif post.trend == "bear" %}
+                    <img src="{% static 'images/bear-light.png' %}" title="Bear"/>
+                {% endif %}
+            </div>
+            <div class="post-details">
             <span class="stock-symbol">
-                {{post.stock.symbol}}
-                <span class="stock-name"> {{post.stock.name}}</span>
+                {{ post.stock.symbol }}
+                <span class="stock-name"> {{ post.stock.name }}</span>
             </span>
 
-            {% if post.post_type == "link" %}
-                <a href="{{ post.url }}" target="_blank">
-                    {{ post.title }}
-                </a>
-                <span class="domain">
+                {% if post.post_type == "link" %}
+                    <a href="{{ post.url }}" target="_blank">
+                        {{ post.title }}
+                    </a>
+                    <span class="domain">
                     {{ post.domain }}
                 </span>
-            {% elif post.post_type == "article" %}
-                <a href="{{ post.get_absolute_url }}">
-                    {{ post.title }}
-                </a>
-            {% endif %}
+                {% elif post.post_type == "article" %}
+                    <a href="{{ post.get_absolute_url }}">
+                        {{ post.title }}
+                    </a>
+                {% endif %}
 
-            <span class="byline">
+                <span class="byline">
                 <span class="byline-item">
                     <i class="fa fa-user"></i>
                     <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
@@ -66,51 +66,55 @@
 {#                    <i class="fa fa-flag-o"></i> flag#}
 {#                </span>#}
             </span>
+            </div>
         </div>
-    </div>
 
-    {%  if post.text %}
-    <div class="post-text" id="post-text">
-        {{ post.text }}
-    </div>
-    {%  endif %}
-
-    <div>
-        {% if user.is_authenticated %}
-        <form role="form" method="POST" name="comment_form" action="/c/add_comment/"
-              style="margin: 2em" novalidate>
-            {% csrf_token %}
-            <div class="form-group" id="comment-editor">
-                {{ comment_form.text|addclass:'form-control' }}
+        {% if post.text %}
+            <div class="post-text" id="post-text">
+                {{ post.text }}
             </div>
-            {% for err in comment_form.text.errors %}
-            <span class="help-block">{{ err }}</span>
-            {% endfor %}
-
-            <div class="form-group">
-                {{ comment_form.slug }}
-            </div>
-
-            <div class="form-group">
-                <input type="submit" class="btn btn-primary btn-sm click-disable"
-                       value="Post Comment" id="comment-button">
-            </div>
-        </form>
         {% endif %}
-    </div>
-    <div style="margin-bottom: 0.6em; padding-bottom: 0.6em; border-bottom: 1px solid #eaecee">
-        <strong>
-            {{ comments.count }} comment{{comments.count|pluralize}}
-    </div>
 
-    <ul class="list-unstyled">
-        {% for comment in comments %}
-        <li class="comment-item">
-            <div class="comment-slug">
-                {{post.slug}}/{{ comment.slug }}
-            </div>
-            <div class="voting-block">
-                <i class="fa fa-caret-up fa-2x c-vote-up {% comment_class 'up' comment.vote %}"></i>
+        <div>
+            {% if user.is_authenticated %}
+                {% if can_comment %}
+                    <form role="form" method="POST" name="comment_form" action="/c/add_comment/"
+                          style="margin: 2em" novalidate>
+                        {% csrf_token %}
+                        <div class="form-group" id="comment-editor">
+                            {{ comment_form.text|addclass:'form-control' }}
+                        </div>
+                        {% for err in comment_form.text.errors %}
+                            <span class="help-block">{{ err }}</span>
+                        {% endfor %}
+
+                        <div class="form-group">
+                            {{ comment_form.slug }}
+                        </div>
+
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-primary btn-sm click-disable"
+                                   value="Post Comment" id="comment-button">
+                        </div>
+                    </form>
+                {% endif %}
+            {% endif %}
+        </div>
+        {% if comments.count > 0 %}
+        <div style="margin-bottom: 0.6em; padding-bottom: 0.6em; border-bottom: 1px solid #eaecee">
+            <strong>
+                {{ comments.count }} comment{{ comments.count|pluralize }}
+        </div>
+        {% endif %}
+
+        <ul class="list-unstyled">
+            {% for comment in comments %}
+                <li class="comment-item">
+                    <div class="comment-slug">
+                        {{ post.slug }}/{{ comment.slug }}
+                    </div>
+                    <div class="voting-block">
+                        <i class="fa fa-caret-up fa-2x c-vote-up {% comment_class 'up' comment.vote %}"></i>
                 <span class="score" style="top:-5px">
                 {% if comment.score %}
                     {{ comment.score }}
@@ -118,8 +122,8 @@
                     0
                 {% endif %}
                 </span>
-            </div>
-            <div class="comment">
+                    </div>
+                    <div class="comment">
             <span class="byline">
                 <span class="byline-item">
                     <i class="fa fa-user"></i>
@@ -140,10 +144,10 @@
             <span class="comment-text">
                 {{ comment.text }}
             </span>
-            </div>
-        </li>
-        {% endfor %}
-    </ul>
-</div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
 

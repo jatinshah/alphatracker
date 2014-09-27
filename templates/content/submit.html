@@ -6,10 +6,29 @@
     - Submit
 {% endblock %}
 {% block content %}
+
     <div class="col-lg-9 col-md-9 center">
+
         <h1>Submit to AlphaTracker</h1>
 
-{#        <form role="form" name="post_form" method="POST" action="/c/submit/" novalidate>#}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <li class="{{ message.tags }} center"
+                            style="width:60%;text-align: center;margin-bottom: 0px;"
+                            role="alert">
+                            <button type="button" class="close" data-dismiss="alert">
+                                <span aria-hidden="true">&times;</span>
+                                <span class="sr-only">Close</span>
+                            </button>
+                            {{ message }}
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% endif %}
+
         <form role="form" name="post_form" method="POST" novalidate>
             {% csrf_token %}
 
@@ -81,11 +100,11 @@
                         <li><a href="#post-preview" role="tab" data-toggle="tab">Preview</a></li>
                     </ul>
                     <div class="tab-content">
-                    <div class="tab-pane fade in active" id="post-editor">
-                        {{ field|addclass:'form-control post-editor' }}
-                    </div>
-                    <div class="tab-pane fade post-preview" id="post-preview">
-                    </div>
+                        <div class="tab-pane fade in active" id="post-editor">
+                            {{ field|addclass:'form-control post-editor' }}
+                        </div>
+                        <div class="tab-pane fade post-preview" id="post-preview">
+                        </div>
                     </div>
                     {% for err in field.errors %}
                         <span class="help-block">{{ err }}</span>
