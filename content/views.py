@@ -1,5 +1,5 @@
 from django.template import RequestContext
-from django.http import HttpResponseRedirect, HttpResponse
+from django.http import HttpResponseRedirect, HttpResponse, Http404
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
@@ -13,14 +13,14 @@ import itertools
 import arrow
 import json
 from urlparse import urlsplit
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 from content.forms import PostForm, CommentForm
 from content.models import Post, Comment, PostVote, CommentVote
 from ranking.models import Stock
-from userprofile.utils import ajax_login_required, get_user_permissions
+from userprofile.utils import ajax_login_required, get_user_permissions, ajax_moderator_required
 from userprofile.models import Following
-from alphatracker.settings import CONTENT_URL
+from alphatracker.settings import CONTENT_URL, MODERATORS
 
 
 # Up/Down vote on comment
@@ -120,13 +120,21 @@ def get_feed(request, page=1, order='recent'):
     context = RequestContext(request)
 
     if order == 'recent':
-        all_posts = Post.objects.order_by('-created_on')
+        all_posts = Post.objects.filter(
+            deleted=False,
+            flagged=False).order_by('-created_on')
     elif order == 'trending':
-        all_posts = Post.objects.order_by('-created_on')   # TODO: modify ordering
+        all_posts = Post.objects.filter(
+            deleted=False,
+            flagged=False
+        ).order_by('-created_on')   # TODO: modify ordering
     elif order == 'follow':
         following = Following.objects.filter(user=request.user, active=True)
         following_users = [f.following for f in following]
-        all_posts = Post.objects.filter(user__in=following_users).order_by('-created_on')
+        all_posts = Post.objects.filter(
+            user__in=following_users,
+            deleted=False,
+            flagged=False).order_by('-created_on')
 
     paginator = Paginator(all_posts, 10)
 
@@ -172,6 +180,9 @@ def post(request, slug, error_messages=None):
         comment_form = CommentForm(initial={'slug': slug})
 
     post = get_object_or_404(Post, slug=slug)
+    if post.deleted:
+        raise Http404
+
     post.created_on_humanize = arrow.get(post.created_on).humanize()
 
     if request.user.is_authenticated():
@@ -189,7 +200,7 @@ def post(request, slug, error_messages=None):
         post.domain = domain_name(post.url)
     post.is_recent = (timezone.now() - post.created_on) < timedelta(days=1)
 
-    user = request.user
+    moderator = request.user.username in MODERATORS
 
     all_comments = Comment.objects.filter(post=post).order_by('-created_on')
     for comment in all_comments:
@@ -205,10 +216,11 @@ def post(request, slug, error_messages=None):
 
     context_dict = {
         'post': post,
-        'user': user,
+        'user': request.user,
         'can_comment': can_comment,
         'comments': all_comments,
-        'comment_form': comment_form
+        'comment_form': comment_form,
+        'moderator': moderator
     }
 
     return render_to_response('content/post.html', context_dict, context)
@@ -329,6 +341,95 @@ def submit(request):
     context_dict = {'form': post_form}
 
     return render_to_response('content/submit.html', context_dict, context)
+
+
+@ajax_moderator_required
+def delete_post(request):
+    response = {'authenticated': True,
+                'success': False}
+
+    if request.is_ajax() and request.method == 'POST':
+        slug = request.POST['slug']
+        post = get_object_or_404(Post, slug=slug)
+
+        if not post.deleted:
+            post.deleted = True
+            post.deleted_on = datetime.now()
+            post.save()
+
+        response['success'] = True
+
+        return HttpResponse(
+            json.dumps(response),
+                content_type='application/json'
+        )
+
+    else:
+        response['error'] = 'Invalid request'
+        return HttpResponse(
+            json.dumps(response),
+            content_type='application/json'
+        )
+
+
+@ajax_moderator_required
+def flag_post(request):
+    response = {'authenticated': True,
+                'success': False}
+
+    if request.is_ajax() and request.method == 'POST':
+        slug = request.POST['slug']
+        post = get_object_or_404(Post, slug=slug)
+
+        if not post.flagged:
+            post.flagged = True
+            post.flagged_on = datetime.now()
+            post.save()
+
+        response['success'] = True
+
+        return HttpResponse(
+            json.dumps(response),
+                content_type='application/json'
+        )
+
+    else:
+        response['error'] = 'Invalid request'
+        return HttpResponse(
+            json.dumps(response),
+            content_type='application/json'
+        )
+
+
+@ajax_moderator_required
+def delete_comment(request):
+    response = {'authenticated': True,
+                'success': False}
+
+    if request.is_ajax() and request.method == 'POST':
+        post_slug = request.POST['post_slug']
+        comment_slug = request.POST['comment_slug']
+
+        post = get_object_or_404(Post, slug=post_slug)
+        comment = get_object_or_404(Comment,post=post, slug=comment_slug)
+
+        if not comment.deleted:
+            comment.deleted = True
+            comment.deleted_on = datetime.now()
+            comment.save()
+
+        response['success'] = True
+
+        return HttpResponse(
+            json.dumps(response),
+                content_type='application/json'
+        )
+    else:
+        response['error'] = 'Invalid request'
+        return HttpResponse(
+            json.dumps(response),
+            content_type='application/json'
+        )
 
 
 def domain_name(url):

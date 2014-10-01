@@ -55,10 +55,71 @@ $.ajaxSetup({
 $(document).ready(function () {
     "use strict";
 
+    // Flag/Delete posts & comments
+    $('#flag-post').click(function () {
+        var action_text = $(this).text().trim(),
+            slug,
+            this_elem = $(this);
+        if (action_text === 'flag') {
+            slug = $(this).closest('.post-item').find('.post-slug').text().trim();
+            $.post('/c/flag_post/', {slug: slug},
+                function (data) {
+                    if (data.success) {
+                        this_elem.html('<i class="fa fa-flag-o"></i> flagged');
+                    }
+                }
+            );
+        }
+    });
+
+    $('#delete-post').click(function () {
+        var action_text = $(this).text().trim(),
+            slug,
+            this_elem = $(this);
+        if (action_text === 'delete') {
+            slug = $(this).closest('.post-item').find('.post-slug').text().trim();
+            $.post('/c/delete_post/', {slug: slug},
+                function (data) {
+                    if (data.success) {
+                        this_elem.html('<i class="fa fa-trash-o"></i> deleted');
+                    }
+                });
+        }
+    });
+
+    $('.delete-comment').click(function (evt) {
+        var action_text = $(this).text().trim(),
+            slug, slug_split, post_slug, comment_slug,
+            this_elem = $(this),
+            comment_text;
+
+        slug = $(this).closest('.comment-item').find('.comment-slug').text();
+        slug_split = slug.trim().split('/');
+        post_slug = slug_split[0];
+        comment_slug = slug_split[1];
+
+        comment_text = $(this).closest('.comment-item').find('.comment-text');
+        comment_text.html('deleted');
+        comment_text.attr('style', 'font-style: italic');
+
+        if (action_text === 'delete') {
+            $.post('/c/delete_comment/',
+                {
+                    post_slug: post_slug,
+                    comment_slug: comment_slug
+                },
+                function (data) {
+                    if (data.success) {
+                        this_elem.html('<i class="fa fa-trash-o"></i> deleted');
+                    }
+                });
+        }
+    });
     // Disable on click
     $('form').on('submit', function () {
         $('.click-disable').prop('disabled', true);
     });
+
     // Disable Post button on empty comment
     $('#comment-button').prop('disabled', true);
     $('#comment-editor').keyup(function (evt) {

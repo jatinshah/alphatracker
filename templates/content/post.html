@@ -57,14 +57,14 @@
                 <span class="byline-item">
                     <i class="fa fa-clock-o"></i> {{ post.created_on_humanize }}
                 </span>
-{#                {% if user.username == post.user.username and post.is_recent %}#}
-{#                <span class="post-action byline-item">#}
-{#                    <i class="fa fa-trash-o"></i> delete#}
-{#                </span>#}
-{#                {% endif %}#}
-{#                <span class="post-action byline-item">#}
-{#                    <i class="fa fa-flag-o"></i> flag#}
-{#                </span>#}
+                {% if moderator %}
+                    <span class="post-action byline-item" id="flag-post">
+                        <i class="fa fa-flag-o"></i> flag
+                    </span>
+                    <span class="post-action byline-item" id="delete-post">
+                        <i class="fa fa-trash-o"></i> delete
+                    </span>
+                {% endif %}
             </span>
             </div>
         </div>
@@ -132,18 +132,24 @@
                 <span class="byline-item">
                     <i class="fa fa-clock-o"></i> {{ comment.created_on_humanize }}
                 </span>
-{#                {% if comment.user.username == user.username %}#}
-{#                <span class="post-action byline-item">#}
-{#                    <i class="fa fa-trash-o"></i> delete#}
-{#                </span>#}
-{#                {% endif %}#}
-{#                <span class="post-action byline-item">#}
-{#                    <i class="fa fa-flag-o"></i> flag#}
-{#                </span>#}
+                {% if moderator %}
+{#                    <span class="post-action byline-item flag-comment">#}
+{#                        <i class="fa fa-flag-o"></i> flag#}
+{#                    </span>#}
+                    <span class="post-action byline-item delete-comment">
+                        <i class="fa fa-trash-o"></i> delete
+                    </span>
+                {% endif %}
             </span>
+            {% if comment.deleted %}
+            <span class="comment-text" style="font-style: italic">
+                deleted
+            </span>
+            {% else %}
             <span class="comment-text">
                 {{ comment.text }}
             </span>
+            {% endif %}
                     </div>
                 </li>
             {% endfor %}

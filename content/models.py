@@ -26,6 +26,9 @@ class Post(models.Model):
     deleted = models.BooleanField(default=False)
     deleted_on = models.DateTimeField(null=True)
 
+    flagged = models.BooleanField(default=False)
+    flagged_on = models.DateTimeField(null=True)
+
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
@@ -42,6 +45,9 @@ class Comment(models.Model):
     slug = models.SlugField(max_length=200)
 
     text = models.TextField()
+
+    deleted = models.BooleanField(default=False)
+    deleted_on = models.DateTimeField(null=True)
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)

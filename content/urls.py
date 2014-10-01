@@ -10,5 +10,8 @@ urlpatterns = patterns('',
         url(r'^submit/$', views.submit, name='submit'),
         url(r'^add_comment/$', views.add_comment, name='add_comment'),
         url(r'^vote/$', views.vote_post, name='vote'),
-        url(r'^vote_comment/$', views.vote_comment, name='vote_comment')
+        url(r'^vote_comment/$', views.vote_comment, name='vote_comment'),
+        url(r'^delete_post/$', views.delete_post, name='delete_post'),
+        url(r'^flag_post/$', views.flag_post, name='flag_post'),
+        url(r'^delete_comment/$', views.delete_comment, name='delete_comment')
 )

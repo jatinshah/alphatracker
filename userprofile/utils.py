@@ -1,11 +1,12 @@
 from django.http import HttpResponse
 
 from functools import wraps
-from json import dumps
+import json
 from datetime import datetime, timedelta
 
 from userprofile.models import UserProfile
 from content.models import Post, PostVote
+from alphatracker.settings import MODERATORS
 
 
 def ajax_login_required(view_function):
@@ -13,8 +14,31 @@ def ajax_login_required(view_function):
     def wrapper(request, *args, **kwargs):
         if request.user.is_authenticated():
             return view_function(request, *args, **kwargs)
-        json = dumps({'authenticated': False})
-        return HttpResponse(json, content_type='application/json')
+        else:
+            response = {'authenticated': False}
+            return HttpResponse(
+                json.dumps(response),
+                content_type='application/json'
+            )
+
+    return wrapper
+
+
+def ajax_moderator_required(view_function):
+    @wraps(view_function)
+    def wrapper(request, *args, **kwargs):
+        response = {
+            'authenticated': request.user.is_authenticated
+        }
+        if request.user.is_authenticated and request.user.username in MODERATORS:
+            return view_function(request, *args, **kwargs)
+        else:
+            response['success'] = False
+            return HttpResponse(
+                json.dumps(response),
+                content_type='application/json'
+            )
+
     return wrapper
 
 

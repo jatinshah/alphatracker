@@ -80,7 +80,7 @@ def profile(request, username):
     follower_count = Following.objects.filter(
         following=user, active=True).aggregate(Count('active'))['active__count']
 
-    posts = Post.objects.filter(user=user).order_by('-created_on')
+    posts = Post.objects.filter(user=user, deleted=False).order_by('-created_on')
 
     for post in posts:
         post.created_on_humanize = arrow.get(post.created_on).humanize()

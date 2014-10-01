@@ -107,6 +107,7 @@ hr{
 
 .post-action {
     display:none;
+    cursor: pointer;
 }
 
 .comment-item:hover .post-action {
@@ -148,6 +149,10 @@ hr{
     margin-top: 0px;
 }
 
+.post-text > :last-child {
+    margin-bottom: 0px;
+}
+
 .post-editor {
     margin-top: 10px;
 }
@@ -158,6 +163,10 @@ hr{
 
 .post-preview > :first-child {
     margin-top: 0px;
+}
+
+.post-preview > :last-child {
+    margin-bottom: 0px;
 }
 
 /* Comment related */
@@ -182,6 +191,10 @@ hr{
 }
 .comment-text > :first-child {
     margin-top: 0px;
+}
+
+.comment-text > :last-child {
+    margin-bottom: 0px;
 }
 
 /* Profile related */

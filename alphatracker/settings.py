@@ -139,10 +139,16 @@ SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 # Admins
 ADMINS = (('Jatin Shah', 'jatindshah@gmail.com'), )
 MANAGERS = ADMINS
+if DEBUG:
+    MODERATORS = ('jatinshah', )
+else:
+    MODERATORS = ('jatin')
 
 # Email Settings
-# MANDRILL_API_KEY = '_6CAnHl3xL06uGxo05NXWg'  #Test Key
-MANDRILL_API_KEY = '0YrV9hwcdA7JLY8SKdzySQ'  #Production Key
+if DEBUG:
+    MANDRILL_API_KEY = '_6CAnHl3xL06uGxo05NXWg'  #Test Key
+else:
+    MANDRILL_API_KEY = '0YrV9hwcdA7JLY8SKdzySQ'  #Production Key
 EMAIL_BACKEND = 'djrill.mail.backends.djrill.DjrillBackend'
 DEFAULT_FROM_EMAIL = 'Jatin Shah <jatin@alphatracker.co>'
 EMAIL_SUBJECT_PREFIX = ''
