@@ -114,6 +114,94 @@
 
 
             <input type="submit" class="btn btn-primary click-disable" value="Submit">
+            <span class="pull-right">
+
+                <a class="btn btn-link btn-sm" data-toggle="modal" data-target="#help-modal">
+                    Formatting Help
+                </a>
+            </span>
         </form>
+    </div>
+    <div class="modal fade" id="help-modal" tabindex="-1" role="dialog"
+         aria-labelledby="help-modal-label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="help-modal-label">Formatting Help</h4>
+                </div>
+                <div class="modal-body">
+                    AlphaTracker uses <a href="http://daringfireball.net/projects/markdown/">Markdown</a> 
+                    for formatting. Here's a quick guide to Markdown.
+                    <p></p>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>What you type</th>
+                                <th>What you see</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>**bold**</td>
+                                <td class="to-markdown">**bold**</td>
+                            </tr>
+                            <tr>
+                                <td>*italics*</td>
+                                <td class="to-markdown">*italics*</td>
+                            </tr>
+                            <tr>
+                                <td>[AlphaTracker](http://www.alphatracker.co)</td>
+                                <td class="to-markdown">[AlphaTracker](http://www.alphatracker.co)</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    > quoted text
+                                </td>
+                                <td class="to-markdown">
+                                    > quoted text
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#Header1</td>
+                                <td class="to-markdown">#Header1</td>
+                            </tr>
+                            <tr>
+                                <td>##Header2</td>
+                                <td class="to-markdown">##Header2</td>
+                            </tr>
+                            <tr>
+                                <td>###Header3</td>
+                                <td class="to-markdown">###Header3</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    * item 1<br>
+                                    * item 2<br>
+                                </td>
+                                <td>
+                                    <ul>
+                                        <li>item 1</li>
+                                        <li>item 2</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <p>Please visit <a href="http://daringfireball.net/projects/markdown/syntax">Markdown Syntax</a>
+                            for more details</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary btn-sm" data-dismiss="modal">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

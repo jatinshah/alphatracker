@@ -242,3 +242,17 @@ hr{
 .stock-symbol-box {
     width: 90px;
 }
+
+/* Formatting help table */
+#help-modal th,
+#help-modal td {
+    padding: 2px !important;
+}
+
+#help-modal td *
+{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}

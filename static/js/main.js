@@ -129,6 +129,13 @@ $(document).ready(function () {
             $('#comment-button').prop('disabled', true);
         }
     });
+    // Rendering markdown in Formatting Help
+    // with to-markdown class
+    $('.to-markdown').each(function () {
+        var elem_text = $(this).text().trim();
+        $(this).html(markdown.toHTML(elem_text));
+    });
+
     // Rendering markdown on submit page
     $('#post-editor').keyup(function (evt) {
         evt.preventDefault();
