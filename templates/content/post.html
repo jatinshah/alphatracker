@@ -51,18 +51,18 @@
 
                 <span class="byline">
                 <span class="byline-item">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-user fa-byline"></i>
                     <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
                 </span>
                 <span class="byline-item">
-                    <i class="fa fa-clock-o"></i> {{ post.created_on_humanize }}
+                    <i class="fa fa-clock-o fa-byline"></i> {{ post.created_on_humanize }}
                 </span>
                 {% if moderator %}
                     <span class="post-action byline-item" id="flag-post">
-                        <i class="fa fa-flag-o"></i> flag
+                        <i class="fa fa-flag-o fa-byline"></i> flag
                     </span>
                     <span class="post-action byline-item" id="delete-post">
-                        <i class="fa fa-trash-o"></i> delete
+                        <i class="fa fa-trash-o fa-byline"></i> delete
                     </span>
                 {% endif %}
             </span>
@@ -126,18 +126,18 @@
                     <div class="comment">
             <span class="byline">
                 <span class="byline-item">
-                    <i class="fa fa-user"></i>
+                    <i class="fa fa-user fa-byline"></i>
                     <a href="/u/{{ comment.user.username }}">{{ comment.user.username }}</a>
                 </span>
                 <span class="byline-item">
-                    <i class="fa fa-clock-o"></i> {{ comment.created_on_humanize }}
+                    <i class="fa fa-clock-o fa-byline"></i> {{ comment.created_on_humanize }}
                 </span>
                 {% if moderator %}
 {#                    <span class="post-action byline-item flag-comment">#}
 {#                        <i class="fa fa-flag-o"></i> flag#}
 {#                    </span>#}
                     <span class="post-action byline-item delete-comment">
-                        <i class="fa fa-trash-o"></i> delete
+                        <i class="fa fa-trash-o fa-byline"></i> delete
                     </span>
                 {% endif %}
             </span>

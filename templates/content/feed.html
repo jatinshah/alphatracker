@@ -50,19 +50,19 @@
                         {% endif %}
                         <span class="byline">
                             <span class="byline-item">
-                                <i class="fa fa-user" style="margin-right: 2px;"></i>
+                                <i class="fa fa-user fa-byline"></i>
                                 <a href="/u/{{ post.user.username }}">
                                     {{ post.user.username }}
                                 </a>
                             </span>
                             <span class="byline-item">
-                                <i class="fa fa-clock-o" style="margin-right: 2px;"></i>
+                                <i class="fa fa-clock-o fa-byline"></i>
                                 {{ post.created_on_humanize }}
                             </span>
                             <span class="byline-item">
                             {% if post.comments_count %}
                                 <a href="{{ post.get_absolute_url }}">
-                                    <i class="fa fa-comment" style="margin-right: 2px;"></i>
+                                    <i class="fa fa-comment fa-byline"></i>
                                     {{ post.comments_count }}
                                 </a>
                             {% endif %}

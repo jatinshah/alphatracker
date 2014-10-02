@@ -138,6 +138,9 @@ hr{
     margin-left: 20px;
 }
 
+.fa-byline {
+    margin-right: 3px;
+}
 /* Post related */
 .post-text {
     margin: 0.5em 2em 2em 2em;
