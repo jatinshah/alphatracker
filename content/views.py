@@ -20,7 +20,7 @@ from content.models import Post, Comment, PostVote, CommentVote
 from ranking.models import Stock
 from userprofile.utils import ajax_login_required, get_user_permissions, ajax_moderator_required
 from userprofile.models import Following
-from alphatracker.settings import CONTENT_URL, MODERATORS
+from alphatracker.settings import CONTENT_URL, MODERATORS, SLUG_MAX_LENGTH
 
 
 # Up/Down vote on comment
@@ -241,12 +241,11 @@ def add_comment(request):
             # Get commenting permission for the specific post
             permissions = get_user_permissions(request, post)
             # Create comment slug
-            max_length = Comment._meta.get_field('slug').max_length
-            comment_slug = orig_slug = slugify(text)[:max_length].strip('-')
+            comment_slug = orig_slug = slugify(text)[:SLUG_MAX_LENGTH].strip('-')
             for x in itertools.count(1):
                 if not Comment.objects.filter(post=post, slug=comment_slug).exists():
                     break
-                comment_slug = '%s-%d' % (orig_slug[:max_length - len(str(x)) - 1], x)
+                comment_slug = '%s-%d' % (orig_slug[:SLUG_MAX_LENGTH - len(str(x)) - 1], x)
 
             if permissions['can_comment']:
                 comment = Comment.objects.create(
@@ -289,12 +288,11 @@ def submit(request):
             stock = Stock.objects.get(symbol=symbol)
 
             # Create slug
-            max_length = Post._meta.get_field('slug').max_length
-            slug = orig_slug = slugify(title)[:max_length].strip('-')
+            slug = orig_slug = slugify(title)[:SLUG_MAX_LENGTH].strip('-')
             for x in itertools.count(1):
                 if not Post.objects.filter(slug=slug).exists():
                     break
-                slug = '%s-%d' % (orig_slug[:max_length - len(str(x)) - 1], x)
+                slug = '%s-%d' % (orig_slug[:SLUG_MAX_LENGTH - len(str(x)) - 1], x)
 
             if post_type == 'link':
                 url = data['url']

@@ -88,15 +88,40 @@ hr{
     padding-top: 20px;
 }
 
-.trend > img, .trend-icon {
+.trend-icon {
     width: 30px;
     height: auto;
+    background-color: #939393;
+}
+
+.trend > img {
+    width: 30px;
+    height: auto;
+    margin-right: 5px;
+    margin-left: 5px;
+    background-color: #939393;
+}
+
+.performance {
+    float: left;
+    line-height: 66px;
+    width: 35px;
+    margin: auto 5px;
+    font-weight: bold;
+    text-align: center;
+    color: #18bc9c;
 }
 
 .post-details {
     float: left;
     margin-left: 0.5em;
     width: 80%;
+}
+
+@media (max-width: 660px) {
+    .post-details {
+        width: 65%;
+    }
 }
 
 .domain {
@@ -175,7 +200,6 @@ hr{
 /* Comment related */
 .comment-item {
     border-bottom: 1px solid #eaecee;
-    font-size: 90%;
     overflow: auto;
     padding-bottom: 0.6em;
     margin-bottom: 0.6em;

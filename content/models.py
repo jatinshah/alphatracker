@@ -29,6 +29,9 @@ class Post(models.Model):
     flagged = models.BooleanField(default=False)
     flagged_on = models.DateTimeField(null=True)
 
+    performance = models.FloatField(default=0)
+    performance_updated_on = models.DateTimeField(null=True)
+
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 

@@ -25,14 +25,17 @@
             </div>
             <div class="trend">
                 {% if post.trend == "bull" %}
-                    <img src="{% static 'images/bull-light.png' %}" title="Bull"/>
+                    <img src="{% static 'images/bull-transparent.png' %}" title="Bull"/>
                 {% elif post.trend == "bear" %}
-                    <img src="{% static 'images/bear-light.png' %}" title="Bear"/>
+                    <img src="{% static 'images/bear-transparent.png' %}" title="Bear"/>
                 {% endif %}
+            </div>
+            <div class="performance">
+                {{ post.performance|floatformat:"0" }}%
             </div>
             <div class="post-details">
             <span class="stock-symbol">
-                {{ post.stock.symbol }}
+                <span>{{ post.stock.symbol }}</span>
                 <span class="stock-name"> {{ post.stock.name }}</span>
             </span>
 
@@ -104,6 +107,7 @@
         <div style="margin-bottom: 0.6em; padding-bottom: 0.6em; border-bottom: 1px solid #eaecee">
             <strong>
                 {{ comments.count }} comment{{ comments.count|pluralize }}
+            </strong>
         </div>
         {% endif %}
 

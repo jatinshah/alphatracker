@@ -186,3 +186,6 @@ else:
 MESSAGE_TAGS = {
     messages.ERROR: 'alert alert-danger alert-dismissible'
 }
+
+# General Settings
+SLUG_MAX_LENGTH = 50

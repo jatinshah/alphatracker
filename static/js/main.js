@@ -55,6 +55,33 @@ $.ajaxSetup({
 $(document).ready(function () {
     "use strict";
 
+    // Performance
+    $('.trend').each(function () {
+        var post_elem = $(this).closest('.post-item'),
+            trend_elem = post_elem.find('.trend'),
+            performance,
+            title,
+            color,
+            color_red = '#CE1620',  // Fire Engine Red
+            color_green = '#008000'; // Green
+
+        performance = post_elem.find('.performance').text().trim();
+        if (performance.length && $.isNumeric(performance.slice(0, -1))) {
+            performance = performance.slice(0, -1);
+            if (Math.abs(performance) >= 5) {
+                title = trend_elem.find('img').attr('title');
+                if (title === 'Bull') {
+                    color = (performance > 0) ? color_green : color_red;
+                } else {
+                    color = (performance > 0) ? color_red : color_green;
+                }
+
+                post_elem.find('.performance').attr('style', 'color: ' + color);
+                trend_elem.find('img').attr('style', 'background-color:' + color);
+            }
+            post_elem.find('.performance').html(performance + '%');
+        }
+    });
     // Flag/Delete posts & comments
     $('#flag-post').click(function () {
         var action_text = $(this).text().trim(),
@@ -123,7 +150,7 @@ $(document).ready(function () {
     // Disable Post button on empty comment
     $('#comment-button').prop('disabled', true);
     $('#comment-editor').keyup(function (evt) {
-        if ($(this).find('textarea').val().length !== 0){
+        if ($(this).find('textarea').val().length !== 0) {
             $('#comment-button').prop('disabled', false);
         } else {
             $('#comment-button').prop('disabled', true);
@@ -147,7 +174,7 @@ $(document).ready(function () {
     var post_text = $('#post-text').text().trim();
     $('#post-text').html(markdown.toHTML(post_text));
 
-    $('.comment-text').each(function() {
+    $('.comment-text').each(function () {
         var comment_text = $(this).text().trim();
         $(this).html(markdown.toHTML(comment_text));
     });
@@ -206,7 +233,7 @@ $(document).ready(function () {
                     toggleVote(this_elem);
                 }
             }
-            );
+        );
     });
 
     // Voting on comments
@@ -238,7 +265,7 @@ $(document).ready(function () {
                     toggleVote(this_elem);
                 }
             }
-            );
+        );
     });
 
 
