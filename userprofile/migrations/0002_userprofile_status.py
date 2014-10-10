@@ -14,7 +14,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='userprofile',
             name='status',
-            field=models.CharField(default=-1, max_length=2, choices=[(-1, b'Unconfirmed Email'), (0, b'New User'), (1, b'Full Access')]),
+            field=models.CharField(default=b'E', max_length=2, choices=[(b'E', b'Unconfirmed Email'), (b'N', b'New User'), (b'F', b'Full Access')]),
             preserve_default=True,
         ),
     ]
