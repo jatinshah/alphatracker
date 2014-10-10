@@ -2,6 +2,7 @@ from django.db.models import Min
 
 from datetime import date, datetime, timedelta
 import requests
+from urllib import urlencode
 
 from content.models import Post
 from ranking.models import Stock
@@ -61,7 +62,7 @@ def update_performance():
 
         posts = Post.objects.filter(stock=stock)
         if len(posts) > 0:
-            start_date = posts.aggregate(Min('created_on'))['created_on__min'] - timedelta(days=10)
+            start_date = posts.aggregate(Min('created_on'))['created_on__min']
             end_date = date.today()
 
             latest_price, historical_prices = get_historical_prices(stock.symbol,
@@ -74,7 +75,7 @@ def update_performance():
             for post in posts:
                 original_date = post.created_on
                 for day in xrange(10):
-                    post_date = (original_date - timedelta(day)).strftime('%Y-%m-%d')
+                    post_date = (original_date + timedelta(day)).strftime('%Y-%m-%d')
                     if post_date in historical_prices:
                         original_price = float(historical_prices[post_date])
                         break
