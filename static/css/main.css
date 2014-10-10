@@ -21,6 +21,21 @@
     margin-bottom: 0px;
 }
 
+.navbar .nav > li > a {
+    color: #333333;
+    font-weight: bold;
+    margin: 0px 5px;
+}
+
+.navbar .nav > li.active > a,
+.navbar .nav > li.active > a:hover,
+.navbar .nav > li > a:hover
+{
+    color: #333333;
+    background-color: #ffffff;
+    border-bottom: 3px solid #333333;
+}
+
 .navbar-brand {
     font-weight: 800;
     font-size: 150%;
@@ -68,7 +83,7 @@ hr{
     position: relative;
     font-size: 16px;
     font-weight: bold;
-    color: #18BC9C;  /* @brand-succcess */
+    color: #18BC9C;   /* @brand-succcess */
 }
 
 .stock-name {
@@ -91,7 +106,7 @@ hr{
 .trend-icon {
     width: 30px;
     height: auto;
-    background-color: #939393;
+    background-color: #333333;
 }
 
 .trend > img {
@@ -99,7 +114,7 @@ hr{
     height: auto;
     margin-right: 5px;
     margin-left: 5px;
-    background-color: #939393;
+    background-color: #E8DBD5;
 }
 
 .performance {
@@ -148,15 +163,15 @@ hr{
     position: relative;
     font-size: 10pt;
     font-style: italic;
-    color: #b4bcc2;
+    color: #E8DBD5;
 }
 
 .byline a {
-    color: #afafaf;
+    color: #E8DBD5;
 }
 .byline a:hover {
     text-decoration: none;
-    color: #7f7f7f;
+    color: #18BC9C; /* brand-success */
 }
 
 .byline-item:not(:first-child) {
@@ -252,7 +267,7 @@ hr{
 .score {
     top: -10px;
     font-weight: bold;
-    color: #777777;
+    color: #18BC9C;;
     display: block;
     position: relative;
     text-align: center;

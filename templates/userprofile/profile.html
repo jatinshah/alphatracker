@@ -72,7 +72,7 @@
                         {% endif %}
                     </div>
                     <div class="performance">
-                        {{ post.performance|floatformat:"0" }}%
+                        {{ post.stock_performance|floatformat:1 }}%
                     </div>
                     <div class="post-details">
                         <span class="stock-symbol">
@@ -89,16 +89,18 @@
                         {% endif %}
                         <span class="byline">
                             <span class="byline-item">
-                                <i class="fa fa-user"></i>
-                                <a href="/u/{{ post.user.username }}">{{ post.user.username }}</a>
+                                <a href="/u/{{ post.user.username }}">
+                                    <i class="fa fa-user fa-byline"></i>
+                                    {{ post.user.username }}
+                                </a>
                             </span>
                             <span class="byline-item">
-                                <i class="fa fa-clock-o"></i> {{ post.created_on_humanize }}
+                                <i class="fa fa-clock-o fa-byline"></i> {{ post.created_on_humanize }}
                             </span>
                             <span class="byline-item">
                             {% if post.comments_count %}
                                 <a href="{{ post.get_absolute_url }}">
-                                    <i class="fa fa-comment"></i> {{ post.comments_count }}
+                                    <i class="fa fa-comment fa-byline"></i> {{ post.comments_count }}
                                 </a>
                             {% endif %}
                             </span>
