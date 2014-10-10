@@ -1,7 +1,9 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
+from django.contrib.sitemaps.views import sitemap
 from django.views.generic import RedirectView
 
+from alphatracker.sitemap import sitemaps
 
 admin.autodiscover()
 
@@ -12,7 +14,9 @@ urlpatterns = patterns(
     url(r'^accounts/', include('allauth.urls')),
     url(r'^u/', include('userprofile.urls')),
     url(r'^c/', include('content.urls')),
-    url(r'^r/', include('ranking.urls'))
+    url(r'^r/', include('ranking.urls')),
+    url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps},
+        name='django.contrib.sitemaps.views.sitemap')
 )
 
 urlpatterns += patterns(
