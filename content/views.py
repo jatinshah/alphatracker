@@ -21,8 +21,6 @@ from ranking.models import Stock
 from userprofile.utils import ajax_login_required, get_user_permissions, ajax_moderator_required
 from userprofile.models import Following
 from alphatracker.settings import CONTENT_URL, MODERATORS, SLUG_MAX_LENGTH
-from alphatracker.utils import mixpanel_track
-
 
 # Up/Down vote on comment
 @ajax_login_required
@@ -319,11 +317,6 @@ def add_comment(request):
                     text=text
                 )
                 comment.save()
-                mixpanel_track(
-                    request.user.username,
-                    'Comment',
-                    {'Post': post_slug, 'Post User': post.user.username}
-                )
         else:
             print comment_form.errors['text'][0]
             post_slug = comment_form.cleaned_data['slug']
@@ -388,7 +381,6 @@ def submit(request):
                     text=text
                 )
             post.save()
-            mixpanel_track(request.user.username, 'Post', {'Type': post_type})
             return redirect(post)
         else:
             # Add message to be displayed
