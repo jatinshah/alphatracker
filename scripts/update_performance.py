@@ -80,7 +80,7 @@ def update_performance():
                         break
                 if original_price:
                     performance = 100 * (latest_price - original_price) / original_price
-                    post.performance = performance
+                    post.stock_performance = performance
                     post.performance_updated_on = datetime.now()
                     post.save()
                 else:

@@ -13,7 +13,7 @@ import itertools
 import arrow
 import json
 from urlparse import urlsplit
-from datetime import timedelta, datetime
+from datetime import timedelta, datetime, date
 
 from content.forms import PostForm, CommentForm
 from content.models import Post, Comment, PostVote, CommentVote
@@ -94,13 +94,20 @@ def vote_post(request):
             post_vote = PostVote.objects.get(post=post, user=request.user)
             if post_vote.vote * vote < 0 or post_vote.vote == 0:
                 post_vote.vote = vote
+                post.votes += 1
             elif post_vote.vote * vote > 0:
                 post_vote.vote = 0
+                post.votes -= 1
+
             post_vote.save(update_fields=['vote'])
+
         except PostVote.DoesNotExist:
             post_vote = PostVote(post=post, user=request.user, vote=vote)
+            post.votes += 1
+
             post_vote.save()
 
+        post.save(update_fields=['votes'])
         response['success'] = True
         return HttpResponse(
             json.dumps(response),
@@ -110,6 +117,62 @@ def vote_post(request):
         return HttpResponse(
             json.dumps(response),
             content_type='application/json')
+
+
+def top_ideas(request, time_frame='today', page=1):
+    context = RequestContext(request)
+
+    today = date.today()
+    start_week = today - timedelta(days=today.weekday())
+    time_frame_map = {
+        'today': datetime(today.year, today.month, today.day),
+        'this_week': datetime(start_week.year, start_week.month, start_week.day),
+        'this_month': datetime(today.year, today.month, 1),
+        'this_quarter': datetime(today.year, 3 * (today.month/3) + 1, 1),
+        'this_year': datetime(today.year, 1, 1),
+        'all': datetime(1970, 1, 1)
+    }
+
+    if time_frame in time_frame_map.keys():
+        all_posts = Post.objects.filter(
+            deleted=False,
+            flagged=False,
+            created_on__gte=time_frame_map[time_frame]
+        ).order_by('-log_votes', '-post_performance')
+    else:
+        raise Http404
+
+    # Paginate
+    paginator = Paginator(all_posts, 10)
+
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
+
+    for post in posts:
+        post.created_on_humanize = arrow.get(post.created_on).humanize()
+        if request.user.is_authenticated():
+            try:
+                post.vote = PostVote.objects.get(post=post,
+                                                 user=request.user).vote
+            except PostVote.DoesNotExist:
+                post.vote = 0
+
+        post.score = PostVote.objects.filter(post=post).aggregate(Sum('vote'))['vote__sum']
+        if post.post_type == 'link':
+            post.domain = domain_name(post.url)
+        post.comments_count = Comment.objects.filter(post=post).count()
+
+    context_dict = {
+        'posts': posts,
+        'path': CONTENT_URL + 'top_ideas/' + time_frame + '/'
+    }
+
+    return render_to_response('content/top_ideas.html', context_dict, context)
+
 
 @login_required
 def get_following(request, page=1):

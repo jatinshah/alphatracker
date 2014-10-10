@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+
+from math import log10
+
 from ranking.models import Stock
 
 
@@ -29,8 +32,12 @@ class Post(models.Model):
     flagged = models.BooleanField(default=False)
     flagged_on = models.DateTimeField(null=True)
 
-    performance = models.FloatField(default=0)
+    stock_performance = models.FloatField(default=0)
+    post_performance = models.FloatField(default=0)
     performance_updated_on = models.DateTimeField(null=True)
+
+    votes = models.IntegerField(default=0)
+    log_votes = models.IntegerField(default=-1)
 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
@@ -40,6 +47,19 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse('content.views.post', args=[self.slug, ])
+
+    def save(self, *args, **kwargs):
+        if self.votes <= 0:
+            self.log_votes = -1
+        else:
+            self.log_votes = log10(self.votes)
+
+        if self.trend == 'bear':
+            self.post_performance = (-1) * self.stock_performance
+        else:
+            self.post_performance = self.stock_performance
+
+        super(Post, self).save(*args, **kwargs)
 
 
 class Comment(models.Model):

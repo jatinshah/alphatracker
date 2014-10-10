@@ -129,7 +129,6 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, 'templates'),
 )
 
-CONTENT_URL = '/c/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/accounts/login/'
 
@@ -189,3 +188,4 @@ MESSAGE_TAGS = {
 
 # General Settings
 SLUG_MAX_LENGTH = 50
+CONTENT_URL = '/c/'

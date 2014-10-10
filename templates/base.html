@@ -51,6 +51,11 @@
             <li class="{% active request '/c/follow/' %}">
                 <a href="{% url 'follow' %}"><span class="fa fa-rss right5"></span> Following</a>
             </li>
+            <li>
+                <a href="{% url 'top_ideas' time_frame='today' %}">
+                    <span class="fa fa-trophy right5"></span> Top Ideas
+                </a>
+            </li>
             <li class="{% active request '/c/submit/' %}">
                 <a href="{% url 'submit' %}"><span class="fa fa-plus right5"></span> Submit</a>
             </li>
