@@ -1,11 +1,9 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.dispatch import receiver
-from django.core.mail import send_mail
-from django.core.mail import EmailMultiAlternatives
-
 from allauth.account.signals import email_confirmed, user_signed_up
 
+from alphatracker.utils import mixpanel_track
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -67,3 +65,4 @@ def after_signup(sender, **kwargs):
     user = kwargs.get('user')
     user_profile = UserProfile(user=user)
     user_profile.save()
+    mixpanel_track(user.username, 'Signup')
