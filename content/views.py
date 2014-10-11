@@ -8,6 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.contrib import messages
+from django.views.decorators.cache import cache_control
 
 import itertools
 import arrow
@@ -106,7 +107,7 @@ def vote_post(request):
 
             post_vote.save()
 
-        post.save(update_fields=['votes'])
+        post.save()
         response['success'] = True
         return HttpResponse(
             json.dumps(response),
