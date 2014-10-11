@@ -139,6 +139,12 @@ hr{
     }
 }
 
+@media (max-width: 500px) {
+    .post-details {
+        width: 100%;
+    }
+}
+
 .domain {
     font-style: italic;
     font-size: 10pt;
