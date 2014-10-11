@@ -133,7 +133,7 @@ hr{
     width: 80%;
 }
 
-@media (max-width: 740px) {
+@media (min-width: 500px) and (max-width: 740px) {
     .post-details {
         width: 70%;
     }
