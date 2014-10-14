@@ -5,22 +5,22 @@
     <div class="container">
         <h3 class="headline">Top Ideas</h3>
         <ul style="list-style: none;padding-left: 0px;">
-            <li class="time-filter {% active request '/top_ideas/today/' %}">
+            <li class="time-filter {% active request '/c/top_ideas/today/' %}">
                 <a href="{% url 'top_ideas' time_frame='today' %}">Today</a>
             </li>
-            <li class="time-filter {% active request '/top_ideas/this_week/' %}">
+            <li class="time-filter {% active request '/c/top_ideas/this_week/' %}">
                 <a href="{% url 'top_ideas' time_frame='this_week' %}">This Week</a>
             </li>
-            <li class="time-filter {% active request '/top_ideas/this_month/' %}">
+            <li class="time-filter {% active request '/c/top_ideas/this_month/' %}">
                 <a href="{% url 'top_ideas' time_frame='this_month' %}">This Month</a>
             </li>
-            <li class="time-filter {% active request '/top_ideas/this_quarter/' %}">
+            <li class="time-filter {% active request '/c/top_ideas/this_quarter/' %}">
                 <a href="{% url 'top_ideas' time_frame='this_quarter' %}">This Quarter</a>
             </li>
-            <li class="time-filter {% active request '/top_ideas/this_year/' %}">
+            <li class="time-filter {% active request '/c/top_ideas/this_year/' %}">
                 <a href="{% url 'top_ideas' time_frame='this_year' %}">This Year</a>
             </li>
-            <li class="time-filter {% active request '/top_ideas/all/' %}">
+            <li class="time-filter {% active request '/c/top_ideas/all/' %}">
                 <a href="{% url 'top_ideas' time_frame='all' %}">All Time</a>
             </li>
         </ul>

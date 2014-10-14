@@ -115,5 +115,4 @@ MESSAGE_TAGS = {
 
 # General Settings
 SLUG_MAX_LENGTH = 50
-CONTENT_URL = '/c/'
 MODERATORS = ()

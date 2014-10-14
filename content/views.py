@@ -8,7 +8,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.db.models import Sum
 from django.contrib import messages
-from django.views.decorators.cache import cache_control
 
 import itertools
 import arrow
@@ -21,7 +20,7 @@ from content.models import Post, Comment, PostVote, CommentVote
 from ranking.models import Stock
 from userprofile.utils import ajax_login_required, get_user_permissions, ajax_moderator_required
 from userprofile.models import Following
-from alphatracker.settings.common import CONTENT_URL, MODERATORS, SLUG_MAX_LENGTH
+from alphatracker.settings.common import MODERATORS, SLUG_MAX_LENGTH
 
 # Up/Down vote on comment
 @ajax_login_required
@@ -119,8 +118,13 @@ def vote_post(request):
             content_type='application/json')
 
 
-def top_ideas(request, time_frame='today', page=1):
+def top_ideas(request, time_frame='today'):
     context = RequestContext(request)
+
+    if request.method == 'GET':
+        page = request.GET.get('page', 1)
+    else:
+        raise Http404
 
     today = date.today()
     start_week = today - timedelta(days=today.weekday())
@@ -168,19 +172,23 @@ def top_ideas(request, time_frame='today', page=1):
 
     context_dict = {
         'posts': posts,
-        'path': CONTENT_URL + 'top_ideas/' + time_frame + '/'
     }
 
     return render_to_response('content/top_ideas.html', context_dict, context)
 
 
 @login_required
-def get_following(request, page=1):
-    return get_feed(request, page=page, order='follow')
+def get_following(request):
+    return get_feed(request, order='follow')
 
 
-def get_feed(request, page=1, order='recent'):
+def get_feed(request, order='recent'):
     context = RequestContext(request)
+
+    if request.method == 'GET':
+        page = request.GET.get('page', 1)
+    else:
+        raise Http404
 
     if order == 'recent':
         all_posts = Post.objects.filter(
@@ -225,7 +233,6 @@ def get_feed(request, page=1, order='recent'):
 
     context_dict = {
         'posts': posts,
-        'path': CONTENT_URL + order + '/'
     }
 
     if order == 'recent':

@@ -4,12 +4,13 @@ from django.contrib.sitemaps.views import sitemap
 from django.views.generic import RedirectView
 
 from alphatracker.sitemap import sitemaps
+from content import views
 
 admin.autodiscover()
 
 urlpatterns = patterns(
     '',
-    url(r'^$', RedirectView.as_view(pattern_name='recent')),
+    url(r'^$', views.get_feed, name='home'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^u/', include('userprofile.urls')),
