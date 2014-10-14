@@ -48,15 +48,6 @@ def follow(request):
         )
 
 
-def gravatar_url(email, size=100):
-    default = 'retro'
-
-    url = "http://www.gravatar.com/avatar/" + md5(email.lower()).hexdigest() + '?'
-    url += urlencode({'d':default, 's':size})
-
-    return url
-
-
 def profile(request, username):
     context = RequestContext(request)
 
@@ -100,7 +91,6 @@ def profile(request, username):
     context_dict = {
         'username': username,
         'user_profile': user_profile,
-        'photo_url': gravatar_url(user.email),
         'following': following_status,
         'following_count': following_count,
         'follower_count': follower_count,

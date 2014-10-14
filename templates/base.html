@@ -65,11 +65,13 @@
                 <hr class="divider">
             </li>
             {% if user.is_authenticated %}
-            <li class="{% active request '/u/'|add:user.username|add:'/' %}">
-                <a href="/u/{{user.username}}/"><span class="fa fa-user right5"></span> {{ request.user.username }}
-                </a>
-            </li>
-            <li>
+                <li class="{% active request '/u/'|add:user.username|add:'/' %}">
+                    <a style="padding: 0px;" href="/u/{{ user.username }}/">
+                        <img src="{{ gravatar_url }}&s=40"
+                             style="padding: 10px 0px; margin: auto 5px;" class="img-circle img-responsive"/>
+                    </a>
+                </li>
+                <li>
                 <a href="{% url 'account_logout' %}">
                     <span class="fa fa-sign-out"</span>
                 </a>

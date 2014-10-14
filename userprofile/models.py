@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.dispatch import receiver
 from allauth.account.signals import email_confirmed, user_signed_up
 
+from urllib import urlencode
+from hashlib import md5
+
 
 # Create your models here.
 class UserProfile(models.Model):
@@ -25,6 +28,16 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return self.user.username
+
+    @property
+    def gravatar_url(self):
+        default = 'retro'
+
+        url = "http://www.gravatar.com/avatar/" + md5(self.user.email.lower()).hexdigest() + '?'
+        url += urlencode({'d':default})
+
+        return url
+
 
 
 class Following(models.Model):

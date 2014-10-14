@@ -12,6 +12,7 @@ AUTHENTICATION_BACKENDS = global_settings.AUTHENTICATION_BACKENDS + (
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
     'allauth.account.context_processors.account',
+    'userprofile.context_processors.userprofile_processor'
 )
 
 INSTALLED_APPS = (
