@@ -82,7 +82,7 @@
             {% if user.is_authenticated %}
                 {% if can_comment %}
                     <form role="form" method="POST" name="comment_form" action="/c/add_comment/"
-                          style="margin: 2em" novalidate>
+                          class="comment-form" novalidate>
                         {% csrf_token %}
                         <div class="form-group" id="comment-editor">
                             {{ comment_form.text|addclass:'form-control' }}

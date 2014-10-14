@@ -90,7 +90,6 @@ class PostForm(forms.Form):
         }
     )
 
-    # TODO: Remove this form element
     summary = forms.CharField(
         label='Analysis',
         required=False,
@@ -98,7 +97,7 @@ class PostForm(forms.Form):
             attrs={
                 'placeholder': 'Add your analysis (optional)',
                 'class': 'form-control',
-                'rows': '3'
+                'rows': '5'
             })
     )
 
