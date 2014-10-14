@@ -42,7 +42,7 @@ def ajax_moderator_required(view_function):
     return wrapper
 
 
-def get_user_permissions(request, post=None):
+def get_user_permissions(request):
     permissions = {}
     try:
         user_profile = UserProfile.objects.get(user=request.user)
@@ -81,7 +81,7 @@ def get_user_permissions(request, post=None):
 
         postvotes_1d = PostVote.objects.filter(
             user=request.user,
-            vote__in=[1,-1],
+            vote__in=[1, -1],
             created_on__gte=datetime.now()-timedelta(days=1)
         ).count()
 
@@ -92,15 +92,14 @@ def get_user_permissions(request, post=None):
         ).count()
 
         if permissions['new_user']:
-            if post:
-                permissions['can_comment'] = (request.user.username == post.user.username)
-            else:
-                permissions['can_comment'] = False
-            if permissions['email_confirmed'] and posts_1d < 5 and posts_30d < 25:
-                permissions['can_post'] = True
-            else:
-                permissions['can_post'] = False
-            permissions['can_vote'] = postvotes_1d < 5 and postvotes_30d < 50
+            # if post:
+            #     permissions['can_comment'] = (request.user.username == post.user.username)
+            # else:
+            #     permissions['can_comment'] = False
+            # TODO: Disable commenting for new users after some traction
+            permissions['can_comment'] = permissions['email_confirmed']   # Enable commenting for everyone
+            permissions['can_post'] = permissions['email_confirmed'] and posts_1d < 5 and posts_30d < 25
+            permissions['can_vote'] = permissions['email_confirmed'] and postvotes_1d < 5 and postvotes_30d < 50
         else:
             permissions['can_comment'] = True
             permissions['can_post'] = True

@@ -256,7 +256,7 @@ def post(request, slug, error_messages=None):
     post.created_on_humanize = arrow.get(post.created_on).humanize()
 
     if request.user.is_authenticated():
-        can_comment = get_user_permissions(request, post)['can_comment']
+        can_comment = get_user_permissions(request)['can_comment']
         try:
             post.vote = PostVote.objects.get(post=post, user=request.user).vote
         except PostVote.DoesNotExist:
@@ -270,11 +270,10 @@ def post(request, slug, error_messages=None):
         post.domain = domain_name(post.url)
     post.is_recent = (timezone.now() - post.created_on) < timedelta(days=1)
 
-    moderator = request.user.username in MODERATORS
-
     all_comments = Comment.objects.filter(post=post).order_by('-created_on')
     for comment in all_comments:
         comment.created_on_humanize = arrow.get(comment.created_on).humanize()
+        comment.delete_allowed = comment.can_delete(request.user)
         if request.user.is_authenticated():
             try:
                 comment.vote = CommentVote.objects.get(comment=comment,
@@ -288,9 +287,10 @@ def post(request, slug, error_messages=None):
         'post': post,
         'user': request.user,
         'can_comment': can_comment,
+        'can_delete': post.can_delete(request.user),
         'comments': all_comments,
         'comment_form': comment_form,
-        'moderator': moderator
+        'moderator': request.user.username in MODERATORS
     }
 
     return render_to_response('content/post.html', context_dict, context)
@@ -309,7 +309,7 @@ def add_comment(request):
             text = comment_form.cleaned_data['text']
 
             # Get commenting permission for the specific post
-            permissions = get_user_permissions(request, post)
+            permissions = get_user_permissions(request)
             # Create comment slug
             comment_slug = orig_slug = slugify(text)[:SLUG_MAX_LENGTH].strip('-')
             for x in itertools.count(1):
@@ -411,7 +411,7 @@ def submit(request):
     return render_to_response('content/submit.html', context_dict, context)
 
 
-@ajax_moderator_required
+@ajax_login_required
 def delete_post(request):
     response = {'authenticated': True,
                 'success': False}
@@ -420,12 +420,11 @@ def delete_post(request):
         slug = request.POST['slug']
         post = get_object_or_404(Post, slug=slug)
 
-        if not post.deleted:
+        if post.can_delete(request.user) and (not post.deleted):
             post.deleted = True
             post.deleted_on = datetime.now()
             post.save()
-
-        response['success'] = True
+            response['success'] = True
 
         return HttpResponse(
             json.dumps(response),
@@ -469,7 +468,7 @@ def flag_post(request):
         )
 
 
-@ajax_moderator_required
+@ajax_login_required
 def delete_comment(request):
     response = {'authenticated': True,
                 'success': False}
@@ -481,12 +480,12 @@ def delete_comment(request):
         post = get_object_or_404(Post, slug=post_slug)
         comment = get_object_or_404(Comment,post=post, slug=comment_slug)
 
-        if not comment.deleted:
+        if comment.can_delete(request.user) and (not comment.deleted):
             comment.deleted = True
             comment.deleted_on = datetime.now()
             comment.save()
 
-        response['success'] = True
+            response['success'] = True
 
         return HttpResponse(
             json.dumps(response),

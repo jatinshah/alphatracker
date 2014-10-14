@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from math import log10
 
 from ranking.models import Stock
+from alphatracker.settings.common import MODERATORS
 
 
 # Create your models here.
@@ -61,6 +62,9 @@ class Post(models.Model):
 
         super(Post, self).save(*args, **kwargs)
 
+    def can_delete(self, user):
+        return self.user.username == user.username or user.username in MODERATORS
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, null=True, on_delete=models.PROTECT)
@@ -77,6 +81,9 @@ class Comment(models.Model):
 
     def __unicode__(self):
         return '[' + self.post.title[:20] + '...](' + self.user.username + ') ' + self.text[:50]
+
+    def can_delete(self, user):
+        return self.user.username == user.username or user.username in MODERATORS
 
     class Meta:
         unique_together = ('post', 'slug')

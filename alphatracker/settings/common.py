@@ -116,4 +116,4 @@ MESSAGE_TAGS = {
 
 # General Settings
 SLUG_MAX_LENGTH = 50
-MODERATORS = ()
+MODERATORS = ('jatinshah', 'jatin')

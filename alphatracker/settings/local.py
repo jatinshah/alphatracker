@@ -20,8 +20,6 @@ DATABASES = {
     }
 }
 
-MODERATORS += ('jatinshah', )
-
 MANDRILL_API_KEY = '_6CAnHl3xL06uGxo05NXWg'  #Test Key
 
 # django-recaptcha

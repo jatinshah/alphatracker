@@ -64,6 +64,8 @@
                     <span class="post-action byline-item" id="flag-post">
                         <i class="fa fa-flag-o fa-byline"></i> flag
                     </span>
+                {% endif %}
+                {% if moderator or can_delete %}
                     <span class="post-action byline-item" id="delete-post">
                         <i class="fa fa-trash-o fa-byline"></i> delete
                     </span>
@@ -119,41 +121,36 @@
                     </div>
                     <div class="voting-block">
                         <i class="fa fa-caret-up fa-2x c-vote-up {% comment_class 'up' comment.vote %}"></i>
-                <span class="score" style="top:-5px">
-                {% if comment.score %}
-                    {{ comment.score }}
-                {% else %}
-                    0
-                {% endif %}
-                </span>
+                        <span class="score" style="top:-5px">
+                        {% if comment.score %}
+                            {{ comment.score }}
+                        {% else %}
+                            0
+                        {% endif %}
+                        </span>
                     </div>
                     <div class="comment">
-            <span class="byline">
-                <span class="byline-item">
-                    <i class="fa fa-user fa-byline"></i>
-                    <a href="/u/{{ comment.user.username }}">{{ comment.user.username }}</a>
-                </span>
-                <span class="byline-item">
-                    <i class="fa fa-clock-o fa-byline"></i> {{ comment.created_on_humanize }}
-                </span>
-                {% if moderator %}
-{#                    <span class="post-action byline-item flag-comment">#}
-{#                        <i class="fa fa-flag-o"></i> flag#}
-{#                    </span>#}
-                    <span class="post-action byline-item delete-comment">
-                        <i class="fa fa-trash-o fa-byline"></i> delete
+                    <span class="byline">
+                        <span class="byline-item">
+                            <i class="fa fa-user fa-byline"></i>
+                            <a href="/u/{{ comment.user.username }}">{{ comment.user.username }}</a>
+                        </span>
+                        <span class="byline-item">
+                            <i class="fa fa-clock-o fa-byline"></i> {{ comment.created_on_humanize }}
+                        </span>
+                        {% if not comment.deleted %}
+                            {% if moderator or comment.delete_allowed %}
+                                <span class="post-action byline-item delete-comment">
+                                <i class="fa fa-trash-o fa-byline"></i> delete
+                                </span>
+                            {% endif %}
+                        {% endif %}
                     </span>
-                {% endif %}
-            </span>
-            {% if comment.deleted %}
-            <span class="comment-text" style="font-style: italic">
-                deleted
-            </span>
-            {% else %}
-            <span class="comment-text">
-                {{ comment.text }}
-            </span>
-            {% endif %}
+                        {% if comment.deleted %}
+                            <span class="comment-text" style="font-style: italic">deleted</span>
+                        {% else %}
+                            <span class="comment-text">{{ comment.text }}</span>
+                        {% endif %}
                     </div>
                 </li>
             {% endfor %}
