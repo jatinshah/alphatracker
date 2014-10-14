@@ -21,7 +21,7 @@ from content.models import Post, Comment, PostVote, CommentVote
 from ranking.models import Stock
 from userprofile.utils import ajax_login_required, get_user_permissions, ajax_moderator_required
 from userprofile.models import Following
-from alphatracker.settings import CONTENT_URL, MODERATORS, SLUG_MAX_LENGTH
+from alphatracker.settings.common import CONTENT_URL, MODERATORS, SLUG_MAX_LENGTH
 
 # Up/Down vote on comment
 @ajax_login_required

@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 from userprofile.models import UserProfile
 from content.models import Post, PostVote
-from alphatracker.settings import MODERATORS
+from alphatracker.settings.common import MODERATORS
 
 
 def ajax_login_required(view_function):
