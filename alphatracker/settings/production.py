@@ -26,7 +26,7 @@ DATABASES = {
     }
 }
 
-MODERATORS += ('jatin')
+MODERATORS += ('jatin', )
 
 MANDRILL_API_KEY = '0YrV9hwcdA7JLY8SKdzySQ'  #Production Key
 
