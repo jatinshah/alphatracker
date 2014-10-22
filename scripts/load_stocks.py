@@ -8,13 +8,19 @@ def load_stocks(exchange, file_name):
         next(rdr, None)
 
         for row in rdr:
-            _, created = Stock.objects.get_or_create(
-                exchange=exchange,
-                symbol=row[0],
-                name=row[1]
-            )
-            if not created:
-                print "ERROR: Stock {0}:{1} - {2} not created".format(exchange, row[0], row[1])
+            try:
+                stock = Stock.objects.get(exchange=exchange, symbol=row[0])
+            except Stock.DoesNotExist:
+                print exchange, row[0], row[1]
+                _, created = Stock.objects.get_or_create(
+                    exchange=exchange,
+                    symbol=row[0],
+                    name=row[1]
+                )
+                if not created:
+                    print "ERROR: Stock {0}:{1} - {2} not created".format(exchange, row[0], row[1])
+                else:
+                    print "Stock {0}:{1} - {2} added".format(exchange, row[0], row[1])
 
 
 def run(*args):
