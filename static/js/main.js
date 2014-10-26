@@ -164,10 +164,10 @@ $(document).ready(function () {
     });
 
     // Rendering markdown on submit page
-    $('#post-editor').keyup(function (evt) {
+    $('.post-editor').keyup(function (evt) {
         evt.preventDefault();
-        var post_text = $(this).find('textarea').val().trim();
-        $('#post-preview').html(markdown.toHTML(post_text));
+        var post_text = $(this).val().trim();
+        $('.post-preview').html(markdown.toHTML(post_text));
     });
 
     // Rendering markdown post & comment text
